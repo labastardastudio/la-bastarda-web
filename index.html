@@ -178,6 +178,7 @@ a{color:inherit}
 .size[aria-checked="true"] .pr{color:var(--ink)}
 .tray-price{display:flex;justify-content:space-between;align-items:baseline;padding:2px 0 10px;border-bottom:1px solid var(--hair);font-size:12px;color:var(--ink-2)}
 .tray-price b{font-family:var(--serif);font-weight:300;font-size:24px;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.tray-price b small{font-family:var(--sans);font-size:11.5px;font-weight:400;color:var(--ink-2);margin-left:4px;white-space:nowrap}
 .sum li.total{border-bottom:1px solid var(--ink)}
 .sum li.total b{font-weight:500}
 .sum li.total span:last-child{font-family:var(--serif);font-size:22px;font-weight:300}
@@ -239,6 +240,7 @@ a{color:inherit}
 
 /* review sheet */
 .sheet{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:24px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));background:rgba(243,240,233,.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.sheet-in:focus{outline:none}
 .sheet-in{width:min(620px,100%);max-height:calc(100svh - 48px);overflow:auto;background:var(--paper);border:1px solid var(--hair);padding:clamp(24px,4vw,44px);display:grid;gap:22px;box-shadow:0 30px 80px -40px rgba(26,25,22,.35);animation:rise .45s var(--ease) both}
 @keyframes rise{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
 .sheet h3{margin:0;font-family:var(--serif);font-weight:300;font-size:clamp(30px,3.4vw,44px);line-height:1;letter-spacing:-.02em}
@@ -266,11 +268,12 @@ a{color:inherit}
   .tray-top{border:0;padding:0;display:block}
   .tray-top .caps{display:none}
   .tray-top .n{font-size:24px}
-  .tray{grid-template-areas:"n slots acts" "p slots acts";row-gap:3px}
+  .tray{grid-template-areas:"n slots acts" "p p acts";row-gap:3px}
   .tray-top{grid-area:n}.slots{grid-area:slots}.tray-acts{grid-area:acts}
-  .tray-price{grid-area:p;border:0;padding:0;font-size:11px}
+  .tray-price{grid-area:p;border:0;padding:0;font-size:11px;width:0;overflow:visible}
   .tray-price span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-  .tray-price b{font-family:var(--sans);font-size:11.5px;font-weight:500;color:var(--ink-2)}
+  .tray-price b{font-family:var(--sans);font-size:11.5px;font-weight:500;color:var(--ink-2);white-space:nowrap}
+  .tray-price b small{font-size:10.5px;margin-left:1px}
   .slots,.slots[data-size="6"]{display:flex;gap:6px;padding:0;background:none;aspect-ratio:auto;min-width:0}
   .slots,.slots[data-size="6"]{gap:5px;justify-content:center}
   .slot{width:22px;flex:none}
@@ -279,6 +282,53 @@ a{color:inherit}
   .lines,.state,.fine,.tray .link{display:none}
   .tray-acts{gap:0}
   .btn-solid{padding:11px 16px 10px;font-size:12px}
+}
+/* checkout steps inside the review sheet */
+.sh-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px 20px;flex-wrap:wrap}
+.sh-steps{list-style:none;margin:0;padding:0;display:flex;gap:14px;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.sh-steps li{opacity:.45}
+.sh-steps li.on{opacity:1;color:var(--ink);border-bottom:1px solid var(--ink)}
+.sh-steps li.ok{opacity:.8}
+.sh-pane{margin:0;display:grid;gap:14px;min-width:0}
+.sh-box{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(8px,2vw,14px);padding:clamp(14px,3vw,22px);background:var(--plate);width:min(100%,300px);aspect-ratio:1/1;align-content:center;box-sizing:border-box;box-shadow:inset 0 0 0 1px rgba(26,25,22,.08)}
+.sh-box[data-size="6"]{grid-template-columns:repeat(3,1fr);aspect-ratio:3/2;width:min(100%,420px)}
+.sh-box span{aspect-ratio:1;border-radius:50%;overflow:hidden;position:relative;background:#D9DBC4;display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:18px;box-shadow:0 6px 14px -8px rgba(26,25,22,.45)}
+.sh-box img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.25)}
+.sh-fl li{grid-template-columns:52px minmax(0,1fr) auto;align-items:start}
+.sh-fl .tx{display:grid;gap:3px;min-width:0}
+.sh-fl .tx small{font-size:12.5px;color:var(--ink-2);line-height:1.45}
+.sh-fl li>span:last-child{padding-top:6px}
+.sh-fl li.total{align-items:center}
+.sh-fl li.total>span:last-child{padding-top:0}
+.sh-cp{margin:0;align-self:end;padding-bottom:12px;font-size:13.5px;color:var(--ink)}
+.sh-cp:empty{display:none}
+.sh-cp b{font-weight:500}
+.sheet .fields.sh-fields{grid-column:auto;margin-top:4px}
+.fld select{font:inherit;font-size:15px;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--hair);padding:8px 0 9px;border-radius:0;outline:none;width:100%;-webkit-appearance:none;appearance:none;
+  background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(-45deg,transparent 50%,currentColor 50%);background-size:5px 5px;background-position:calc(100% - 9px) 55%,calc(100% - 4px) 55%;background-repeat:no-repeat}
+.fld select:focus{border-color:var(--ink)}
+.fld select[aria-invalid="true"],.fld input[aria-invalid="true"]{border-color:#9C2F26}
+.sheet .err{margin:0;font-size:12px;color:#9C2F26}
+.sheet .err:empty{display:none}
+.sh-fields .opt{font-size:13.5px;align-items:flex-start;line-height:1.45}
+.sh-fields .opt i{margin-top:4px}
+.sh-fields .opt:has(input:checked)::after{content:none}
+#shRev li.total span:first-child{color:var(--ink);font-weight:500;font-size:13px}
+#shRev li.total span:last-child{font-family:var(--serif);font-size:22px;font-weight:300}
+#shRev li.sub span:last-child{font-variant-numeric:tabular-nums}
+.btn-solid[aria-busy="true"]{opacity:.5;cursor:progress}
+@media (max-width:899px){
+  .sheet .fine:not([hidden]){display:block}
+  .sheet .tray-acts{gap:14px 22px;grid-area:auto}
+  .sheet .tray-acts .link{display:inline}
+  .sheet .tray-acts .link[hidden]{display:none}
+  .sum2 li{grid-template-columns:92px minmax(0,1fr);gap:12px}
+  .sh-cp{padding:0}
+}
+@media (max-width:359px){
+  /* very narrow phones: the cookies in the tray overlap a little, like a stack */
+  .slots,.slots[data-size="6"]{gap:0}
+  .slot+.slot{margin-left:-5px}
 }
 @media (prefers-reduced-motion:reduce){.slot.full,.sheet-in{animation:none}}
 
@@ -618,21 +668,41 @@ a{color:inherit}
             <button type="button" class="btn-solid" id="bxReview" aria-disabled="true" data-i18n="bx.review">Revisar la caixa</button>
             <button type="button" class="link" id="bxClear" data-i18n="bx.clear">Buidar</button>
           </div>
-          <p class="fine" data-i18n="bx.fine">Sabors provisionals. Compra en línia, aviat.</p>
+          <p class="fine" data-i18n="bx.fine">El preu de l'enviament depèn del codi postal.</p>
         </aside>
       </div>
     </section>
     <div class="sheet" id="sheet" hidden>
       <div class="sheet-in" role="dialog" aria-modal="true" aria-labelledby="sh-h" tabindex="-1" id="sheetIn">
-        <div class="caps" id="shKick"></div>
+        <div class="sh-top"><span class="caps" id="shKick"></span><ol class="sh-steps" id="shSteps"></ol></div>
         <h3 id="sh-h" data-i18n="sh.h">Resum de <em>la teva caixa</em></h3>
-        <ul class="sum" id="sum"></ul>
-        <div class="done" id="shDone" hidden><h3 data-i18n="sh.doneH">Caixa <em>preparada.</em></h3><p data-i18n="sh.doneP">Encara no podem cobrar en línia. Hem guardat la teva caixa en aquest dispositiu i la trobaràs a punt quan obrim la botiga.</p></div>
-        <p class="fine" id="shFine" data-i18n="sh.fine">Recollida i pagament s'afegiran quan obrim la botiga en línia.</p>
+        <div class="sh-pane" data-pane="0"><div class="sh-box" id="shBox" aria-hidden="true"></div><ul class="sum sh-fl" id="sum"></ul></div>
+        <form class="sh-pane" data-pane="1" id="shShip" novalidate hidden>
+          <div class="fields sh-fields">
+            <div class="fld"><label for="shCp" data-i18n="sh.f.cp">Codi postal</label><input id="shCp" name="cp" inputmode="numeric" autocomplete="postal-code" maxlength="5" aria-describedby="shCpOut"><small class="err" id="shCpE"></small></div>
+            <p class="sh-cp" id="shCpOut" role="status" aria-live="polite"></p>
+            <div class="fld wide"><label for="shStreet" data-i18n="sh.f.street">Adreça (carrer, número, pis)</label><input id="shStreet" name="street" autocomplete="street-address"><small class="err" id="shStreetE"></small></div>
+            <div class="fld wide"><label for="shNotes" data-i18n="sh.f.notes">Indicacions per al lliurament (opcional)</label><input id="shNotes" name="notes" maxlength="200"></div>
+          </div>
+        </form>
+        <form class="sh-pane" data-pane="2" id="shWho" novalidate hidden>
+          <div class="fields sh-fields">
+            <div class="fld wide"><label for="shName" data-i18n="sh.f.name">Nom i cognoms</label><input id="shName" name="name" autocomplete="name"><small class="err" id="shNameE"></small></div>
+            <div class="fld"><label for="shEmail" data-i18n="sh.f.email">Correu electrònic</label><input id="shEmail" name="email" type="email" autocomplete="email"><small class="err" id="shEmailE"></small></div>
+            <div class="fld"><label for="shPhone" data-i18n="sh.f.phone">Telèfon</label><input id="shPhone" name="phone" type="tel" autocomplete="tel"><small class="err" id="shPhoneE"></small></div>
+            <div class="wide"><label class="opt sq"><input type="checkbox" id="shOk" name="ok"><i></i><span data-i18n="sh.f.ok">Accepto que feu servir aquestes dades per preparar i enviar la comanda.</span></label><small class="err" id="shOkE"></small></div>
+          </div>
+        </form>
+        <div class="sh-pane" data-pane="3" hidden><ul class="sum2" id="shRev"></ul></div>
+        <div class="done" id="shDone" hidden><h3 id="shDoneH"></h3><p id="shDoneP"></p></div>
+        <p class="fine sh-fine" id="shFine"></p>
+        <p class="err" id="shErr" role="alert"></p>
         <div class="tray-acts">
-          <button type="button" class="btn-solid" id="shConfirm" data-i18n="sh.confirm">Confirmar la caixa</button>
+          <button type="button" class="btn-solid" id="shConfirm" data-i18n="sh.next">Continuar</button>
+          <button type="button" class="link" id="shCopy" data-i18n="ck.copy" hidden>Copiar el resum</button>
           <button type="button" class="link" id="shBack" data-i18n="sh.back">Modificar</button>
         </div>
+        <p class="fine" id="shCopied" role="status" aria-live="polite"></p>
       </div>
     </div>
     <section class="order grid" id="pastis" role="tabpanel" aria-labelledby="tab-pastis" hidden>
@@ -748,7 +818,7 @@ const COMP_M = [
    `img` lives in img/; leave it empty to show a plate until the photo exists. */
 const BOXES = [4, 6];
 const BOX_PRICE = { 4: 15, 6: 20 }; // € per box, whatever the flavours
-const eur = n => `${n.toLocaleString(document.documentElement.lang === "es" ? "es-ES" : "ca-ES")}\u00a0€`;
+const eur = n => `${n.toLocaleString(document.documentElement.lang === "es" ? "es-ES" : "ca-ES", n % 1 ? { minimumFractionDigits: 2, maximumFractionDigits: 2 } : {})}\u00a0€`;
 const FLAVOURS = [
   { sku:"cookie-classica",   img:"f-classica.webp",   ca:["Clàssica","Mantega torrada, xocolata negra i un punt de sal."],            es:["Clásica","Mantequilla tostada, chocolate negro y un punto de sal."] },
   { sku:"cookie-triple",     img:"f-triple.webp",     ca:["Triple Xocolata","Cacau, xocolata negra i trossos de xocolata amb llet."], es:["Triple Chocolate","Cacao, chocolate negro y trozos de chocolate con leche."] },
@@ -759,11 +829,22 @@ const FLAVOURS = [
   { sku:"cookie-lemon",      img:"f-lemon.webp",      ca:["Lemon Pie","Llimona, sucre glas i un final de merenga."],                    es:["Lemon Pie","Limón, azúcar glas y un final de merengue."] },
   { sku:"cookie-cinnamon",   img:"f-cinnamon.webp",   ca:["Cinnamon","Canyella, sucre moreno i civada cruixent."],                      es:["Cinnamon","Canela, azúcar moreno y avena crujiente."] }
 ];
-/* Shop adapter: the only place to touch when a real store is connected.
-   checkout() receives { box, size, items:[{ sku, qty }], lang }. */
+/* Shipping for the cookie box, by postcode, from the bakery in Premià de Dalt. Editable from the panel (Enviaments).
+   codes: [postcode or its first digits, town]; "080" covers every postcode that starts with 080. Collection at the studio is not offered. */
+const SHIPPING = { zones: [{"price": 2.99, "codes": [["08338", "Premià de Dalt"], ["08330", "Premià de Mar"], ["08339", "Vilassar de Dalt"], ["08340", "Vilassar de Mar"], ["08348", "Cabrils"], ["08349", "Cabrera de Mar"], ["08329", "Teià"], ["08328", "Alella"], ["08320", "el Masnou"], ["08390", "Montgat"], ["08391", "Tiana"], ["08317", "Òrrius"], ["08310", "Argentona"], ["08319", "Dosrius"], ["0830", "Mataró"], ["08392", "Sant Andreu de Llavaneres"], ["08394", "Sant Vicenç de Montalt"], ["0891", "Badalona"]]}, {"price": 4.99, "codes": [["080", "Barcelona"], ["08930", "Sant Adrià de Besòs"], ["08393", "Caldes d'Estrac"], ["08350", "Arenys de Mar"], ["08358", "Arenys de Munt"], ["08359", "Sant Iscle de Vallalta"], ["08360", "Canet de Mar"], ["08395", "Sant Pol de Mar"], ["08396", "Sant Cebrià de Vallalta"], ["08370", "Calella"], ["08397", "Pineda de Mar"], ["08398", "Santa Susanna"], ["08380", "Malgrat de Mar"], ["08389", "Palafolls"], ["08490", "Tordera"]]}] };
+/* Shop adapter: the only place to touch when the store changes.
+   checkout() sends the order to the Netlify function, which asks Stripe for a payment page and returns its url.
+   Without a Stripe key (or outside Netlify) it answers { ok:false, reason:"not-connected" }. */
 const SHOP = {
-  connected: false,
-  checkout(order) { return Promise.resolve({ ok: false, reason: "not-connected", order }); }
+  endpoint: "/.netlify/functions/checkout",
+  checkout(order) {
+    // the preview on claude.ai (or a file opened locally) has no server behind it
+    if (!/^https?:$/.test(location.protocol) || /claude/.test(location.hostname)) return Promise.resolve({ ok: false, reason: "not-connected", order });
+    return fetch(this.endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(order) })
+      .then(r => r.json().catch(() => ({})).then(j => j.url ? { ok: true, url: j.url }
+        : { ok: false, reason: j.reason || ([404, 405, 501].includes(r.status) ? "not-connected" : "error"), order }))
+      .catch(() => ({ ok: false, reason: "error", order }));
+  }
 };
 /* Cake order options. `from` = starting price in € for a size; `extra: true` = costs more (amount set in the proposal). All provisional: edit names, colours (for the drawing) and limits here.
    ORDERS.submit() is the one place to connect a real order inbox later. */
@@ -864,14 +945,28 @@ const I18N = {
     "cta.box":"La teva caixa de cookies",
     "bx.h":"La teva caixa <em>de cookies.</em>","bx.p":"Tria una caixa de 4 o 6 i omple-la amb els sabors que vulguis. Pots repetir-ne o barrejar-los.",
     "bx.size":"Mida","bx.s4":"cookies<br>caixa petita","bx.s6":"cookies<br>caixa gran","bx.yours":"La teva caixa",
-    "bx.review":"Revisar la caixa","bx.clear":"Buidar","bx.fine":"Sabors provisionals. Compra en línia, aviat.","bx.price":"Preu de la caixa","bx.total":"Total",
+    "bx.review":"Revisar la caixa","bx.clear":"Buidar","bx.fine":"El preu de l'enviament depèn del codi postal.","bx.price":"Preu de la caixa","bx.total":"Total","bx.plusShip":"+ enviament",
     "bx.pending":"Foto pendent","bx.less":"Una menys de","bx.more":"Una més de","bx.takeOut":"Treure",
     "bx.empty":"Encara és buida. Tria sabors de la llista.","bx.full":"Caixa completa.","bx.isFull":"La caixa ja és plena. Treu-ne una per canviar-la.",
     "bx.left1":"Falta 1 cookie.","bx.leftN":"Falten {n} cookies.",
     "bx.cut1":"Hem tret 1 cookie perquè la caixa de {s} hi càpiga.","bx.cutN":"Hem tret {n} cookies perquè la caixa de {s} hi càpiga.",
     "sh.kick":"Caixa de {s}","sh.h":"Resum de <em>la teva caixa</em>","sh.confirm":"Confirmar la caixa","sh.back":"Modificar","sh.close":"Tancar",
-    "sh.fine":"Recollida i pagament s'afegiran quan obrim la botiga en línia.",
-    "sh.doneH":"Caixa <em>preparada.</em>","sh.doneP":"Encara no podem cobrar en línia. Hem guardat la teva caixa en aquest dispositiu i la trobaràs a punt quan obrim la botiga.",
+    "sh.fine":"Pagament segur amb Stripe. Et confirmarem per correu el dia d'entrega.",
+    "sh.doneH":"Comanda <em>preparada.</em>","sh.doneP":"El pagament en línia encara no està actiu, així que no s'ha cobrat res. Hem guardat la comanda en aquest dispositiu. Si vols, copia'n el resum i envia-ns-el.",
+    "sh.next":"Continuar","sh.prev":"Enrere","sh.pay":"Pagar {t}","sh.wait":"Un moment…","sh.again":"Tornar a la caixa",
+    "sh.st0":"Caixa","sh.st1":"Lliurament","sh.st2":"Dades","sh.st3":"Pagament","sh.stepOf":"Pas {n} de 4",
+    "sh.h1":"On te la <em>portem?</em>","sh.h2":"Les teves <em>dades</em>","sh.h3":"Revisa <em>i paga</em>",
+    "sh.f.cp":"Codi postal","sh.cpOk":"Enviament a {town}: {p}","sh.shipTo":"Enviament a {town}",
+    "sh.e.cp":"Escriu un codi postal de 5 xifres.","sh.e.cpNo":"De moment no arribem a aquest codi postal. Aviat podràs recollir la caixa en punts de venda.",
+    "sh.fine1":"No es pot recollir a l'estudi. Aviat també podràs recollir la caixa en punts de venda.",
+    "sh.fine2":"Només fem servir aquestes dades per a la comanda.",
+    "sh.f.street":"Adreça (carrer, número, pis)","sh.f.notes":"Indicacions per al lliurament (opcional)",
+    "sh.f.name":"Nom i cognoms","sh.f.email":"Correu electrònic","sh.f.phone":"Telèfon","sh.f.ok":"Accepto que feu servir aquestes dades per preparar i enviar la comanda.",
+        "sh.e.street":"Escriu l'adreça.","sh.e.name":"Escriu el teu nom.","sh.e.email":"Revisa el correu.","sh.e.phone":"Escriu un telèfon de 9 xifres com a mínim.","sh.e.ok":"Cal que ho acceptis per continuar.",
+    "sh.e.pay":"No hem pogut obrir el pagament. Torna-ho a provar d'aquí a una estona.",
+    "sh.r.box":"Caixa","sh.r.ship":"Lliurament","sh.r.addr":"Adreça","sh.r.who":"Contacte","sh.r.sub":"Caixa","sh.r.shipC":"Enviament","sh.r.total":"Total",
+    "sh.okH":"Gràcies! <em>Comanda pagada.</em>","sh.okP":"Hem rebut el pagament. Et confirmarem per correu el dia d'entrega.",
+    "sh.cancel":"Has tornat sense pagar. No s'ha cobrat res; la comanda continua aquí.",
     "nav.cakes":"Pastissos","nav.cookies":"Cookies","nav.notebook":"Quadern","nav.studio":"L'estudi","nav.orders":"Encàrrecs","hub.t1":"Fes la teva caixa de cookies","hub.t2":"Encarrega un pastís","hub.l":"Què vols encarregar",
     "cta.order":"Encarregar","cta.cake":"Encarregar un pastís","cta.cookies":"Veure cookies",
     "c0.k":"Pastisseria creativa","c0.h":"Pastissos per encàrrec i <em>cookies</em> d'autor.","c0.p":"Fem peces úniques, a mà, sense receptes de catàleg.",
@@ -919,14 +1014,28 @@ const I18N = {
     "cta.box":"Tu caja de cookies",
     "bx.h":"Tu caja <em>de cookies.</em>","bx.p":"Elige una caja de 4 o 6 y llénala con los sabores que quieras. Puedes repetir o mezclarlos.",
     "bx.size":"Tamaño","bx.s4":"cookies<br>caja pequeña","bx.s6":"cookies<br>caja grande","bx.yours":"Tu caja",
-    "bx.review":"Revisar la caja","bx.clear":"Vaciar","bx.fine":"Sabores provisionales. Compra en línea, pronto.","bx.price":"Precio de la caja","bx.total":"Total",
+    "bx.review":"Revisar la caja","bx.clear":"Vaciar","bx.fine":"El precio del envío depende del código postal.","bx.price":"Precio de la caja","bx.total":"Total","bx.plusShip":"+ envío",
     "bx.pending":"Foto pendiente","bx.less":"Una menos de","bx.more":"Una más de","bx.takeOut":"Quitar",
     "bx.empty":"Todavía está vacía. Elige sabores de la lista.","bx.full":"Caja completa.","bx.isFull":"La caja ya está llena. Quita una para cambiarla.",
     "bx.left1":"Falta 1 cookie.","bx.leftN":"Faltan {n} cookies.",
     "bx.cut1":"Hemos quitado 1 cookie para que quepa en la caja de {s}.","bx.cutN":"Hemos quitado {n} cookies para que quepan en la caja de {s}.",
     "sh.kick":"Caja de {s}","sh.h":"Resumen de <em>tu caja</em>","sh.confirm":"Confirmar la caja","sh.back":"Modificar","sh.close":"Cerrar",
-    "sh.fine":"Recogida y pago se añadirán cuando abramos la tienda en línea.",
-    "sh.doneH":"Caja <em>preparada.</em>","sh.doneP":"Todavía no podemos cobrar en línea. Hemos guardado tu caja en este dispositivo y la encontrarás lista cuando abramos la tienda.",
+    "sh.fine":"Pago seguro con Stripe. Te confirmaremos por correo el día de entrega.",
+    "sh.doneH":"Pedido <em>preparado.</em>","sh.doneP":"El pago en línea todavía no está activo, así que no se ha cobrado nada. Hemos guardado el pedido en este dispositivo. Si quieres, copia el resumen y envíanoslo.",
+    "sh.next":"Continuar","sh.prev":"Atrás","sh.pay":"Pagar {t}","sh.wait":"Un momento…","sh.again":"Volver a la caja",
+    "sh.st0":"Caja","sh.st1":"Entrega","sh.st2":"Datos","sh.st3":"Pago","sh.stepOf":"Paso {n} de 4",
+    "sh.h1":"¿Dónde te la <em>llevamos?</em>","sh.h2":"Tus <em>datos</em>","sh.h3":"Revisa <em>y paga</em>",
+    "sh.f.cp":"Código postal","sh.cpOk":"Envío a {town}: {p}","sh.shipTo":"Envío a {town}",
+    "sh.e.cp":"Escribe un código postal de 5 cifras.","sh.e.cpNo":"De momento no llegamos a este código postal. Pronto podrás recoger la caja en puntos de venta.",
+    "sh.fine1":"No se puede recoger en el estudio. Pronto también podrás recoger la caja en puntos de venta.",
+    "sh.fine2":"Solo usamos estos datos para el pedido.",
+    "sh.f.street":"Dirección (calle, número, piso)","sh.f.notes":"Indicaciones para la entrega (opcional)",
+    "sh.f.name":"Nombre y apellidos","sh.f.email":"Correo electrónico","sh.f.phone":"Teléfono","sh.f.ok":"Acepto que uséis estos datos para preparar y enviar el pedido.",
+        "sh.e.street":"Escribe la dirección.","sh.e.name":"Escribe tu nombre.","sh.e.email":"Revisa el correo.","sh.e.phone":"Escribe un teléfono de 9 cifras como mínimo.","sh.e.ok":"Tienes que aceptarlo para continuar.",
+    "sh.e.pay":"No hemos podido abrir el pago. Vuelve a probarlo dentro de un rato.",
+    "sh.r.box":"Caja","sh.r.ship":"Entrega","sh.r.addr":"Dirección","sh.r.who":"Contacto","sh.r.sub":"Caja","sh.r.shipC":"Envío","sh.r.total":"Total",
+    "sh.okH":"¡Gracias! <em>Pedido pagado.</em>","sh.okP":"Hemos recibido el pago. Te confirmaremos por correo el día de entrega.",
+    "sh.cancel":"Has vuelto sin pagar. No se ha cobrado nada; el pedido sigue aquí.",
     "nav.cakes":"Pasteles","nav.cookies":"Cookies","nav.notebook":"Cuaderno","nav.studio":"El estudio","nav.orders":"Encargos","hub.t1":"Haz tu caja de cookies","hub.t2":"Encarga un pastel","hub.l":"Qué quieres encargar",
     "cta.order":"Encargar","cta.cake":"Encargar un pastel","cta.cookies":"Ver cookies",
     "c0.k":"Pastelería creativa","c0.h":"Pasteles por encargo y <em>cookies</em> de autor.","c0.p":"Hacemos piezas únicas, a mano, sin recetas de catálogo.",
@@ -980,6 +1089,7 @@ const I18N = {
     Object.keys(C.prices.box || {}).forEach(k => { if (C.prices.box[k] != null) BOX_PRICE[k] = C.prices.box[k]; });
     CAKE.size.opts.forEach(o => { const v = (C.prices.cake || {})[o.id]; if (v != null) o.from = v; });
   }
+  if (C.shipping && C.shipping.zones && C.shipping.zones.length) SHIPPING.zones = C.shipping.zones;
   if (C.text) Object.keys(C.text).forEach(l => I18N[l] && Object.assign(I18N[l], C.text[l]));
 })(window.LB_CONTENT);
 // an image is a file in img/, or a path the panel gives (img/uploads/...)
@@ -1027,6 +1137,7 @@ function setLang(l) {
   $("#blogFilters").setAttribute("aria-label", t("bl.filter"));
   try { localStorage.setItem("lb-lang", lang); } catch (e) {}
   buildFlavours(); renderBox();
+  if (!sheet.hidden && !$("#shConfirm").hidden) shRender();
   if (typeof buildCake === "function") { ckRead(); buildCake(); }
   buildBlog();
   if (PW) fitPrints();
@@ -1346,7 +1457,7 @@ function renderBox() {
   }).join("");
   $("#bxCount").innerHTML = `${n}<i>/${box.size}</i>`;
   $$(".size .pr").forEach(e => e.textContent = eur(BOX_PRICE[e.dataset.price]));
-  $("#bxPrice").textContent = eur(BOX_PRICE[box.size]);
+  $("#bxPrice").innerHTML = `${eur(BOX_PRICE[box.size])} <small>${t("bx.plusShip")}</small>`;
   // summary lines, grouped
   const groups = FLAVOURS.map(f => [f, countOf(f.sku)]).filter(([, c]) => c);
   linesEl.innerHTML = groups.length
@@ -1379,45 +1490,178 @@ $$(".size").forEach(b => {
 });
 $("#bxClear").addEventListener("click", () => { box.sel = []; note = ""; commit(); });
 
-/* review */
-let lastFocus = null;
+/* review and checkout: 0 box · 1 delivery · 2 details · 3 pay */
+let lastFocus = null, shStep = 0;
+const SHIP_KEY = "lb-box-ship";
+let ship = { cp: "", street: "", notes: "", name: "", email: "", phone: "", ok: false };
+try { Object.assign(ship, JSON.parse(sessionStorage.getItem(SHIP_KEY) || "{}")); } catch (e) {}
+const saveShip = () => { try { sessionStorage.setItem(SHIP_KEY, JSON.stringify(ship)); } catch (e) {} };
+const cents = n => Math.round(n * 100);
+// the zone of a postcode: an exact code wins over a shorter one ("08930" before "0893")
+function shipTo(cp) {
+  if (!/^\d{5}$/.test(cp)) return null;
+  let best = null;
+  SHIPPING.zones.forEach(z => z.codes.forEach(([c, town]) => {
+    if (cp.startsWith(c) && (!best || c.length > best.len)) best = { len: c.length, town, price: z.price };
+  }));
+  return best;
+}
+const dest = () => shipTo(ship.cp.trim());
+const shipPrice = () => (dest() || { price: 0 }).price;
+const total = () => (cents(BOX_PRICE[box.size]) + cents(shipPrice())) / 100;
 function order() {
   return { box: `box-${box.size}`, size: box.size, lang, price: BOX_PRICE[box.size], currency: "EUR",
-    items: FLAVOURS.map(f => ({ sku: f.sku, qty: countOf(f.sku) })).filter(i => i.qty) };
+    items: FLAVOURS.map(f => ({ sku: f.sku, qty: countOf(f.sku) })).filter(i => i.qty),
+    shipping: { cp: ship.cp.trim(), town: (dest() || {}).town || "", price: shipPrice(), street: ship.street.trim(), notes: ship.notes.trim() },
+    customer: { name: ship.name.trim(), email: ship.email.trim(), phone: ship.phone.trim() }, total: total() };
 }
+const SH_FIELDS = { shCp: "cp", shStreet: "street", shNotes: "notes", shName: "name", shEmail: "email", shPhone: "phone" };
+function shRead() {
+  Object.keys(SH_FIELDS).forEach(id => ship[SH_FIELDS[id]] = $("#" + id).value);
+  ship.ok = $("#shOk").checked; saveShip();
+}
+function shFill() {
+  Object.keys(SH_FIELDS).forEach(id => $("#" + id).value = ship[SH_FIELDS[id]] || "");
+  $("#shOk").checked = !!ship.ok;
+  shCpOut();
+}
+// as soon as the postcode is complete, say where it goes and what it costs
+function shCpOut() {
+  const cp = ship.cp.trim(), d = dest();
+  $("#shCpOut").innerHTML = !/^\d{5}$/.test(cp) ? "" : d ? t("sh.cpOk").replace("{town}", esc(d.town)).replace("{p}", `<b>${eur(d.price)}</b>`) : "";
+  if (/^\d{5}$/.test(cp) && !d) { $("#shCp").setAttribute("aria-invalid", "true"); $("#shCpE").textContent = t("sh.e.cpNo"); }
+}
+// returns the first field with a problem, after marking every one
+function shCheck(step, only) {
+  const errs = [];
+  const mark = (id, key) => { if (only && id !== only) { if (key) errs.push($("#" + id)); return; } const el = $("#" + id), e = $("#" + id + "E"); if (el) el.setAttribute("aria-invalid", String(!!key)); if (e) e.textContent = key ? t(key) : ""; if (key) errs.push(el); };
+  if (step === 1) {
+    const cp = ship.cp.trim();
+    mark("shCp", !/^\d{5}$/.test(cp) ? "sh.e.cp" : !dest() ? "sh.e.cpNo" : "");
+    mark("shStreet", ship.street.trim().length < 4 ? "sh.e.street" : "");
+  }
+  if (step === 2) {
+    mark("shName", ship.name.trim().length < 2 ? "sh.e.name" : "");
+    mark("shEmail", !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(ship.email.trim()) ? "sh.e.email" : "");
+    mark("shPhone", ship.phone.replace(/\D/g, "").length < 9 ? "sh.e.phone" : "");
+    if (!only || only === "shOk") { $("#shOk").setAttribute("aria-invalid", String(!ship.ok)); $("#shOkE").textContent = ship.ok ? "" : t("sh.e.ok"); }
+    if (!ship.ok) errs.push($("#shOk"));
+  }
+  return errs[0];
+}
+function shClear() {
+  $$("#sheet [aria-invalid]").forEach(e => e.removeAttribute("aria-invalid"));
+  $$("#sheet small.err").forEach(e => e.textContent = ""); $("#shErr").textContent = "";
+}
+const rev = (k, v, cls = "") => `<li${cls ? ` class="${cls}"` : ""}><span>${t(k)}</span><span>${v}</span></li>`;
+function shText() {
+  const o = order(), z = t("sh.shipTo").replace("{town}", o.shipping.town);
+  return [t("sh.kick").replace("{s}", box.size), ...o.items.map(it => `${plain(fname(bySku(it.sku)))} × ${it.qty}`), "",
+    `${z}: ${eur(o.shipping.price)}`, [o.shipping.street, `${o.shipping.cp} ${o.shipping.town}`, o.shipping.notes].filter(Boolean).join("\n"), "",
+    [o.customer.name, o.customer.email, o.customer.phone].join("\n"), "", `${t("sh.r.total")}: ${eur(o.total)}`].join("\n");
+}
+function shRender() {
+  const st = shStep, o = order();
+  $("#shKick").textContent = t("sh.kick").replace("{s}", box.size);
+  $("#shSteps").innerHTML = [0, 1, 2, 3].map(i => `<li class="${i === st ? "on" : i < st ? "ok" : ""}"${i === st ? ` aria-current="step"` : ""}>${i + 1} ${t("sh.st" + i)}</li>`).join("");
+  $("#shSteps").setAttribute("aria-label", t("sh.stepOf").replace("{n}", st + 1));
+  $("#sh-h").innerHTML = t(st ? "sh.h" + st : "sh.h");
+  $$("#sheet .sh-pane").forEach(p => p.hidden = +p.dataset.pane !== st);
+  if (st === 0) {
+    // the box as it will arrive, in the order the cookies went in, then what each flavour is
+    $("#shBox").dataset.size = box.size;
+    $("#shBox").innerHTML = box.sel.map(sku => { const f = bySku(sku); return `<span>${f.img ? `<img src="${imgSrc(f.img)}" alt="">` : fname(f).slice(0, 2)}</span>`; }).join("");
+    $("#sum").innerHTML = o.items.map(it => { const f = bySku(it.sku); return `<li><span class="th">${thumb(f)}</span><span class="tx"><b>${fname(f)}</b><small>${fdesc(f)}</small></span><span>× ${it.qty}</span></li>`; }).join("")
+      + `<li class="total"><span></span><b>${t("bx.total")}</b><span>${eur(BOX_PRICE[box.size])}</span></li>`;
+  }
+  if (st === 1) shFill();
+  if (st === 3) $("#shRev").innerHTML =
+    rev("sh.r.box", o.items.map(it => `${fname(bySku(it.sku))} × ${it.qty}`).join("\n"))
+    + rev("sh.r.ship", esc(t("sh.shipTo").replace("{town}", o.shipping.town)))
+    + rev("sh.r.addr", esc([o.shipping.street, `${o.shipping.cp} ${o.shipping.town}`, o.shipping.notes].filter(Boolean).join("\n")))
+    + rev("sh.r.who", esc([o.customer.name, o.customer.email, o.customer.phone].join("\n")))
+    + rev("sh.r.sub", eur(o.price), "sub") + rev("sh.r.shipC", eur(o.shipping.price), "sub") + rev("sh.r.total", eur(o.total), "total");
+  $("#shFine").innerHTML = st === 1 ? t("sh.fine1") : st === 2 ? t("sh.fine2") : st === 3 ? t("sh.fine") : "";
+  $("#shFine").hidden = st === 0;
+  $("#shConfirm").hidden = false; $("#shConfirm").removeAttribute("aria-busy");
+  $("#shConfirm").innerHTML = st === 3 ? t("sh.pay").replace("{t}", eur(o.total)) : t("sh.next");
+  $("#shBack").innerHTML = t(st ? "sh.prev" : "sh.back");
+  $("#shSteps").hidden = $("#sh-h").hidden = false;
+  $("#shDone").hidden = true; $("#shCopy").hidden = true; $("#shCopied").textContent = "";
+}
+function shGo(n) { shStep = n; shClear(); shRender(); $("#sheetIn").scrollTop = 0; $("#sheetIn").focus(); }
+function shDone(h, p, copy) {
+  $$("#sheet .sh-pane").forEach(e => e.hidden = true);
+  $("#shSteps").hidden = $("#sh-h").hidden = true; $("#shFine").hidden = true; $("#shErr").textContent = "";
+  $("#shDoneH").innerHTML = t(h); $("#shDoneP").innerHTML = t(p); $("#shDone").hidden = false;
+  $("#shConfirm").hidden = true; $("#shCopy").hidden = !copy; $("#shBack").innerHTML = t("sh.close");
+  (copy ? $("#shCopy") : $("#shBack")).focus();
+}
+function showSheet() { lastFocus = document.activeElement; sheet.hidden = false; document.body.style.overflow = "hidden"; }
 function openSheet() {
   if (box.sel.length !== box.size) { note = t(box.size - box.sel.length === 1 ? "bx.left1" : "bx.leftN").replace("{n}", box.size - box.sel.length); renderBox(); return; }
-  lastFocus = document.activeElement;
-  $("#shKick").textContent = t("sh.kick").replace("{s}", box.size);
-  $("#sum").innerHTML = order().items.map(it => { const f = bySku(it.sku); return `<li><span class="th">${thumb(f)}</span><b>${fname(f)}</b><span>× ${it.qty}</span></li>`; }).join("")
-    + `<li class="total"><span></span><b>${t("bx.total")}</b><span>${eur(BOX_PRICE[box.size])}</span></li>`;
-  $("#sh-h").hidden = false; $("#shDone").hidden = true; $("#sum").hidden = false;
-  $("#shConfirm").hidden = false; $("#shBack").innerHTML = t("sh.back"); $("#shFine").hidden = false;
-  sheet.hidden = false; document.body.style.overflow = "hidden"; $("#sheetIn").focus();
+  showSheet(); shGo(0);
 }
 function closeSheet() { sheet.hidden = true; document.body.style.overflow = ""; lastFocus && lastFocus.focus(); }
 reviewBtn.addEventListener("click", openSheet);
-$("#shBack").addEventListener("click", closeSheet);
+$("#shBack").addEventListener("click", () => shStep && !$("#shConfirm").hidden ? shGo(shStep - 1) : closeSheet());
 sheet.addEventListener("click", e => { if (e.target === sheet) closeSheet(); });
 sheet.addEventListener("keydown", e => {
   if (e.key === "Escape") { e.preventDefault(); closeSheet(); }
+  if (e.key === "Enter" && e.target.matches("input:not([type=checkbox]):not([type=radio])")) { e.preventDefault(); $("#shConfirm").click(); }
   if (e.key === "Tab") { // keep focus inside the sheet
-    const f = $$("button:not([hidden])", sheet).filter(b => b.offsetParent);
+    const f = $$("button, input:not([disabled])", sheet).filter(b => b.offsetParent && !b.hidden);
     if (!f.length) return; const a = f[0], z = f[f.length - 1];
-    if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
+    if (e.shiftKey && (document.activeElement === a || document.activeElement === $("#sheetIn"))) { e.preventDefault(); z.focus(); }
     else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
   }
 });
+$("#sheet").addEventListener("input", e => {
+  if (!e.target.closest(".sh-pane")) return;
+  if (e.target.id === "shCp") e.target.value = e.target.value.replace(/\D/g, "").slice(0, 5);
+  shRead();
+  if (e.target.getAttribute("aria-invalid") === "true") shCheck(shStep, e.target.id); // clear an error as soon as it is fixed
+  if (e.target.id === "shCp") shCpOut();
+});
 $("#shConfirm").addEventListener("click", () => {
+  const b = $("#shConfirm"); if (b.getAttribute("aria-busy") === "true") return;
+  if (shStep === 1 || shStep === 2) { shRead(); const bad = shCheck(shStep); if (bad) { bad.focus(); return; } }
+  if (shStep < 3) { shGo(shStep + 1); return; }
   const o = order();
   try { localStorage.setItem("lb-box-confirmed", JSON.stringify(o)); } catch (e) {}
-  SHOP.checkout(o).then(() => {
-    // no store yet: say so plainly and keep the box as it is
-    $("#sh-h").hidden = true; $("#sum").hidden = true; $("#shDone").hidden = false;
-    $("#shConfirm").hidden = true; $("#shFine").hidden = true; $("#shBack").innerHTML = t("sh.close");
-    $("#shBack").focus();
+  b.setAttribute("aria-busy", "true"); b.innerHTML = t("sh.wait"); $("#shErr").textContent = "";
+  SHOP.checkout(o).then(r => {
+    if (r.ok && r.url) { location.assign(r.url); return; }
+    b.removeAttribute("aria-busy"); b.innerHTML = t("sh.pay").replace("{t}", eur(o.total));
+    // no Stripe yet: say so plainly and keep the order so it can be copied
+    if (r.reason === "not-connected") shDone("sh.doneH", "sh.doneP", true);
+    else { $("#shErr").textContent = t("sh.e.pay"); b.focus(); }
   });
 });
+$("#shCopy").addEventListener("click", () => {
+  const txt = shText(), ok = () => $("#shCopied").textContent = t("ck.copied"), no = () => $("#shCopied").textContent = t("ck.copyFail");
+  const fallback = () => {
+    const ta = document.createElement("textarea"); ta.value = txt; ta.setAttribute("readonly", ""); ta.style.cssText = "position:fixed;opacity:0;left:0;top:0";
+    $("#sheetIn").appendChild(ta); ta.select();
+    let done = false; try { done = document.execCommand("copy"); } catch (e) {}
+    ta.remove(); $("#shCopy").focus(); done ? ok() : no();
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(ok, fallback);
+  else fallback();
+});
+// back from Stripe: ?comanda=ok (paid) or ?comanda=cancel (nothing charged)
+function shReturn() {
+  const q = new URLSearchParams(location.search), c = q.get("comanda"); if (!c) return;
+  q.delete("comanda"); q.delete("sid");
+  history.replaceState(null, "", location.pathname + (q.toString() ? "?" + q : "") + location.hash);
+  if (c === "ok") {
+    box.sel = []; commit();
+    try { localStorage.removeItem("lb-box-confirmed"); } catch (e) {}
+    showSheet(); shDone("sh.okH", "sh.okP", false);
+  } else if (c === "cancel" && box.sel.length === box.size) {
+    showSheet(); shGo(3); $("#shCopied").textContent = t("sh.cancel");
+  }
+}
 buildFlavours();
 
 /* ---------- encarregar un pastís ---------- */
@@ -1833,7 +2077,7 @@ function blogFromHash() {
 let saved = "ca"; try { saved = localStorage.getItem("lb-lang") || "ca"; } catch (e) {}
 measure(); pos = target = progress();
 const boot = () => {
-  measure(); setLang(saved); blogFromHash();
+  measure(); setLang(saved); blogFromHash(); shReturn();
   const t0 = performance.now(), D = reduce.matches ? 1 : 1400;
   const step = now => { introT = clamp((now - t0) / D); if (introT < 1) requestAnimationFrame(step); wake(); };
   requestAnimationFrame(step);

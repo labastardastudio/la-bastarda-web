@@ -1,0 +1,14 @@
+{
+  "zones": [
+    {
+      "nom": "A prop de l'obrador (fins a uns 15 km de Premià de Dalt)",
+      "preu": 2.99,
+      "codis": "08338 Premià de Dalt\n08330 Premià de Mar\n08339 Vilassar de Dalt\n08340 Vilassar de Mar\n08348 Cabrils\n08349 Cabrera de Mar\n08329 Teià\n08328 Alella\n08320 el Masnou\n08390 Montgat\n08391 Tiana\n08317 Òrrius\n08310 Argentona\n08319 Dosrius\n0830 Mataró\n08392 Sant Andreu de Llavaneres\n08394 Sant Vicenç de Montalt\n0891 Badalona"
+    },
+    {
+      "nom": "Més lluny (Barcelona i l'Alt Maresme)",
+      "preu": 4.99,
+      "codis": "080 Barcelona\n08930 Sant Adrià de Besòs\n08393 Caldes d'Estrac\n08350 Arenys de Mar\n08358 Arenys de Munt\n08359 Sant Iscle de Vallalta\n08360 Canet de Mar\n08395 Sant Pol de Mar\n08396 Sant Cebrià de Vallalta\n08370 Calella\n08397 Pineda de Mar\n08398 Santa Susanna\n08380 Malgrat de Mar\n08389 Palafolls\n08490 Tordera"
+    }
+  ]
+}

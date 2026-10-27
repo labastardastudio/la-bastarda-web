@@ -7,3 +7,7 @@
   for = "/content.js"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+
+# the cookie box checkout (netlify/functions/checkout.js); it needs STRIPE_SECRET_KEY in Site configuration > Environment variables
+[functions]
+  directory = "netlify/functions"

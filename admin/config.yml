@@ -108,6 +108,24 @@ collections:
           - { label: Pastís de 16–20 racions (des de), name: pastis_16_20, widget: number, value_type: float, min: 0 }
           - { label: Pastís de més de 20 racions (des de), name: pastis_mes_20, widget: number, value_type: float, min: 0 }
 
+  - name: enviaments
+    label: Enviaments
+    editor: { preview: false }
+    files:
+      - name: enviaments
+        label: Enviaments de la caixa de cookies
+        file: content/enviaments.json
+        description: "El preu de l'enviament depèn del codi postal. Si un codi postal no és a cap zona, la web diu que encara no hi arribem."
+        fields:
+          - label: Zones
+            name: zones
+            widget: list
+            summary: "{{fields.nom}} · {{fields.preu}} €"
+            fields:
+              - { label: Nom (només per a tu), name: nom, widget: string }
+              - { label: Preu de l'enviament (€), name: preu, widget: number, value_type: float, min: 0 }
+              - { label: Codis postals, name: codis, widget: text, hint: "Un per línia: el codi postal i el municipi, per exemple «08301 Mataró». Un codi més curt val per a tots els que comencen així: «080 Barcelona» inclou del 08001 al 08042." }
+
   - name: textos
     label: Textos
     editor: { preview: false }
