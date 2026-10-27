@@ -108,6 +108,28 @@ collections:
           - { label: Pastís de 16–20 racions (des de), name: pastis_16_20, widget: number, value_type: float, min: 0 }
           - { label: Pastís de més de 20 racions (des de), name: pastis_mes_20, widget: number, value_type: float, min: 0 }
 
+  - name: fotos
+    label: Fotos de la portada
+    editor: { preview: false }
+    files:
+      - name: fotos
+        label: Fotos de la portada
+        file: content/fotos.json
+        description: "Les fotos de les pàgines de la revista. Una foto nova ocupa el mateix marc que l'anterior; si té una altra proporció, es retalla per encaixar-hi. El número és el que surt al peu de cada foto."
+        fields:
+          - { label: "01 · Tall lateral", name: blue, widget: image, choose_url: false, required: false }
+          - { label: "02 · Sobretaula", name: table, widget: image, choose_url: false, required: false }
+          - { label: "03 · Porcions", name: slices, widget: image, choose_url: false, required: false }
+          - { label: "04 · Pastís silvestre", name: moss, widget: image, choose_url: false, required: false }
+          - { label: "05 · Mans", name: green, widget: image, choose_url: false, required: false }
+          - { label: "06 · Final de festa", name: crush, widget: image, choose_url: false, required: false }
+          - { label: "07 · Eines", name: tools, widget: image, choose_url: false, required: false }
+          - { label: "08 · Culleres", name: spoons, widget: image, choose_url: false, required: false }
+          - { label: "09 · Safates", name: rack, widget: image, choose_url: false, required: false }
+          - { label: "10 · Doble xocolata", name: chand, widget: image, choose_url: false, required: false }
+          - { label: "11 · Sota la campana", name: dome, widget: image, choose_url: false, required: false }
+          - { label: "12 · Després del postre", name: sink, widget: image, choose_url: false, required: false }
+
   - name: enviaments
     label: Enviaments
     editor: { preview: false }

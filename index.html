@@ -313,6 +313,10 @@ a{color:inherit}
 .sh-fields .opt{font-size:13.5px;align-items:flex-start;line-height:1.45}
 .sh-fields .opt i{margin-top:4px}
 .sh-fields .opt:has(input:checked)::after{content:none}
+#shOkE{display:block}
+#shWho .opt.sq i{width:14px;height:14px;border-radius:3px;transition:background .2s}
+#shWho .opt.sq:has(input:checked) i{transform:none;box-shadow:none;background:var(--ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 7.2l2.6 2.6L11 4.4' fill='none' stroke='%23F3F0E9' stroke-width='1.6'/%3E%3C/svg%3E") center/100% no-repeat;border-color:var(--ink)}
+#shWho .opt.sq:has(input[aria-invalid="true"]) i{border-color:#9C2F26}
 #shRev li.total span:first-child{color:var(--ink);font-weight:500;font-size:13px}
 #shRev li.total span:last-child{font-family:var(--serif);font-size:22px;font-weight:300}
 #shRev li.sub span:last-child{font-variant-numeric:tabular-nums}
@@ -1089,6 +1093,8 @@ const I18N = {
     Object.keys(C.prices.box || {}).forEach(k => { if (C.prices.box[k] != null) BOX_PRICE[k] = C.prices.box[k]; });
     CAKE.size.opts.forEach(o => { const v = (C.prices.cake || {})[o.id]; if (v != null) o.from = v; });
   }
+  // photos of the home spreads: a new photo fills the same frame (cropped), so the layout stays as it is
+  if (C.photos) PRINTS.forEach(p => { if (C.photos[p.id]) p.src = C.photos[p.id]; });
   if (C.shipping && C.shipping.zones && C.shipping.zones.length) SHIPPING.zones = C.shipping.zones;
   if (C.text) Object.keys(C.text).forEach(l => I18N[l] && Object.assign(I18N[l], C.text[l]));
 })(window.LB_CONTENT);
@@ -1114,7 +1120,7 @@ PRINTS.forEach(p => {
   const f = document.createElement("figure");
   f.className = "print"; f.dataset.id = p.id;
   const im = p.src
-    ? `<img src="img/${p.src}" alt="" loading="eager" decoding="async">${p.alt ? `<img class="alt" src="img/${p.alt}" alt="">` : ""}`
+    ? `<img src="${imgSrc(p.src)}" alt="" loading="eager" decoding="async">${p.alt ? `<img class="alt" src="${imgSrc(p.alt)}" alt="">` : ""}`
     : `<div class="ph"><b>${p.n}</b><span data-i18n="ph"></span></div>`;
   f.innerHTML = `<div class="im">${im}</div><figcaption><b>${p.n}</b><span data-i18n="${p.cap}"></span></figcaption>`;
   printsEl.appendChild(f); els[p.id] = { el: f, ar: p.ar, cap: f.querySelector("figcaption") };
