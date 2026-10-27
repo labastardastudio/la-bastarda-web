@@ -9,7 +9,19 @@
       "foto_caixa": "/img/t-classica.webp",
       "image": "/img/f-classica.webp",
       "desc_es": "Mantequilla tostada, chocolate negro y un punto de sal.",
-      "sku": "cookie-classica"
+      "sku": "cookie-classica",
+      "alergens": [
+        "gluten",
+        "ous",
+        "soja",
+        "llet"
+      ],
+      "traces": [
+        "cacauet",
+        "closca",
+        "sesam",
+        "sulfits"
+      ]
     },
     {
       "name_es": "Cheesecake",
@@ -20,7 +32,20 @@
       "foto_caixa": "/img/t-cheesecake.webp",
       "image": "/img/f-cheesecake.webp",
       "desc_es": "Galleta de mantequilla, chocolate blanco rellena de crema de queso.",
-      "sku": "cookie-cheesecake"
+      "sku": "cookie-cheesecake",
+      "alergens": [
+        "gluten",
+        "ous",
+        "soja",
+        "llet",
+        "sulfits"
+      ],
+      "traces": [
+        "cacauet",
+        "closca",
+        "mostassa",
+        "sesam"
+      ]
     },
     {
       "name_es": "Chocolate y naranja",
@@ -31,7 +56,16 @@
       "foto_caixa": "/img/t-triple.webp",
       "image": "/img/f-triple.webp",
       "desc_es": "Galleta de chocolate negro rellena de confitura naranja confitada.",
-      "sku": "cookie-taronja"
+      "sku": "cookie-taronja",
+      "alergens": [
+        "gluten",
+        "ous",
+        "llet"
+      ],
+      "traces": [
+        "soja",
+        "closca"
+      ]
     },
     {
       "name_es": "Fresas y chocolate",
@@ -42,7 +76,16 @@
       "foto_caixa": "",
       "image": "/img/f-redvelvet.webp",
       "desc_es": "Galleta de chocolate con leche rellena de confitura de fresa y albahaca.",
-      "sku": "cookie-maduixes"
+      "sku": "cookie-maduixes",
+      "alergens": [
+        "gluten",
+        "ous",
+        "soja",
+        "llet"
+      ],
+      "traces": [
+        "closca"
+      ]
     },
     {
       "name_es": "Limón y mascarpone",
@@ -53,7 +96,17 @@
       "foto_caixa": "",
       "image": "/img/f-lemon.webp",
       "desc_es": "Limón, mascarpone y azúcar grace.",
-      "sku": "cookie-lemon"
+      "sku": "cookie-lemon",
+      "alergens": [
+        "gluten",
+        "ous",
+        "soja",
+        "llet"
+      ],
+      "traces": [
+        "cacauet",
+        "closca"
+      ]
     },
     {
       "name_es": "Churros con chocolate a la taza",
@@ -64,7 +117,20 @@
       "foto_caixa": "/img/t-cinnamon.webp",
       "image": "/img/f-cinnamon.webp",
       "desc_es": "Galleta de churros con relleno de chocolate en la taza.",
-      "sku": "cookie-xurros"
+      "sku": "cookie-xurros",
+      "alergens": [
+        "gluten",
+        "ous",
+        "soja",
+        "llet"
+      ],
+      "traces": [
+        "cacauet",
+        "closca",
+        "mostassa",
+        "sesam",
+        "sulfits"
+      ]
     },
     {
       "name_es": "Tartufo i nueces pecanas",
@@ -75,7 +141,16 @@
       "foto_caixa": "/img/t-caramel.webp",
       "image": "/img/f-caramel.webp",
       "desc_es": "Galleta dulce-salada de trufa negra con nueces pecanas rellena de crema de trufa",
-      "sku": "cookie-miso"
+      "sku": "cookie-miso",
+      "alergens": [
+        "gluten",
+        "ous",
+        "llet",
+        "closca"
+      ],
+      "traces": [
+        "cacauet"
+      ]
     },
     {
       "name_es": "Ruffles de jamón",
@@ -86,7 +161,14 @@
       "foto_caixa": "",
       "image": "",
       "desc_es": "Galleta de patatas Ruffles, jamón crujiente y rellena de bechamel de jamón.",
-      "sku": "cookie-ruffles"
+      "sku": "cookie-ruffles",
+      "alergens": [
+        "gluten",
+        "ous",
+        "soja",
+        "llet"
+      ],
+      "traces": []
     }
   ]
 }

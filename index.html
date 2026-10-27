@@ -200,6 +200,20 @@ a{color:inherit}
 .fl .ph2 .pend{position:absolute;inset:0;display:flex;align-items:flex-end;padding:7px;font-size:9px;letter-spacing:.04em;color:var(--ink-2)}
 .fl h3{margin:0;font-family:var(--serif);font-weight:300;font-variation-settings:"opsz" 48;font-size:clamp(24px,2.3vw,36px);line-height:1.05;letter-spacing:-.015em}
 .fl p{margin:6px 0 0;font-size:13.5px;line-height:1.45;color:var(--ink-2);max-width:42ch}
+.fl .al{margin-top:8px;font-size:12px;color:var(--ink-2)}
+.fl .al summary{display:inline-flex;align-items:center;gap:7px;cursor:pointer;list-style:none;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;color:var(--ink);padding:3px 0;border-bottom:1px solid var(--hair)}
+.fl .al summary::-webkit-details-marker{display:none}
+.fl .al summary::after{content:"+";font-size:13px;letter-spacing:0;font-weight:400;color:var(--ink-2)}
+.fl .al[open] summary::after{content:"–"}
+.fl .al summary i{font-style:normal;font-weight:400;letter-spacing:0;color:var(--ink-2)}
+.fl .al summary:focus-visible{outline:1.5px solid var(--pencil);outline-offset:3px}
+.fl .al-in{padding-top:6px;max-width:44ch}
+.fl .al-in p{margin:2px 0 0;font-size:12.5px;line-height:1.45}
+.fl .al-in b,.sh-al b{font-weight:500;color:var(--ink)}
+.sh-al{margin-top:18px;padding:14px 0 2px;border-top:1px solid var(--hair);font-size:13px;line-height:1.5;color:var(--ink-2)}
+.sh-al .caps{margin-bottom:6px;color:var(--ink)}
+.sh-al p{margin:2px 0 0}
+.sh-al .al-note{margin-top:8px;font-size:12px}
 .qty{display:flex;align-items:center;gap:6px}
 .qty button{all:unset;cursor:pointer;width:34px;height:34px;border-radius:50%;border:1px solid var(--hair);display:grid;place-items:center;transition:border-color .25s,background .25s,color .25s,opacity .25s}
 .qty button svg{width:11px;height:11px}
@@ -766,7 +780,7 @@ a{color:inherit}
       <div class="sheet-in" role="dialog" aria-modal="true" aria-labelledby="sh-h" tabindex="-1" id="sheetIn">
         <div class="sh-top"><span class="caps" id="shKick"></span><ol class="sh-steps" id="shSteps"></ol></div>
         <h3 id="sh-h" data-i18n="sh.h">Resum de <em>la teva caixa</em></h3>
-        <div class="sh-pane" data-pane="0"><div class="sh-box3" id="shBox3" tabindex="0" role="img"><div class="sh-box box3d" id="shBox" aria-hidden="true"></div></div><p class="sh-turn"><span id="shTurn"></span><button type="button" id="shTurnReset"></button></p><ul class="sum sh-fl" id="sum"></ul></div>
+        <div class="sh-pane" data-pane="0"><div class="sh-box3" id="shBox3" tabindex="0" role="img"><div class="sh-box box3d" id="shBox" aria-hidden="true"></div></div><p class="sh-turn"><span id="shTurn"></span><button type="button" id="shTurnReset"></button></p><ul class="sum sh-fl" id="sum"></ul><div class="sh-al" id="shAl"></div></div>
         <form class="sh-pane" data-pane="1" id="shShip" novalidate hidden>
           <div class="fields sh-fields">
             <div class="fld"><label for="shCp" data-i18n="sh.f.cp">Codi postal</label><input id="shCp" name="cp" inputmode="numeric" autocomplete="postal-code" maxlength="5" aria-describedby="shCpOut"><small class="err" id="shCpE"></small></div>
@@ -1049,7 +1063,7 @@ const I18N = {
     "cta.box":"La teva caixa de cookies",
     "bx.h":"La teva caixa <em>de cookies.</em>","bx.p":"Tria una caixa de 4 o 6 i omple-la amb els sabors que vulguis. Pots repetir-ne o barrejar-los.",
     "bx.size":"Mida","bx.s4":"cookies<br>caixa petita","bx.s6":"cookies<br>caixa gran","bx.yours":"La teva caixa",
-    "bx.review":"Revisar la caixa","bx.clear":"Buidar","bx.fine":"El preu de l'enviament depèn del codi postal.","bx.price":"Preu de la caixa","bx.total":"Total","bx.plusShip":"+ enviament",
+    "bx.review":"Revisar la caixa","al.lbl":"Al·lèrgens","al.has":"Conté","al.may":"Pot contenir traces de","al.none":"Sense traces declarades.","al.box":"Al·lèrgens de la teva caixa","al.note":"Elaborem totes les cookies en un obrador que manipula cacauet i fruits de closca.","al.ask":"Si tens una al·lèrgia o intolerància, escriu-nos abans d'encarregar.","bx.clear":"Buidar","bx.fine":"El preu de l'enviament depèn del codi postal.","bx.price":"Preu de la caixa","bx.total":"Total","bx.plusShip":"+ enviament",
     "bx.pending":"Foto pendent","bx.less":"Una menys de","bx.more":"Una més de","bx.takeOut":"Treure",
     "bx.empty":"Encara és buida. Tria sabors de la llista.","bx.full":"Caixa completa.","bx.isFull":"La caixa ja és plena. Treu-ne una per canviar-la.",
     "bx.left1":"Falta 1 cookie.","bx.leftN":"Falten {n} cookies.",
@@ -1121,7 +1135,7 @@ const I18N = {
     "cta.box":"Tu caja de cookies",
     "bx.h":"Tu caja <em>de cookies.</em>","bx.p":"Elige una caja de 4 o 6 y llénala con los sabores que quieras. Puedes repetir o mezclarlos.",
     "bx.size":"Tamaño","bx.s4":"cookies<br>caja pequeña","bx.s6":"cookies<br>caja grande","bx.yours":"Tu caja",
-    "bx.review":"Revisar la caja","bx.clear":"Vaciar","bx.fine":"El precio del envío depende del código postal.","bx.price":"Precio de la caja","bx.total":"Total","bx.plusShip":"+ envío",
+    "bx.review":"Revisar la caja","al.lbl":"Alérgenos","al.has":"Contiene","al.may":"Puede contener trazas de","al.none":"Sin trazas declaradas.","al.box":"Alérgenos de tu caja","al.note":"Elaboramos todas las cookies en un obrador que manipula cacahuete y frutos de cáscara.","al.ask":"Si tienes una alergia o intolerancia, escríbenos antes de encargar.","bx.clear":"Vaciar","bx.fine":"El precio del envío depende del código postal.","bx.price":"Precio de la caja","bx.total":"Total","bx.plusShip":"+ envío",
     "bx.pending":"Foto pendiente","bx.less":"Una menos de","bx.more":"Una más de","bx.takeOut":"Quitar",
     "bx.empty":"Todavía está vacía. Elige sabores de la lista.","bx.full":"Caja completa.","bx.isFull":"La caja ya está llena. Quita una para cambiarla.",
     "bx.left1":"Falta 1 cookie.","bx.leftN":"Faltan {n} cookies.",
@@ -1509,6 +1523,16 @@ try { const b = JSON.parse(localStorage.getItem(BOX_KEY) || "null"); if (b && BO
 const saveBox = () => { try { localStorage.setItem(BOX_KEY, JSON.stringify(box)); } catch (e) {} };
 const fname = f => (f[lang] || f.ca)[0], fdesc = f => (f[lang] || f.ca)[1];
 const bySku = sku => FLAVOURS.find(f => f.sku === sku);
+/* allergens: the 14 of the EU list, by key; each flavour has `al` (contains) and `tr` (may contain), from the panel */
+const ALLERGENS = { gluten: ["gluten", "gluten"], crustacis: ["crustacis", "crustáceos"], ous: ["ous", "huevo"], peix: ["peix", "pescado"],
+  cacauet: ["cacauet", "cacahuete"], soja: ["soja", "soja"], llet: ["llet", "leche"], closca: ["fruits de closca", "frutos de cáscara"],
+  api: ["api", "apio"], mostassa: ["mostassa", "mostaza"], sesam: ["sèsam", "sésamo"], sulfits: ["sulfits", "sulfitos"],
+  tramussos: ["tramussos", "altramuces"], molluscs: ["mol·luscs", "moluscos"] };
+const alName = k => (ALLERGENS[k] || [k, k])[lang === "es" ? 1 : 0];
+const alList = ks => { const n = ks.map(alName); return n.length < 2 ? n.join("") : n.slice(0, -1).join(", ") + (lang === "es" ? " y " : " i ") + n[n.length - 1]; };
+const alHas = f => (f.al && f.al.length) || (f.tr && f.tr.length);
+const alText = f => (f.al && f.al.length ? `<p><b>${t("al.has")}</b> ${alList(f.al)}.</p>` : "")
+  + `<p><b>${t("al.may")}</b> ${f.tr && f.tr.length ? alList(f.tr) + "." : "—"}</p>`;
 const countOf = sku => box.sel.filter(s => s === sku).length;
 const ICON_MINUS = '<svg viewBox="0 0 11 11" aria-hidden="true"><path d="M1 5.5h9" stroke="currentColor" stroke-width="1.2"/></svg>';
 const ICON_PLUS = '<svg viewBox="0 0 11 11" aria-hidden="true"><path d="M1 5.5h9M5.5 1v9" stroke="currentColor" stroke-width="1.2"/></svg>';
@@ -1664,7 +1688,7 @@ function buildFlavours() {
     <li class="fl" data-sku="${f.sku}">
       <span class="no">${String(i + 1).padStart(2, "0")}</span>
       <div class="ph2">${f.img ? thumb(f) : `<span class="pend">${t("bx.pending")}</span>`}</div>
-      <div><h3 id="fl-${f.sku}">${fname(f)}</h3><p>${fdesc(f)}</p></div>
+      <div><h3 id="fl-${f.sku}">${fname(f)}</h3><p>${fdesc(f)}</p>${alHas(f) ? `<details class="al"><summary>${t("al.lbl")}<i>${(f.al || []).length}</i></summary><div class="al-in">${alText(f)}</div></details>` : ""}</div>
       <div class="qty" role="group" aria-labelledby="fl-${f.sku}">
         <button type="button" data-act="dec" aria-label="${t("bx.less")} ${fname(f)}">${ICON_MINUS}</button>
         <output aria-live="off">0</output>
@@ -1914,6 +1938,14 @@ function shRender() {
     $("#shTurn").textContent = t("sh.turn"); $("#shTurnReset").textContent = t("sh.turnR"); $("#shBox3").setAttribute("aria-label", t("sh.turnA"));
     $("#sum").innerHTML = o.items.map(it => { const f = bySku(it.sku); return `<li data-sku="${it.sku}"><span class="th">${thumb(f)}</span><span class="tx"><b>${fname(f)}</b><small>${fdesc(f)}</small></span><span>× ${it.qty}</span></li>`; }).join("")
       + `<li class="total"><span></span><b>${t("bx.total")}</b><span>${eur(BOX_PRICE[box.size])}</span></li>`;
+    // what the whole box contains, so it can be checked before paying
+    { const fs = [...new Set(box.sel)].map(bySku).filter(Boolean), has = new Set(), may = new Set();
+      fs.forEach(f => (f.al || []).forEach(k => has.add(k))); fs.forEach(f => (f.tr || []).forEach(k => { if (!has.has(k)) may.add(k); }));
+      const keys = Object.keys(ALLERGENS), ord = set => keys.filter(k => set.has(k));
+      $("#shAl").innerHTML = has.size || may.size ? `<div class="caps">${t("al.box")}</div>`
+        + (has.size ? `<p><b>${t("al.has")}</b> ${alList(ord(has))}.</p>` : "")
+        + (may.size ? `<p><b>${t("al.may")}</b> ${alList(ord(may))}.</p>` : "")
+        + `<p class="al-note">${t("al.note")} ${t("al.ask")}</p>` : ""; }
     window.B3 && B3.list();
   }
   if (st === 1) shFill();
