@@ -124,20 +124,44 @@ collections:
       - name: fotos
         label: Fotos de la portada
         file: content/fotos.json
-        description: "Les fotos de les pàgines de la revista. Una foto nova ocupa el mateix marc que l'anterior; si té una altra proporció, es retalla per encaixar-hi. El número és el que surt al peu de cada foto."
+        description: "Les fotos de les pàgines de la revista. Una foto nova ocupa el mateix marc que l'anterior; si té una altra proporció, es retalla per encaixar-hi. El número és el que surt al peu de cada foto. Sota cada foto pots canviar-ne el peu; si el deixes buit, surt el d'ara."
         fields:
           - { label: "01 · Tall lateral", name: blue, widget: image, choose_url: false, required: false }
+          - { label: "01 · Tall lateral · Peu de foto (català)", name: blue_ca, widget: string, required: false }
+          - { label: "01 · Tall lateral · Peu de foto (castellà)", name: blue_es, widget: string, required: false }
           - { label: "02 · Sobretaula", name: table, widget: image, choose_url: false, required: false }
+          - { label: "02 · Sobretaula · Peu de foto (català)", name: table_ca, widget: string, required: false }
+          - { label: "02 · Sobretaula · Peu de foto (castellà)", name: table_es, widget: string, required: false }
           - { label: "03 · Porcions", name: slices, widget: image, choose_url: false, required: false }
+          - { label: "03 · Porcions · Peu de foto (català)", name: slices_ca, widget: string, required: false }
+          - { label: "03 · Porcions · Peu de foto (castellà)", name: slices_es, widget: string, required: false }
           - { label: "04 · Pastís silvestre", name: moss, widget: image, choose_url: false, required: false }
+          - { label: "04 · Pastís silvestre · Peu de foto (català)", name: moss_ca, widget: string, required: false }
+          - { label: "04 · Pastís silvestre · Peu de foto (castellà)", name: moss_es, widget: string, required: false }
           - { label: "05 · Mans", name: green, widget: image, choose_url: false, required: false }
+          - { label: "05 · Mans · Peu de foto (català)", name: green_ca, widget: string, required: false }
+          - { label: "05 · Mans · Peu de foto (castellà)", name: green_es, widget: string, required: false }
           - { label: "06 · Final de festa", name: crush, widget: image, choose_url: false, required: false }
+          - { label: "06 · Final de festa · Peu de foto (català)", name: crush_ca, widget: string, required: false }
+          - { label: "06 · Final de festa · Peu de foto (castellà)", name: crush_es, widget: string, required: false }
           - { label: "07 · Eines", name: tools, widget: image, choose_url: false, required: false }
+          - { label: "07 · Eines · Peu de foto (català)", name: tools_ca, widget: string, required: false }
+          - { label: "07 · Eines · Peu de foto (castellà)", name: tools_es, widget: string, required: false }
           - { label: "08 · Culleres", name: spoons, widget: image, choose_url: false, required: false }
+          - { label: "08 · Culleres · Peu de foto (català)", name: spoons_ca, widget: string, required: false }
+          - { label: "08 · Culleres · Peu de foto (castellà)", name: spoons_es, widget: string, required: false }
           - { label: "09 · Safates", name: rack, widget: image, choose_url: false, required: false }
+          - { label: "09 · Safates · Peu de foto (català)", name: rack_ca, widget: string, required: false }
+          - { label: "09 · Safates · Peu de foto (castellà)", name: rack_es, widget: string, required: false }
           - { label: "10 · Doble xocolata", name: chand, widget: image, choose_url: false, required: false }
+          - { label: "10 · Doble xocolata · Peu de foto (català)", name: chand_ca, widget: string, required: false }
+          - { label: "10 · Doble xocolata · Peu de foto (castellà)", name: chand_es, widget: string, required: false }
           - { label: "11 · Sota la campana", name: dome, widget: image, choose_url: false, required: false }
+          - { label: "11 · Sota la campana · Peu de foto (català)", name: dome_ca, widget: string, required: false }
+          - { label: "11 · Sota la campana · Peu de foto (castellà)", name: dome_es, widget: string, required: false }
           - { label: "12 · Després del postre", name: sink, widget: image, choose_url: false, required: false }
+          - { label: "12 · Després del postre · Peu de foto (català)", name: sink_ca, widget: string, required: false }
+          - { label: "12 · Després del postre · Peu de foto (castellà)", name: sink_es, widget: string, required: false }
 
   - name: enviaments
     label: Enviaments
