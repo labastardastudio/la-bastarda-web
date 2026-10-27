@@ -68,7 +68,16 @@ const prices = { box: { 4: pr.caixa_4, 6: pr.caixa_6 },
 
 // shipping zones: one line per postcode, "08301 Mataró"; a shorter code ("080 Barcelona") covers every postcode that starts with it
 const codes = t => String(t ?? "").split(/\n/).map(l => l.trim().match(/^(\d{2,5})\s+(.+)$/)).filter(Boolean).map(m => [m[1], m[2].trim()]);
-const shipping = { zones: (read(path.join(C, "enviaments.json")).zones || [])
+const en = read(path.join(C, "enviaments.json"));
+// delivery calendar; weekdays as in Date.getDay(): 0 Sunday … 6 Saturday
+const WEEK = { dg: 0, dl: 1, dt: 2, dc: 3, dj: 4, dv: 5, ds: 6 };
+const cal = {};
+if (en.antelacio_hores != null) cal.lead = Number(en.antelacio_hores);
+if (en.dies_endavant != null) cal.ahead = Number(en.dies_endavant);
+if (Array.isArray(en.dies_setmana)) cal.days = en.dies_setmana.map(d => WEEK[d]).filter(d => d != null);
+if (Array.isArray(en.franges) && en.franges.length) cal.slots = en.franges.map(String).map(s => s.trim()).filter(Boolean);
+cal.closed = (en.dies_sense_enviament || []).map(d => String(d).slice(0, 10)).filter(d => /^\d{4}-\d{2}-\d{2}$/.test(d));
+const shipping = { cal, zones: (en.zones || [])
   .map(z => ({ price: z.preu, codes: codes(z.codis) })).filter(z => z.price != null && z.codes.length) };
 
 const tx = read(path.join(C, "textos.json")), text = { ca: {}, es: {} };

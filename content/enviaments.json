@@ -1,4 +1,20 @@
 {
+  "antelacio_hores": 48,
+  "dies_endavant": 60,
+  "dies_setmana": [
+    "dl",
+    "dt",
+    "dc",
+    "dj",
+    "dv",
+    "ds",
+    "dg"
+  ],
+  "franges": [
+    "10:00 – 13:00",
+    "17:00 – 20:00"
+  ],
+  "dies_sense_enviament": [],
   "zones": [
     {
       "nom": "A prop de l'obrador (fins a uns 15 km de Premià de Dalt)",

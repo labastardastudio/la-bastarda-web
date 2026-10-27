@@ -137,8 +137,30 @@ collections:
       - name: enviaments
         label: Enviaments de la caixa de cookies
         file: content/enviaments.json
-        description: "El preu de l'enviament depèn del codi postal. Si un codi postal no és a cap zona, la web diu que encara no hi arribem."
+        description: "El client tria el dia i la franja d'entrega en un calendari. El preu de l'enviament depèn del codi postal; si un codi postal no és a cap zona, la web diu que encara no hi arribem."
         fields:
+          - { label: Hores d'antelació mínimes, name: antelacio_hores, widget: number, value_type: int, min: 0, hint: "Una franja només es pot triar si comença com a mínim aquestes hores després de fer la comanda." }
+          - { label: Dies que es poden reservar per endavant, name: dies_endavant, widget: number, value_type: int, min: 1 }
+          - label: Dies de la setmana amb enviament
+            name: dies_setmana
+            widget: select
+            multiple: true
+            options:
+              - { label: Dilluns, value: dl }
+              - { label: Dimarts, value: dt }
+              - { label: Dimecres, value: dc }
+              - { label: Dijous, value: dj }
+              - { label: Divendres, value: dv }
+              - { label: Dissabte, value: ds }
+              - { label: Diumenge, value: dg }
+          - { label: Franges horàries, name: franges, widget: list, collapsed: false, field: { label: Franja, name: franja, widget: string }, hint: "Per exemple «10:00 – 13:00». L'hora d'inici compta per a l'antelació." }
+          - label: Dies sense enviament
+            name: dies_sense_enviament
+            widget: list
+            collapsed: false
+            required: false
+            hint: "Vacances, festius o dies que no pots fer enviaments. Al calendari surten ratllats."
+            field: { label: Dia, name: dia, widget: datetime, format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false, picker_utc: true }
           - label: Zones
             name: zones
             widget: list

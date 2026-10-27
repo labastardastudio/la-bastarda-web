@@ -300,6 +300,31 @@ a{color:inherit}
 .sh-fl li>span:last-child{padding-top:6px}
 .sh-fl li.total{align-items:center}
 .sh-fl li.total>span:last-child{padding-top:0}
+.cal{border-top:1px solid var(--ink);padding-top:14px;max-width:420px}
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cal-head b{font-family:var(--serif);font-weight:300;font-size:24px;letter-spacing:-.01em;text-transform:none}
+.cal-head b::first-letter{text-transform:uppercase}
+.cal-nav{all:unset;cursor:pointer;width:40px;height:40px;display:grid;place-items:center;border-radius:50%;color:var(--ink)}
+.cal-nav svg{width:13px;height:13px}
+.cal-nav:hover{background:var(--plate)}
+.cal-nav:disabled{opacity:.25;cursor:default;background:none}
+.cal-nav:focus-visible{outline:1.5px solid var(--pencil);outline-offset:2px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px 0;text-align:center}
+.cal-grid .wd{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);padding:4px 0 8px}
+.cal-grid button{all:unset;box-sizing:border-box;cursor:pointer;justify-self:center;width:100%;max-width:40px;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-size:14px;font-variant-numeric:tabular-nums;color:var(--ink);transition:background .2s,color .2s}
+.cal-grid button:hover:not(:disabled){background:var(--plate)}
+.cal-grid button:disabled{cursor:default;color:var(--ink-2);opacity:.35;text-decoration:line-through;text-decoration-thickness:1px}
+.cal-grid button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.cal-grid button:focus-visible{outline:1.5px solid var(--pencil);outline-offset:2px}
+.cal-grid .today{box-shadow:inset 0 0 0 1px var(--hair)}
+.slots-t{border:0;margin:6px 0 0;padding:0;display:grid;gap:10px}
+.slots-t legend{padding:0 0 10px;font-size:10.5px;color:var(--ink-2)}
+.slots-t>div{display:flex;flex-wrap:wrap;gap:10px}
+.slot-t{all:unset;box-sizing:border-box;cursor:pointer;padding:12px 18px 11px;border:1px solid var(--hair);border-radius:999px;font-size:13.5px;font-variant-numeric:tabular-nums;transition:border-color .2s,background .2s,color .2s}
+.slot-t:hover:not(:disabled){border-color:var(--ink)}
+.slot-t[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.slot-t:disabled{opacity:.35;cursor:default;text-decoration:line-through}
+.slot-t:focus-visible{outline:1.5px solid var(--pencil);outline-offset:3px}
 .sh-cp{margin:0;align-self:end;padding-bottom:12px;font-size:13.5px;color:var(--ink)}
 .sh-cp:empty{display:none}
 .sh-cp b{font-weight:500}
@@ -328,6 +353,8 @@ a{color:inherit}
   .sheet .tray-acts .link[hidden]{display:none}
   .sum2 li{grid-template-columns:92px minmax(0,1fr);gap:12px}
   .sh-cp{padding:0}
+  .sh-steps{gap:10px}
+  .sh-steps li:not(.on) span{display:none}
 }
 @media (max-width:359px){
   /* very narrow phones: the cookies in the tray overlap a little, like a stack */
@@ -689,7 +716,18 @@ a{color:inherit}
             <div class="fld wide"><label for="shNotes" data-i18n="sh.f.notes">Indicacions per al lliurament (opcional)</label><input id="shNotes" name="notes" maxlength="200"></div>
           </div>
         </form>
-        <form class="sh-pane" data-pane="2" id="shWho" novalidate hidden>
+        <div class="sh-pane" data-pane="2" hidden>
+          <div class="cal" id="shCal">
+            <div class="cal-head"><button type="button" class="cal-nav" id="calPrev" data-i18n-label="sh.cal.prev"><svg viewBox="0 0 13 13" aria-hidden="true"><path d="M8 2L3.5 6.5 8 11" fill="none" stroke="currentColor" stroke-width="1.1"/></svg></button>
+              <b id="calMonth" aria-live="polite"></b>
+              <button type="button" class="cal-nav" id="calNext" data-i18n-label="sh.cal.next"><svg viewBox="0 0 13 13" aria-hidden="true"><path d="M5 2l4.5 4.5L5 11" fill="none" stroke="currentColor" stroke-width="1.1"/></svg></button></div>
+            <div class="cal-grid" id="calGrid" role="grid"></div>
+          </div>
+          <small class="err" id="shDayE"></small>
+          <fieldset class="slots-t" id="shSlots"><legend class="caps" id="shSlotsL"></legend><div id="shSlotsIn"></div></fieldset>
+          <small class="err" id="shSlotE"></small>
+        </div>
+        <form class="sh-pane" data-pane="3" id="shWho" novalidate hidden>
           <div class="fields sh-fields">
             <div class="fld wide"><label for="shName" data-i18n="sh.f.name">Nom i cognoms</label><input id="shName" name="name" autocomplete="name"><small class="err" id="shNameE"></small></div>
             <div class="fld"><label for="shEmail" data-i18n="sh.f.email">Correu electrònic</label><input id="shEmail" name="email" type="email" autocomplete="email"><small class="err" id="shEmailE"></small></div>
@@ -697,7 +735,7 @@ a{color:inherit}
             <div class="wide"><label class="opt sq"><input type="checkbox" id="shOk" name="ok"><i></i><span data-i18n="sh.f.ok">Accepto que feu servir aquestes dades per preparar i enviar la comanda.</span></label><small class="err" id="shOkE"></small></div>
           </div>
         </form>
-        <div class="sh-pane" data-pane="3" hidden><ul class="sum2" id="shRev"></ul></div>
+        <div class="sh-pane" data-pane="4" hidden><ul class="sum2" id="shRev"></ul></div>
         <div class="done" id="shDone" hidden><h3 id="shDoneH"></h3><p id="shDoneP"></p></div>
         <p class="fine sh-fine" id="shFine"></p>
         <p class="err" id="shErr" role="alert"></p>
@@ -835,7 +873,10 @@ const FLAVOURS = [
 ];
 /* Shipping for the cookie box, by postcode, from the bakery in Premià de Dalt. Editable from the panel (Enviaments).
    codes: [postcode or its first digits, town]; "080" covers every postcode that starts with 080. Collection at the studio is not offered. */
-const SHIPPING = { zones: [{"price": 2.99, "codes": [["08338", "Premià de Dalt"], ["08330", "Premià de Mar"], ["08339", "Vilassar de Dalt"], ["08340", "Vilassar de Mar"], ["08348", "Cabrils"], ["08349", "Cabrera de Mar"], ["08329", "Teià"], ["08328", "Alella"], ["08320", "el Masnou"], ["08390", "Montgat"], ["08391", "Tiana"], ["08317", "Òrrius"], ["08310", "Argentona"], ["08319", "Dosrius"], ["0830", "Mataró"], ["08392", "Sant Andreu de Llavaneres"], ["08394", "Sant Vicenç de Montalt"], ["0891", "Badalona"]]}, {"price": 4.99, "codes": [["080", "Barcelona"], ["08930", "Sant Adrià de Besòs"], ["08393", "Caldes d'Estrac"], ["08350", "Arenys de Mar"], ["08358", "Arenys de Munt"], ["08359", "Sant Iscle de Vallalta"], ["08360", "Canet de Mar"], ["08395", "Sant Pol de Mar"], ["08396", "Sant Cebrià de Vallalta"], ["08370", "Calella"], ["08397", "Pineda de Mar"], ["08398", "Santa Susanna"], ["08380", "Malgrat de Mar"], ["08389", "Palafolls"], ["08490", "Tordera"]]}] };
+const SHIPPING = {
+  // delivery calendar: hours of notice, how many days ahead, weekdays with delivery (0 Sunday … 6 Saturday), time slots, closed days
+  cal: { lead: 48, ahead: 60, days: [0, 1, 2, 3, 4, 5, 6], slots: ["10:00 – 13:00", "17:00 – 20:00"], closed: [] },
+  zones: [{"price": 2.99, "codes": [["08338", "Premià de Dalt"], ["08330", "Premià de Mar"], ["08339", "Vilassar de Dalt"], ["08340", "Vilassar de Mar"], ["08348", "Cabrils"], ["08349", "Cabrera de Mar"], ["08329", "Teià"], ["08328", "Alella"], ["08320", "el Masnou"], ["08390", "Montgat"], ["08391", "Tiana"], ["08317", "Òrrius"], ["08310", "Argentona"], ["08319", "Dosrius"], ["0830", "Mataró"], ["08392", "Sant Andreu de Llavaneres"], ["08394", "Sant Vicenç de Montalt"], ["0891", "Badalona"]]}, {"price": 4.99, "codes": [["080", "Barcelona"], ["08930", "Sant Adrià de Besòs"], ["08393", "Caldes d'Estrac"], ["08350", "Arenys de Mar"], ["08358", "Arenys de Munt"], ["08359", "Sant Iscle de Vallalta"], ["08360", "Canet de Mar"], ["08395", "Sant Pol de Mar"], ["08396", "Sant Cebrià de Vallalta"], ["08370", "Calella"], ["08397", "Pineda de Mar"], ["08398", "Santa Susanna"], ["08380", "Malgrat de Mar"], ["08389", "Palafolls"], ["08490", "Tordera"]]}] };
 /* Shop adapter: the only place to touch when the store changes.
    checkout() sends the order to the Netlify function, which asks Stripe for a payment page and returns its url.
    Without a Stripe key (or outside Netlify) it answers { ok:false, reason:"not-connected" }. */
@@ -955,11 +996,14 @@ const I18N = {
     "bx.left1":"Falta 1 cookie.","bx.leftN":"Falten {n} cookies.",
     "bx.cut1":"Hem tret 1 cookie perquè la caixa de {s} hi càpiga.","bx.cutN":"Hem tret {n} cookies perquè la caixa de {s} hi càpiga.",
     "sh.kick":"Caixa de {s}","sh.h":"Resum de <em>la teva caixa</em>","sh.confirm":"Confirmar la caixa","sh.back":"Modificar","sh.close":"Tancar",
-    "sh.fine":"Pagament segur amb Stripe. Et confirmarem per correu el dia d'entrega.",
+    "sh.fine":"Pagament segur amb Stripe.",
     "sh.doneH":"Comanda <em>preparada.</em>","sh.doneP":"El pagament en línia encara no està actiu, així que no s'ha cobrat res. Hem guardat la comanda en aquest dispositiu. Si vols, copia'n el resum i envia-ns-el.",
     "sh.next":"Continuar","sh.prev":"Enrere","sh.pay":"Pagar {t}","sh.wait":"Un moment…","sh.again":"Tornar a la caixa",
-    "sh.st0":"Caixa","sh.st1":"Lliurament","sh.st2":"Dades","sh.st3":"Pagament","sh.stepOf":"Pas {n} de 4",
-    "sh.h1":"On te la <em>portem?</em>","sh.h2":"Les teves <em>dades</em>","sh.h3":"Revisa <em>i paga</em>",
+    "sh.st0":"Caixa","sh.st1":"Lliurament","sh.st2":"Dia","sh.st3":"Dades","sh.st4":"Pagament","sh.stepOf":"Pas {n} de 5",
+    "sh.h1":"On te la <em>portem?</em>","sh.h2":"Quin dia <em>la vols?</em>","sh.h3":"Les teves <em>dades</em>","sh.h4":"Revisa <em>i paga</em>",
+    "sh.fineDay":"Cal un mínim de {h} hores d'antelació. Els dies ratllats no fem enviaments.",
+    "sh.cal.prev":"Mes anterior","sh.cal.next":"Mes següent","sh.cal.slots":"Franja horària · {d}","sh.cal.pick":"Tria primer un dia",
+    "sh.e.day":"Tria el dia que vols rebre la caixa.","sh.e.slot":"Tria una franja horària.","sh.r.when":"Dia","sh.e.late":"Aquesta franja ja no té prou antelació. Tria'n una altra.",
     "sh.f.cp":"Codi postal","sh.cpOk":"Enviament a {town}: {p}","sh.shipTo":"Enviament a {town}",
     "sh.e.cp":"Escriu un codi postal de 5 xifres.","sh.e.cpNo":"De moment no arribem a aquest codi postal. Aviat podràs recollir la caixa en punts de venda.",
     "sh.fine1":"No es pot recollir a l'estudi. Aviat també podràs recollir la caixa en punts de venda.",
@@ -969,7 +1013,7 @@ const I18N = {
         "sh.e.street":"Escriu l'adreça.","sh.e.name":"Escriu el teu nom.","sh.e.email":"Revisa el correu.","sh.e.phone":"Escriu un telèfon de 9 xifres com a mínim.","sh.e.ok":"Cal que ho acceptis per continuar.",
     "sh.e.pay":"No hem pogut obrir el pagament. Torna-ho a provar d'aquí a una estona.",
     "sh.r.box":"Caixa","sh.r.ship":"Lliurament","sh.r.addr":"Adreça","sh.r.who":"Contacte","sh.r.sub":"Caixa","sh.r.shipC":"Enviament","sh.r.total":"Total",
-    "sh.okH":"Gràcies! <em>Comanda pagada.</em>","sh.okP":"Hem rebut el pagament. Et confirmarem per correu el dia d'entrega.",
+    "sh.okH":"Gràcies! <em>Comanda pagada.</em>","sh.okP":"Hem rebut el pagament. Lliurament: {when}. Rebràs el rebut per correu.","sh.okP0":"Hem rebut el pagament. Rebràs el rebut per correu.",
     "sh.cancel":"Has tornat sense pagar. No s'ha cobrat res; la comanda continua aquí.",
     "nav.cakes":"Pastissos","nav.cookies":"Cookies","nav.notebook":"Quadern","nav.studio":"L'estudi","nav.orders":"Encàrrecs","hub.t1":"Fes la teva caixa de cookies","hub.t2":"Encarrega un pastís","hub.l":"Què vols encarregar",
     "cta.order":"Encarregar","cta.cake":"Encarregar un pastís","cta.cookies":"Veure cookies",
@@ -1024,11 +1068,14 @@ const I18N = {
     "bx.left1":"Falta 1 cookie.","bx.leftN":"Faltan {n} cookies.",
     "bx.cut1":"Hemos quitado 1 cookie para que quepa en la caja de {s}.","bx.cutN":"Hemos quitado {n} cookies para que quepan en la caja de {s}.",
     "sh.kick":"Caja de {s}","sh.h":"Resumen de <em>tu caja</em>","sh.confirm":"Confirmar la caja","sh.back":"Modificar","sh.close":"Cerrar",
-    "sh.fine":"Pago seguro con Stripe. Te confirmaremos por correo el día de entrega.",
+    "sh.fine":"Pago seguro con Stripe.",
     "sh.doneH":"Pedido <em>preparado.</em>","sh.doneP":"El pago en línea todavía no está activo, así que no se ha cobrado nada. Hemos guardado el pedido en este dispositivo. Si quieres, copia el resumen y envíanoslo.",
     "sh.next":"Continuar","sh.prev":"Atrás","sh.pay":"Pagar {t}","sh.wait":"Un momento…","sh.again":"Volver a la caja",
-    "sh.st0":"Caja","sh.st1":"Entrega","sh.st2":"Datos","sh.st3":"Pago","sh.stepOf":"Paso {n} de 4",
-    "sh.h1":"¿Dónde te la <em>llevamos?</em>","sh.h2":"Tus <em>datos</em>","sh.h3":"Revisa <em>y paga</em>",
+    "sh.st0":"Caja","sh.st1":"Entrega","sh.st2":"Día","sh.st3":"Datos","sh.st4":"Pago","sh.stepOf":"Paso {n} de 5",
+    "sh.h1":"¿Dónde te la <em>llevamos?</em>","sh.h2":"¿Qué día <em>la quieres?</em>","sh.h3":"Tus <em>datos</em>","sh.h4":"Revisa <em>y paga</em>",
+    "sh.fineDay":"Necesitamos un mínimo de {h} horas de antelación. Los días tachados no hacemos envíos.",
+    "sh.cal.prev":"Mes anterior","sh.cal.next":"Mes siguiente","sh.cal.slots":"Franja horaria · {d}","sh.cal.pick":"Elige primero un día",
+    "sh.e.day":"Elige el día que quieres recibir la caja.","sh.e.slot":"Elige una franja horaria.","sh.r.when":"Día","sh.e.late":"Esta franja ya no tiene suficiente antelación. Elige otra.",
     "sh.f.cp":"Código postal","sh.cpOk":"Envío a {town}: {p}","sh.shipTo":"Envío a {town}",
     "sh.e.cp":"Escribe un código postal de 5 cifras.","sh.e.cpNo":"De momento no llegamos a este código postal. Pronto podrás recoger la caja en puntos de venta.",
     "sh.fine1":"No se puede recoger en el estudio. Pronto también podrás recoger la caja en puntos de venta.",
@@ -1038,7 +1085,7 @@ const I18N = {
         "sh.e.street":"Escribe la dirección.","sh.e.name":"Escribe tu nombre.","sh.e.email":"Revisa el correo.","sh.e.phone":"Escribe un teléfono de 9 cifras como mínimo.","sh.e.ok":"Tienes que aceptarlo para continuar.",
     "sh.e.pay":"No hemos podido abrir el pago. Vuelve a probarlo dentro de un rato.",
     "sh.r.box":"Caja","sh.r.ship":"Entrega","sh.r.addr":"Dirección","sh.r.who":"Contacto","sh.r.sub":"Caja","sh.r.shipC":"Envío","sh.r.total":"Total",
-    "sh.okH":"¡Gracias! <em>Pedido pagado.</em>","sh.okP":"Hemos recibido el pago. Te confirmaremos por correo el día de entrega.",
+    "sh.okH":"¡Gracias! <em>Pedido pagado.</em>","sh.okP":"Hemos recibido el pago. Entrega: {when}. Recibirás el recibo por correo.","sh.okP0":"Hemos recibido el pago. Recibirás el recibo por correo.",
     "sh.cancel":"Has vuelto sin pagar. No se ha cobrado nada; el pedido sigue aquí.",
     "nav.cakes":"Pasteles","nav.cookies":"Cookies","nav.notebook":"Cuaderno","nav.studio":"El estudio","nav.orders":"Encargos","hub.t1":"Haz tu caja de cookies","hub.t2":"Encarga un pastel","hub.l":"Qué quieres encargar",
     "cta.order":"Encargar","cta.cake":"Encargar un pastel","cta.cookies":"Ver cookies",
@@ -1096,6 +1143,7 @@ const I18N = {
   // photos of the home spreads: a new photo fills the same frame (cropped), so the layout stays as it is
   if (C.photos) PRINTS.forEach(p => { if (C.photos[p.id]) p.src = C.photos[p.id]; });
   if (C.shipping && C.shipping.zones && C.shipping.zones.length) SHIPPING.zones = C.shipping.zones;
+  if (C.shipping && C.shipping.cal) Object.assign(SHIPPING.cal, C.shipping.cal);
   if (C.text) Object.keys(C.text).forEach(l => I18N[l] && Object.assign(I18N[l], C.text[l]));
 })(window.LB_CONTENT);
 // an image is a file in img/, or a path the panel gives (img/uploads/...)
@@ -1496,10 +1544,10 @@ $$(".size").forEach(b => {
 });
 $("#bxClear").addEventListener("click", () => { box.sel = []; note = ""; commit(); });
 
-/* review and checkout: 0 box · 1 delivery · 2 details · 3 pay */
+/* review and checkout: 0 box · 1 delivery · 2 day · 3 details · 4 pay */
 let lastFocus = null, shStep = 0;
 const SHIP_KEY = "lb-box-ship";
-let ship = { cp: "", street: "", notes: "", name: "", email: "", phone: "", ok: false };
+let ship = { cp: "", street: "", notes: "", day: "", slot: "", name: "", email: "", phone: "", ok: false };
 try { Object.assign(ship, JSON.parse(sessionStorage.getItem(SHIP_KEY) || "{}")); } catch (e) {}
 const saveShip = () => { try { sessionStorage.setItem(SHIP_KEY, JSON.stringify(ship)); } catch (e) {} };
 const cents = n => Math.round(n * 100);
@@ -1513,12 +1561,85 @@ function shipTo(cp) {
   return best;
 }
 const dest = () => shipTo(ship.cp.trim());
+
+/* delivery day: a slot is open when it starts at least `lead` hours from now, on a delivery weekday, not closed, within `ahead` days */
+const pad2 = n => String(n).padStart(2, "0");
+const ymd = d => `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+const dayOf = k => { const [y, m, d] = k.split("-").map(Number); return new Date(y, m - 1, d); };
+const loc = () => lang === "es" ? "es-ES" : "ca-ES";
+const longDay = k => new Intl.DateTimeFormat(loc(), { weekday: "long", day: "numeric", month: "long" }).format(dayOf(k));
+const WD = { ca: ["dl", "dt", "dc", "dj", "dv", "ds", "dg"], es: ["lu", "ma", "mi", "ju", "vi", "sá", "do"] };
+function slotStart(k, slot) {
+  const d = dayOf(k), m = String(slot).match(/(\d{1,2})[:.h]?(\d{2})?/);
+  if (m) d.setHours(+m[1], m[2] ? +m[2] : 0);
+  return d;
+}
+const slotOk = (k, s) => slotStart(k, s) - Date.now() >= SHIPPING.cal.lead * 3600e3;
+const lastDay = () => { const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() + SHIPPING.cal.ahead); return d; };
+function dayOpen(d) {
+  const c = SHIPPING.cal, k = ymd(d);
+  return d <= lastDay() && c.days.includes(d.getDay()) && !c.closed.includes(k) && c.slots.some(s => slotOk(k, s));
+}
+const whenText = () => ship.day && ship.slot ? `${longDay(ship.day)} · ${ship.slot.replace(/ /g, "\u00a0")}` : "";
+let calView = null; // first day of the month on screen
+function calFirstOpen() {
+  const d = new Date(); d.setHours(0, 0, 0, 0);
+  for (const end = lastDay(); d <= end; d.setDate(d.getDate() + 1)) if (dayOpen(d)) return new Date(d);
+  return null;
+}
+function calRender(focusKey) {
+  const c = SHIPPING.cal, now = new Date(), m0 = new Date(now.getFullYear(), now.getMonth(), 1), end = lastDay();
+  const mEnd = new Date(end.getFullYear(), end.getMonth(), 1);
+  if (!calView) { const f = ship.day ? dayOf(ship.day) : calFirstOpen() || now; calView = new Date(f.getFullYear(), f.getMonth(), 1); }
+  if (calView < m0) calView = m0; if (calView > mEnd) calView = mEnd;
+  $("#calMonth").textContent = `${new Intl.DateTimeFormat(loc(), { month: "long" }).format(calView)} ${calView.getFullYear()}`;
+  $("#calPrev").disabled = calView <= m0; $("#calNext").disabled = calView >= mEnd;
+  $("#calPrev").setAttribute("aria-label", t("sh.cal.prev")); $("#calNext").setAttribute("aria-label", t("sh.cal.next"));
+  const y = calView.getFullYear(), mo = calView.getMonth(), n = new Date(y, mo + 1, 0).getDate(), lead = (calView.getDay() + 6) % 7;
+  const days = Array.from({ length: n }, (_, i) => new Date(y, mo, i + 1));
+  const open = days.filter(dayOpen).map(ymd), tab = focusKey && open.includes(focusKey) ? focusKey : open.includes(ship.day) ? ship.day : open[0];
+  $("#calGrid").innerHTML = (WD[lang] || WD.ca).map(w => `<span class="wd" aria-hidden="true">${w}</span>`).join("")
+    + "<span></span>".repeat(lead)
+    + days.map(d => { const k = ymd(d), on = open.includes(k);
+      return `<button type="button" data-day="${k}"${on ? "" : " disabled"} aria-pressed="${k === ship.day}" tabindex="${k === tab ? 0 : -1}"${k === ymd(now) ? ' class="today"' : ""} aria-label="${longDay(k)}">${d.getDate()}</button>`; }).join("");
+  slotsRender();
+  if (focusKey) { const b = $(`#calGrid [data-day="${focusKey}"]`); b && b.focus(); }
+}
+function slotsRender() {
+  const k = ship.day && dayOpen(dayOf(ship.day)) ? ship.day : "";
+  $("#shSlotsL").textContent = k ? t("sh.cal.slots").replace("{d}", longDay(k)) : t("sh.cal.pick");
+  $("#shSlotsIn").innerHTML = SHIPPING.cal.slots.map(s => `<button type="button" class="slot-t" data-slot="${esc(s)}" aria-pressed="${!!k && s === ship.slot}"${k && slotOk(k, s) ? "" : " disabled"}>${esc(s)}</button>`).join("");
+}
+$("#calGrid").addEventListener("click", e => {
+  const b = e.target.closest("button[data-day]"); if (!b || b.disabled) return;
+  ship.day = b.dataset.day; if (!slotOk(ship.day, ship.slot)) ship.slot = "";
+  saveShip(); $("#shDayE").textContent = ""; calRender(ship.day);
+});
+// arrows move between open days, across months; Enter or Space picks
+$("#calGrid").addEventListener("keydown", e => {
+  const st = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 }[e.key], b = e.target.closest("button[data-day]");
+  if (!st || !b) return; e.preventDefault();
+  const d = dayOf(b.dataset.day), m0 = new Date(); m0.setHours(0, 0, 0, 0);
+  for (let i = 0; i < 62; i++) {
+    d.setDate(d.getDate() + st);
+    if (d < m0 || d > lastDay()) return;
+    if (dayOpen(d)) { calView = new Date(d.getFullYear(), d.getMonth(), 1); calRender(ymd(d)); return; }
+  }
+});
+$("#calPrev").addEventListener("click", () => { calView = new Date(calView.getFullYear(), calView.getMonth() - 1, 1); calRender(); });
+$("#calNext").addEventListener("click", () => { calView = new Date(calView.getFullYear(), calView.getMonth() + 1, 1); calRender(); });
+$("#shSlotsIn").addEventListener("click", e => {
+  const b = e.target.closest("button[data-slot]"); if (!b || b.disabled) return;
+  ship.slot = b.dataset.slot; saveShip(); $("#shSlotE").textContent = ""; slotsRender();
+  const again = $(`#shSlotsIn [data-slot="${CSS.escape(ship.slot)}"]`); again && again.focus();
+});
 const shipPrice = () => (dest() || { price: 0 }).price;
 const total = () => (cents(BOX_PRICE[box.size]) + cents(shipPrice())) / 100;
 function order() {
   return { box: `box-${box.size}`, size: box.size, lang, price: BOX_PRICE[box.size], currency: "EUR",
     items: FLAVOURS.map(f => ({ sku: f.sku, qty: countOf(f.sku) })).filter(i => i.qty),
     shipping: { cp: ship.cp.trim(), town: (dest() || {}).town || "", price: shipPrice(), street: ship.street.trim(), notes: ship.notes.trim() },
+    when: { day: ship.day, slot: ship.slot, text: whenText() },
     customer: { name: ship.name.trim(), email: ship.email.trim(), phone: ship.phone.trim() }, total: total() };
 }
 const SH_FIELDS = { shCp: "cp", shStreet: "street", shNotes: "notes", shName: "name", shEmail: "email", shPhone: "phone" };
@@ -1547,6 +1668,13 @@ function shCheck(step, only) {
     mark("shStreet", ship.street.trim().length < 4 ? "sh.e.street" : "");
   }
   if (step === 2) {
+    const k = ship.day && dayOpen(dayOf(ship.day)) ? ship.day : "";
+    const slotE = !k ? "" : !SHIPPING.cal.slots.includes(ship.slot) ? "sh.e.slot" : !slotOk(k, ship.slot) ? "sh.e.late" : "";
+    if (!only) { $("#shDayE").textContent = k ? "" : t("sh.e.day"); $("#shSlotE").textContent = slotE ? t(slotE) : ""; }
+    if (!k) errs.push($("#calGrid button[tabindex='0']") || $("#calNext"));
+    else if (slotE) errs.push($("#shSlotsIn button:not(:disabled)") || $("#calGrid button[tabindex='0']"));
+  }
+  if (step === 3) {
     mark("shName", ship.name.trim().length < 2 ? "sh.e.name" : "");
     mark("shEmail", !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(ship.email.trim()) ? "sh.e.email" : "");
     mark("shPhone", ship.phone.replace(/\D/g, "").length < 9 ? "sh.e.phone" : "");
@@ -1563,13 +1691,13 @@ const rev = (k, v, cls = "") => `<li${cls ? ` class="${cls}"` : ""}><span>${t(k)
 function shText() {
   const o = order(), z = t("sh.shipTo").replace("{town}", o.shipping.town);
   return [t("sh.kick").replace("{s}", box.size), ...o.items.map(it => `${plain(fname(bySku(it.sku)))} × ${it.qty}`), "",
-    `${z}: ${eur(o.shipping.price)}`, [o.shipping.street, `${o.shipping.cp} ${o.shipping.town}`, o.shipping.notes].filter(Boolean).join("\n"), "",
+    `${z}: ${eur(o.shipping.price)}`, `${t("sh.r.when")}: ${o.when.text}`, [o.shipping.street, `${o.shipping.cp} ${o.shipping.town}`, o.shipping.notes].filter(Boolean).join("\n"), "",
     [o.customer.name, o.customer.email, o.customer.phone].join("\n"), "", `${t("sh.r.total")}: ${eur(o.total)}`].join("\n");
 }
 function shRender() {
   const st = shStep, o = order();
   $("#shKick").textContent = t("sh.kick").replace("{s}", box.size);
-  $("#shSteps").innerHTML = [0, 1, 2, 3].map(i => `<li class="${i === st ? "on" : i < st ? "ok" : ""}"${i === st ? ` aria-current="step"` : ""}>${i + 1} ${t("sh.st" + i)}</li>`).join("");
+  $("#shSteps").innerHTML = [0, 1, 2, 3, 4].map(i => `<li class="${i === st ? "on" : i < st ? "ok" : ""}"${i === st ? ` aria-current="step"` : ""}>${i + 1}<span> ${t("sh.st" + i)}</span></li>`).join("");
   $("#shSteps").setAttribute("aria-label", t("sh.stepOf").replace("{n}", st + 1));
   $("#sh-h").innerHTML = t(st ? "sh.h" + st : "sh.h");
   $$("#sheet .sh-pane").forEach(p => p.hidden = +p.dataset.pane !== st);
@@ -1581,16 +1709,18 @@ function shRender() {
       + `<li class="total"><span></span><b>${t("bx.total")}</b><span>${eur(BOX_PRICE[box.size])}</span></li>`;
   }
   if (st === 1) shFill();
-  if (st === 3) $("#shRev").innerHTML =
+  if (st === 2) calRender();
+  if (st === 4) $("#shRev").innerHTML =
     rev("sh.r.box", o.items.map(it => `${fname(bySku(it.sku))} × ${it.qty}`).join("\n"))
     + rev("sh.r.ship", esc(t("sh.shipTo").replace("{town}", o.shipping.town)))
+    + rev("sh.r.when", esc(o.when.text))
     + rev("sh.r.addr", esc([o.shipping.street, `${o.shipping.cp} ${o.shipping.town}`, o.shipping.notes].filter(Boolean).join("\n")))
     + rev("sh.r.who", esc([o.customer.name, o.customer.email, o.customer.phone].join("\n")))
     + rev("sh.r.sub", eur(o.price), "sub") + rev("sh.r.shipC", eur(o.shipping.price), "sub") + rev("sh.r.total", eur(o.total), "total");
-  $("#shFine").innerHTML = st === 1 ? t("sh.fine1") : st === 2 ? t("sh.fine2") : st === 3 ? t("sh.fine") : "";
+  $("#shFine").innerHTML = st === 1 ? t("sh.fine1") : st === 2 ? t("sh.fineDay").replace("{h}", SHIPPING.cal.lead) : st === 3 ? t("sh.fine2") : st === 4 ? t("sh.fine") : "";
   $("#shFine").hidden = st === 0;
   $("#shConfirm").hidden = false; $("#shConfirm").removeAttribute("aria-busy");
-  $("#shConfirm").innerHTML = st === 3 ? t("sh.pay").replace("{t}", eur(o.total)) : t("sh.next");
+  $("#shConfirm").innerHTML = st === 4 ? t("sh.pay").replace("{t}", eur(o.total)) : t("sh.next");
   $("#shBack").innerHTML = t(st ? "sh.prev" : "sh.back");
   $("#shSteps").hidden = $("#sh-h").hidden = false;
   $("#shDone").hidden = true; $("#shCopy").hidden = true; $("#shCopied").textContent = "";
@@ -1631,8 +1761,10 @@ $("#sheet").addEventListener("input", e => {
 });
 $("#shConfirm").addEventListener("click", () => {
   const b = $("#shConfirm"); if (b.getAttribute("aria-busy") === "true") return;
-  if (shStep === 1 || shStep === 2) { shRead(); const bad = shCheck(shStep); if (bad) { bad.focus(); return; } }
-  if (shStep < 3) { shGo(shStep + 1); return; }
+  if (shStep >= 1 && shStep <= 3) { shRead(); const bad = shCheck(shStep); if (bad) { bad.focus(); return; } }
+  if (shStep < 4) { shGo(shStep + 1); return; }
+  // the chosen slot may have run out of notice while the sheet was open
+  if (!ship.day || !slotOk(ship.day, ship.slot)) { shGo(2); shCheck(2); return; }
   const o = order();
   try { localStorage.setItem("lb-box-confirmed", JSON.stringify(o)); } catch (e) {}
   b.setAttribute("aria-busy", "true"); b.innerHTML = t("sh.wait"); $("#shErr").textContent = "";
@@ -1661,11 +1793,14 @@ function shReturn() {
   q.delete("comanda"); q.delete("sid");
   history.replaceState(null, "", location.pathname + (q.toString() ? "?" + q : "") + location.hash);
   if (c === "ok") {
-    box.sel = []; commit();
+    let w = "";
+    try { const o = JSON.parse(localStorage.getItem("lb-box-confirmed") || "{}"); if (o.when && o.when.day) w = `${longDay(o.when.day)} · ${o.when.slot}`; } catch (e) {}
+    box.sel = []; commit(); ship.day = ship.slot = ""; saveShip();
     try { localStorage.removeItem("lb-box-confirmed"); } catch (e) {}
-    showSheet(); shDone("sh.okH", "sh.okP", false);
+    showSheet(); shDone("sh.okH", w ? "sh.okP" : "sh.okP0", false);
+    $("#shDoneP").innerHTML = $("#shDoneP").innerHTML.replace("{when}", esc(w));
   } else if (c === "cancel" && box.sel.length === box.size) {
-    showSheet(); shGo(3); $("#shCopied").textContent = t("sh.cancel");
+    showSheet(); shGo(4); $("#shCopied").textContent = t("sh.cancel");
   }
 }
 buildFlavours();
