@@ -1,0 +1,76 @@
+{
+  "sabors": [
+    {
+      "sku": "cookie-classica",
+      "name_ca": "Clàssica",
+      "name_es": "Clásica",
+      "desc_ca": "Mantega torrada, xocolata negra i un punt de sal.",
+      "desc_es": "Mantequilla tostada, chocolate negro y un punto de sal.",
+      "image": "/img/f-classica.webp",
+      "available": true
+    },
+    {
+      "sku": "cookie-triple",
+      "name_ca": "Triple Xocolata",
+      "name_es": "Triple Chocolate",
+      "desc_ca": "Cacau, xocolata negra i trossos de xocolata amb llet.",
+      "desc_es": "Cacao, chocolate negro y trozos de chocolate con leche.",
+      "image": "/img/f-triple.webp",
+      "available": true
+    },
+    {
+      "sku": "cookie-cheesecake",
+      "name_ca": "Cheesecake",
+      "name_es": "Cheesecake",
+      "desc_ca": "Galeta de vainilla amb cor de crema de formatge.",
+      "desc_es": "Galleta de vainilla con corazón de crema de queso.",
+      "image": "/img/f-cheesecake.webp",
+      "available": true
+    },
+    {
+      "sku": "cookie-redvelvet",
+      "name_ca": "Red Velvet",
+      "name_es": "Red Velvet",
+      "desc_ca": "Cacau suau, color intens i xocolata blanca.",
+      "desc_es": "Cacao suave, color intenso y chocolate blanco.",
+      "image": "/img/f-redvelvet.webp",
+      "available": true
+    },
+    {
+      "sku": "cookie-caramel",
+      "name_ca": "Salted Caramel",
+      "name_es": "Salted Caramel",
+      "desc_ca": "Caramel salat fet a l'estudi i flor de sal.",
+      "desc_es": "Caramelo salado hecho en el estudio y flor de sal.",
+      "image": "/img/f-caramel.webp",
+      "available": true
+    },
+    {
+      "sku": "cookie-pistatxo",
+      "name_ca": "Pistatxo",
+      "name_es": "Pistacho",
+      "desc_ca": "Pistatxo torrat i xocolata blanca.",
+      "desc_es": "Pistacho tostado y chocolate blanco.",
+      "image": "",
+      "available": true
+    },
+    {
+      "sku": "cookie-lemon",
+      "name_ca": "Lemon Pie",
+      "name_es": "Lemon Pie",
+      "desc_ca": "Llimona, sucre glas i un final de merenga.",
+      "desc_es": "Limón, azúcar glas y un final de merengue.",
+      "image": "/img/f-lemon.webp",
+      "available": true
+    },
+    {
+      "sku": "cookie-cinnamon",
+      "name_ca": "Cinnamon",
+      "name_es": "Cinnamon",
+      "desc_ca": "Canyella, sucre moreno i civada cruixent.",
+      "desc_es": "Canela, azúcar moreno y avena crujiente.",
+      "image": "/img/f-cinnamon.webp",
+      "available": true
+    }
+  ]
+}

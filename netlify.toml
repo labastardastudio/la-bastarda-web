@@ -1,0 +1,9 @@
+# Netlify: on every change (from the panel or from GitHub) it rebuilds content.js and publishes the folder
+[build]
+  command = "node build.js"
+  publish = "."
+
+[[headers]]
+  for = "/content.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

@@ -1,0 +1,141 @@
+# Panell de La Bastarda Studio (Decap CMS). Cada canvi que hi desis es guarda a GitHub
+# i Netlify torna a publicar la web en un o dos minuts.
+backend:
+  name: github
+  repo: labastardastudio/la-bastarda-web
+  branch: main
+  commit_messages:
+    create: "Nou: {{collection}} «{{slug}}»"
+    update: "Canvi: {{collection}} «{{slug}}»"
+    delete: "Esborrat: {{collection}} «{{slug}}»"
+    uploadMedia: "Foto: {{path}}"
+    deleteMedia: "Foto esborrada: {{path}}"
+
+# només per provar-lo a l'ordinador (npx decap-server); a la web no fa res
+local_backend: true
+
+locale: ca
+media_folder: img/uploads
+public_folder: /img/uploads
+
+collections:
+  - name: blog
+    label: Blog
+    label_singular: entrada
+    description: "Receptes, imatges, pensaments i llibres. Per posar una paraula en cursiva, escriu-la entre asteriscs: *així*."
+    folder: content/blog
+    editor: { preview: false }
+    create: true
+    extension: json
+    format: json
+    slug: "{{slug}}"
+    identifier_field: title_ca
+    summary: "{{title_ca}} · {{kind}} · {{date}}"
+    sortable_fields: [date, title_ca, kind]
+    view_groups:
+      - { label: Tipus, field: kind }
+    fields:
+      - { label: Tipus, name: kind, widget: select, default: recipe,
+          options: [ { label: Recepta, value: recipe }, { label: Imatge, value: image }, { label: Pensament, value: thought }, { label: Llibre, value: book } ] }
+      - { label: Data, name: date, widget: datetime, date_format: "DD/MM/YYYY", time_format: false, format: "YYYY-MM-DD",
+          hint: "Les entrades més noves surten primer." }
+      - { label: Publicada, name: published, widget: boolean, default: true, hint: "Desmarca-ho per amagar-la de la web sense esborrar-la." }
+      - { label: Títol (català), name: title_ca, widget: string }
+      - { label: Títol (castellà), name: title_es, widget: string, required: false }
+      - { label: Resum per a la targeta (català), name: excerpt_ca, widget: text, required: false, hint: "Una o dues frases. No cal als pensaments." }
+      - { label: Resum per a la targeta (castellà), name: excerpt_es, widget: text, required: false }
+      - { label: Foto, name: image, widget: image, required: false, choose_url: false,
+          hint: "Receptes i imatges. Si una recepta no en té, surt «Foto pendent»." }
+      # receptes
+      - { label: "Recepta · Introducció (català)", name: intro_ca, widget: text, required: false }
+      - { label: "Recepta · Introducció (castellà)", name: intro_es, widget: text, required: false }
+      - { label: "Recepta · Temps (català)", name: time_ca, widget: string, required: false, hint: "Ex.: 40 min + 1 nit" }
+      - { label: "Recepta · Temps (castellà)", name: time_es, widget: string, required: false }
+      - { label: "Recepta · Quantitat (català)", name: yield_ca, widget: string, required: false, hint: "Ex.: 12 cookies" }
+      - { label: "Recepta · Quantitat (castellà)", name: yield_es, widget: string, required: false }
+      - { label: "Recepta · Ingredients (català)", name: ingredients_ca, widget: text, required: false, hint: "Un ingredient per línia." }
+      - { label: "Recepta · Ingredients (castellà)", name: ingredients_es, widget: text, required: false }
+      - { label: "Recepta · Passos (català)", name: steps_ca, widget: text, required: false, hint: "Un pas per línia. La numeració es posa sola." }
+      - { label: "Recepta · Passos (castellà)", name: steps_es, widget: text, required: false }
+      # pensaments
+      - { label: "Pensament · Cita (català)", name: quote_ca, widget: text, required: false, hint: "La frase gran de la nota. Sense cometes, es posen soles." }
+      - { label: "Pensament · Cita (castellà)", name: quote_es, widget: text, required: false }
+      # imatges, pensaments i llibres
+      - { label: "Text (català)", name: body_ca, widget: text, required: false, hint: "Per a imatges, pensaments i llibres. Deixa una línia en blanc entre paràgrafs." }
+      - { label: "Text (castellà)", name: body_es, widget: text, required: false }
+      # llibres
+      - { label: "Llibre · Autor o autora", name: author, widget: string, required: false }
+      - { label: "Llibre · Any", name: year, widget: string, required: false }
+      - { label: "Llibre · Color de la portada", name: cover, widget: select, required: false, default: salvia,
+          options: [ { label: Sàlvia, value: salvia }, { label: Negre, value: negre }, { label: Paper, value: paper } ] }
+
+  - name: cookies
+    label: Cookies
+    editor: { preview: false }
+    files:
+      - name: sabors
+        label: Sabors de cookies
+        file: content/cookies.json
+        description: "Els sabors que es poden triar a «La teva caixa de cookies», en aquest ordre."
+        fields:
+          - label: Sabors
+            name: sabors
+            widget: list
+            label_singular: sabor
+            summary: "{{fields.name_ca}}"
+            fields:
+              - { label: Nom (català), name: name_ca, widget: string }
+              - { label: Nom (castellà), name: name_es, widget: string, required: false }
+              - { label: Descripció (català), name: desc_ca, widget: string }
+              - { label: Descripció (castellà), name: desc_es, widget: string, required: false }
+              - { label: Foto, name: image, widget: image, required: false, choose_url: false, hint: "Vertical (4:5). Sense foto surt «Foto pendent»." }
+              - { label: Disponible, name: available, widget: boolean, default: true, hint: "Desmarca-ho per treure'l de la caixa sense esborrar-lo." }
+              - { label: Codi intern, name: sku, widget: hidden, required: false }
+
+  - name: preus
+    label: Preus
+    editor: { preview: false }
+    files:
+      - name: preus
+        label: Preus
+        file: content/preus.json
+        description: "En euros. Els dels pastissos són preus «des de»."
+        fields:
+          - { label: Caixa de 4 cookies, name: caixa_4, widget: number, value_type: float, min: 0 }
+          - { label: Caixa de 6 cookies, name: caixa_6, widget: number, value_type: float, min: 0 }
+          - { label: Pastís de 6–8 racions (des de), name: pastis_6_8, widget: number, value_type: float, min: 0 }
+          - { label: Pastís de 10–12 racions (des de), name: pastis_10_12, widget: number, value_type: float, min: 0 }
+          - { label: Pastís de 16–20 racions (des de), name: pastis_16_20, widget: number, value_type: float, min: 0 }
+          - { label: Pastís de més de 20 racions (des de), name: pastis_mes_20, widget: number, value_type: float, min: 0 }
+
+  - name: textos
+    label: Textos
+    editor: { preview: false }
+    files:
+      - name: textos
+        label: Textos de la portada i del blog
+        file: content/textos.json
+        description: "Per posar paraules en cursiva, escriu-les entre asteriscs: *així*."
+        fields:
+          - { label: "Portada · Etiqueta (català)", name: c0_k_ca, widget: string }
+          - { label: "Portada · Etiqueta (castellà)", name: c0_k_es, widget: string }
+          - { label: "Portada · Títol (català)", name: c0_h_ca, widget: string }
+          - { label: "Portada · Títol (castellà)", name: c0_h_es, widget: string }
+          - { label: "Portada · Text (català)", name: c0_p_ca, widget: text }
+          - { label: "Portada · Text (castellà)", name: c0_p_es, widget: text }
+          - { label: "L'estudi · Títol (català)", name: c4_h_ca, widget: string }
+          - { label: "L'estudi · Títol (castellà)", name: c4_h_es, widget: string }
+          - { label: "L'estudi · Text (català)", name: st_q2_ca, widget: text }
+          - { label: "L'estudi · Text (castellà)", name: st_q2_es, widget: text }
+          - { label: "Pastissos · Títol (català)", name: c1_h_ca, widget: string }
+          - { label: "Pastissos · Títol (castellà)", name: c1_h_es, widget: string }
+          - { label: "Pastissos · Text (català)", name: c1_p_ca, widget: text }
+          - { label: "Pastissos · Text (castellà)", name: c1_p_es, widget: text }
+          - { label: "Cookies · Títol (català)", name: c2_h_ca, widget: string }
+          - { label: "Cookies · Títol (castellà)", name: c2_h_es, widget: string }
+          - { label: "Cookies · Text (català)", name: c2_p_ca, widget: text }
+          - { label: "Cookies · Text (castellà)", name: c2_p_es, widget: text }
+          - { label: "Blog · Títol (català)", name: bl_h_ca, widget: string }
+          - { label: "Blog · Títol (castellà)", name: bl_h_es, widget: string }
+          - { label: "Blog · Text (català)", name: bl_p_ca, widget: text }
+          - { label: "Blog · Text (castellà)", name: bl_p_es, widget: text }

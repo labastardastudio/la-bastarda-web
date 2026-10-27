@@ -1,0 +1,1847 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>La Bastarda Studio</title>
+<meta name="description" content="La Bastarda Studio. Pastissos per encàrrec i cookies d'autor.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300..600&family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&display=swap">
+<style>
+[hidden]{display:none!important}
+/* Layout: an artist's book laid open. The first screen is a double-page spread on a 12-column
+   grid; scrolling turns the spread, and the same prints are re-arranged into the next composition. */
+:root{
+  --paper:#F3F0E9;
+  --plate:#E7E2D7;
+  --ink:#1A1916;
+  --ink-2:#6B675F;
+  --hair:rgba(26,25,22,.14);
+  --pencil:#2B44C9;
+  --serif:"Newsreader","Iowan Old Style","Georgia",serif;
+  --sans:"Hanken Grotesk","Helvetica Neue",Arial,sans-serif;
+  --gut:max(16px,env(safe-area-inset-left,0px));
+  --gutR:max(16px,env(safe-area-inset-right,0px));
+  --m:clamp(16px,3.4vw,52px);
+  --head:72px;
+  --foot:56px;
+  --ease:cubic-bezier(.22,.61,.12,1);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{background:var(--paper);-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:clip}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+a{color:inherit}
+:focus-visible{outline:1.5px solid var(--pencil);outline-offset:4px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.small{font-size:11px;letter-spacing:.04em}
+.caps{text-transform:uppercase;letter-spacing:.12em;font-size:10.5px;font-weight:500}
+
+/* ---------- running head ---------- */
+.head{position:fixed;z-index:30;top:env(safe-area-inset-top,0px);left:0;right:0;height:var(--head);background:var(--paper);
+  padding-left:max(var(--m),env(safe-area-inset-left,0px));padding-right:max(var(--m),env(safe-area-inset-right,0px));
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px}
+.logo{text-decoration:none;display:inline-flex;align-items:baseline;gap:9px;white-space:nowrap}
+.logo span{font-family:var(--serif);font-style:italic;font-weight:400;font-size:23px;letter-spacing:-.01em;font-variation-settings:"opsz" 36}
+.logo small{font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;font-weight:500}
+.nav{display:flex;gap:clamp(16px,2.2vw,34px);list-style:none;margin:0;padding:0}
+@media (max-width:1060px){.nav{gap:14px}.nav a{font-size:12.5px}}
+.nav a{font-size:13px;text-decoration:none;color:var(--ink-2);transition:color .25s;padding:6px 0;position:relative;white-space:nowrap}
+.nav a:hover,.nav a[aria-current="true"]{color:var(--ink)}
+.nav a[aria-current="true"]::before{content:"";position:absolute;left:50%;top:-3px;width:3px;height:3px;border-radius:50%;background:var(--ink);transform:translateX(-50%)}
+.head-r{display:flex;justify-content:flex-end;align-items:center;gap:20px}
+.lang{display:flex;gap:4px}
+.lang button{all:unset;cursor:pointer;font-size:11px;letter-spacing:.08em;color:var(--ink-2);padding:6px 3px}
+.lang button[aria-pressed="true"]{color:var(--ink)}
+.lang button:focus-visible{outline:1.5px solid var(--pencil);outline-offset:2px}
+.lang i{font-style:normal;color:var(--hair);font-size:11px;align-self:center}
+.btn{display:inline-flex;align-items:center;gap:10px;font-size:12.5px;font-weight:500;text-decoration:none;color:var(--ink);
+  padding:10px 0 9px;border-bottom:1px solid var(--ink);transition:gap .4s var(--ease),color .25s,border-color .25s;white-space:nowrap}
+.btn:hover{gap:16px}
+.btn svg{width:13px;height:13px;flex:none}
+.btn.pill{border:1px solid var(--ink);border-radius:999px;padding:9px 16px 8px}
+.btn.pill:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.menu{all:unset;display:none;cursor:pointer;font-size:12px;letter-spacing:.06em;padding:8px 0}
+.menu:focus-visible{outline:1.5px solid var(--pencil);outline-offset:3px}
+.drawer{position:fixed;inset:0;z-index:40;background:var(--paper);display:flex;flex-direction:column;justify-content:space-between;
+  padding:calc(var(--head) + env(safe-area-inset-top,0px) + 20px) max(var(--m),env(safe-area-inset-right,0px)) calc(28px + env(safe-area-inset-bottom,0px)) max(var(--m),env(safe-area-inset-left,0px))}
+.drawer ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--hair)}
+.drawer li{border-bottom:1px solid var(--hair)}
+.drawer a{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0;text-decoration:none;font-family:var(--serif);font-weight:300;font-size:34px;letter-spacing:-.01em}
+.drawer a small{font-family:var(--sans);font-size:10.5px;color:var(--ink-2)}
+
+/* ---------- the spread ---------- */
+.book{position:relative;height:calc(100svh + 3 * 135svh)}
+.spread{position:sticky;top:0;height:100svh;overflow:hidden}
+.page{position:absolute;left:max(var(--m),env(safe-area-inset-left,0px));right:max(var(--m),env(safe-area-inset-right,0px));
+  top:calc(var(--head) + env(safe-area-inset-top,0px) + 18px);bottom:var(--foot)}
+.fold{position:absolute;top:calc(var(--head) + 6px);bottom:22px;left:50%;width:44px;margin-left:-22px;pointer-events:none;
+  background:linear-gradient(90deg,transparent 35%,rgba(26,25,22,.014) 48%,rgba(26,25,22,.03) 50%,rgba(26,25,22,.006) 52%,transparent 65%)}
+.print{position:absolute;left:0;top:0;will-change:transform,width,height;margin:0}
+.print .im{position:absolute;inset:0;overflow:hidden;background:var(--plate)}
+.print img{width:100%;height:100%;object-fit:cover;display:block}
+.print img.alt{position:absolute;inset:0;opacity:0}
+.print.swap img.alt{opacity:1}
+.print.has-alt{cursor:crosshair}
+.ph{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:10px 11px;
+  background:var(--plate);color:var(--ink-2);font-size:10px;letter-spacing:.04em}
+.ph b{font-weight:500;color:var(--ink)}
+.ph::after{content:"";position:absolute;inset:0;background:
+  linear-gradient(to top right,transparent calc(50% - .5px),rgba(26,25,22,.08) 50%,transparent calc(50% + .5px)),
+  linear-gradient(to bottom right,transparent calc(50% - .5px),rgba(26,25,22,.08) 50%,transparent calc(50% + .5px))}
+.print figcaption{position:absolute;left:0;top:100%;margin-top:8px;font-size:10.5px;line-height:1.4;color:var(--ink-2);white-space:nowrap;transition:opacity .3s}
+.print figcaption b{font-weight:500;color:var(--ink);margin-right:6px;font-variant-numeric:tabular-nums}
+
+.copy{position:absolute;display:grid;gap:18px;align-content:end;pointer-events:none;opacity:0}
+.copy.on{pointer-events:auto}
+.copy .kick{display:flex;gap:14px;align-items:baseline}
+.copy .kick span:last-child{color:var(--ink-2)}
+.copy h2,.copy h1{margin:0;font-family:var(--serif);font-weight:300;font-variation-settings:"opsz" 60;font-size:clamp(30px,3.15vw,50px);line-height:1.04;letter-spacing:-.018em;text-wrap:balance}
+.copy h1 em,.copy h2 em{font-style:italic;font-weight:300}
+.copy .steps2{list-style:none;margin:0;padding:0;max-width:40ch;font-size:13.5px}
+.copy .steps2 li{display:grid;grid-template-columns:24px 1fr;padding:8px 0;border-top:1px solid var(--hair)}
+.copy .steps2 li:last-child{border-bottom:1px solid var(--hair)}
+.copy .steps2 b{font-weight:500;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.copy p{margin:0;max-width:34ch;color:var(--ink-2);font-size:14.5px;line-height:1.5;text-wrap:pretty}
+.copy .acts{display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center}
+.soon{font-size:11px;color:var(--ink-2);display:inline-flex;align-items:center;gap:8px}
+.soon::before{content:"";width:5px;height:5px;border-radius:50%;border:1px solid currentColor}
+
+
+.folio{z-index:2;position:absolute;left:max(var(--m),env(safe-area-inset-left,0px));right:max(var(--m),env(safe-area-inset-right,0px));bottom:18px;
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;font-size:10.5px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.folio .mid{display:flex;gap:8px}
+.folio .mid button{all:unset;cursor:pointer;width:22px;height:18px;display:grid;place-items:center}
+.folio .mid button i{display:block;width:14px;height:1px;background:var(--hair);transition:background .3s,width .3s}
+.folio .mid button[aria-current="true"] i{background:var(--ink);width:22px}
+.folio .mid button:hover i{background:var(--ink)}
+.folio .mid button:focus-visible{outline:1.5px solid var(--pencil)}
+.folio .r{text-align:right}
+.folio>span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+
+/* ---------- after the spread ---------- */
+.after{position:relative;z-index:2;background:var(--paper);
+  padding-left:max(var(--m),env(safe-area-inset-left,0px));padding-right:max(var(--m),env(safe-area-inset-right,0px))}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(12px,1.6vw,24px)}
+.studio{padding-block:clamp(90px,16vh,180px) clamp(60px,10vh,120px);border-top:1px solid var(--hair)}
+.studio .lbl{grid-column:1/3}
+.studio blockquote{grid-column:3/10;margin:0;font-family:var(--serif);font-weight:300;font-variation-settings:"opsz" 60;font-size:clamp(26px,2.9vw,46px);line-height:1.12;letter-spacing:-.015em;text-wrap:pretty}
+.studio blockquote em{font-style:italic}
+.studio .side{grid-column:10/13;align-self:end;display:grid;gap:12px;color:var(--ink-2);font-size:13.5px}
+.order{padding-block:clamp(60px,10vh,110px) clamp(70px,12vh,140px);border-top:1px solid var(--hair)}
+.order{--ckin:calc(clamp(40px,4vw,64px) + clamp(12px,2vw,24px))}
+.order .lbl{grid-column:1/9;grid-row:1;padding-left:var(--ckin);margin-bottom:26px}
+.order h2{grid-column:1/9;grid-row:2;padding-left:var(--ckin);margin:0;font-family:var(--serif);font-weight:300;font-style:italic;font-variation-settings:"opsz" 72;font-size:clamp(40px,5.6vw,92px);line-height:.98;letter-spacing:-.025em}
+.order .lead{grid-column:1/9;grid-row:3;padding-left:var(--ckin);margin:28px 0 0;max-width:calc(46ch + var(--ckin));color:var(--ink-2);font-size:15.5px;line-height:1.5;text-wrap:pretty}
+.order .steps{grid-column:10/13;grid-row:1/4;align-self:end;list-style:none;margin:0;padding:0;display:grid;gap:0;font-size:13.5px}
+.order .steps li{display:grid;grid-template-columns:28px 1fr;padding:11px 0;border-top:1px solid var(--hair)}
+.order .steps li:last-child{border-bottom:1px solid var(--hair)}
+.order .steps::before{content:attr(data-h);display:block;padding-bottom:10px;border-bottom:1px solid var(--ink);font-size:10.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase}
+.order .steps li:first-child{border-top:0}
+.order .steps b{font-weight:500;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.order .acts{grid-column:3/13;margin-top:40px;display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+/* ---------- encàrrecs: one place, two ways in ---------- */
+.hub{border-top:1px solid var(--hair);padding-top:clamp(70px,12vh,130px)}
+.hub-head{row-gap:22px}
+.hub-head .lbl{grid-column:1/-1}
+.tabs{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;column-gap:clamp(12px,1.6vw,24px)}
+.tabs [role=tab]{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:clamp(40px,4vw,64px) minmax(0,1fr);column-gap:clamp(12px,2vw,24px);align-items:baseline;
+  padding:18px 0 22px;border-top:1px solid var(--hair);color:var(--ink-2);opacity:.55;transition:opacity .3s,color .3s,border-color .3s}
+.tabs [role=tab] small{font-size:10.5px;font-variant-numeric:tabular-nums}
+.tabs [role=tab] span{font-family:var(--serif);font-weight:300;font-variation-settings:"opsz" 60;font-size:clamp(26px,3vw,48px);line-height:1.04;letter-spacing:-.018em}
+.tabs [role=tab]:hover{opacity:.85}
+.tabs [role=tab][aria-selected=true]{color:var(--ink);opacity:1;border-top:1px solid var(--ink);box-shadow:inset 0 1px 0 var(--ink)}
+.tabs [role=tab][aria-selected=true] span{font-style:italic}
+.tabs [role=tab]:focus-visible{outline:1.5px solid var(--pencil);outline-offset:4px}
+.hub .box,.hub .order{border-top:0;padding-top:clamp(40px,7vh,80px)}
+.colo{padding-block:22px 28px;border-top:1px solid var(--ink);font-size:11px;color:var(--ink-2)}
+.colo .a{grid-column:1/4}.colo .b{grid-column:4/10}.colo .c{grid-column:10/13;text-align:right}
+.colo button{all:unset;cursor:pointer;color:var(--ink);border-bottom:1px solid currentColor}
+.colo button:focus-visible{outline:1.5px solid var(--pencil);outline-offset:3px}
+
+/* ---------- fes la teva caixa ---------- */
+.box{padding-block:clamp(90px,15vh,170px) clamp(80px,12vh,140px);border-top:1px solid var(--hair)}
+.box-head{align-items:end;row-gap:28px}
+.box-head .lbl{grid-column:1/3;align-self:start}
+.box-head h2{grid-column:3/9;margin:0;font-family:var(--serif);font-weight:300;font-variation-settings:"opsz" 72;font-size:clamp(44px,5.6vw,92px);line-height:.98;letter-spacing:-.025em}
+.box-head h2 em{font-style:italic}
+.box-head p{grid-column:9/13;margin:0;max-width:34ch;color:var(--ink-2);font-size:14.5px}
+.sizes{grid-column:3/13;display:flex;gap:clamp(28px,5vw,72px);margin-top:clamp(40px,7vh,72px);border:0;padding:0;min-width:0}
+.sizes legend{float:left;width:auto;padding:0;margin:0 clamp(8px,2vw,32px) 0 0;align-self:center}
+.size{all:unset;cursor:pointer;display:grid;grid-template-columns:auto auto;align-items:end;column-gap:14px;color:var(--ink-2);padding-bottom:10px;position:relative;transition:color .3s}
+.size b{font-family:var(--serif);font-weight:300;font-variation-settings:"opsz" 72;font-size:clamp(56px,6vw,96px);line-height:.8;letter-spacing:-.03em}
+.size b{grid-row:1/3}
+.size span{font-size:12px;line-height:1.35;padding-bottom:4px}
+.size .pr{grid-column:2;font-style:normal;font-size:12px;font-variant-numeric:tabular-nums;padding-bottom:4px;color:var(--ink-2)}
+.size[aria-checked="true"] .pr{color:var(--ink)}
+.tray-price{display:flex;justify-content:space-between;align-items:baseline;padding:2px 0 10px;border-bottom:1px solid var(--hair);font-size:12px;color:var(--ink-2)}
+.tray-price b{font-family:var(--serif);font-weight:300;font-size:24px;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.sum li.total{border-bottom:1px solid var(--ink)}
+.sum li.total b{font-weight:500}
+.sum li.total span:last-child{font-family:var(--serif);font-size:22px;font-weight:300}
+.size::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.size:hover{color:var(--ink)}
+.size[aria-checked="true"]{color:var(--ink)}
+.size[aria-checked="true"]::after{transform:scaleX(1)}
+.size:focus-visible{outline:1.5px solid var(--pencil);outline-offset:6px}
+
+.box-body{margin-top:clamp(48px,8vh,88px);align-items:start}
+.flavours{grid-column:1/9;list-style:none;margin:0;padding:0;border-bottom:1px solid var(--hair)}
+.fl{display:grid;grid-template-columns:34px clamp(76px,7vw,104px) minmax(0,1fr) auto;column-gap:clamp(14px,2vw,28px);align-items:center;padding:18px 0;border-top:1px solid var(--hair)}
+.fl .no{align-self:start;padding-top:4px;font-size:10.5px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.fl .ph2{aspect-ratio:4/5;overflow:hidden;background:var(--plate);position:relative}
+.fl .ph2 img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.2s var(--ease)}
+.fl:hover .ph2 img{transform:scale(1.045)}
+.fl .ph2 .pend{position:absolute;inset:0;display:flex;align-items:flex-end;padding:7px;font-size:9px;letter-spacing:.04em;color:var(--ink-2)}
+.fl h3{margin:0;font-family:var(--serif);font-weight:300;font-variation-settings:"opsz" 48;font-size:clamp(24px,2.3vw,36px);line-height:1.05;letter-spacing:-.015em}
+.fl p{margin:6px 0 0;font-size:13.5px;line-height:1.45;color:var(--ink-2);max-width:42ch}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{all:unset;cursor:pointer;width:34px;height:34px;border-radius:50%;border:1px solid var(--hair);display:grid;place-items:center;transition:border-color .25s,background .25s,color .25s,opacity .25s}
+.qty button svg{width:11px;height:11px}
+.qty button:hover:not([aria-disabled="true"]){border-color:var(--ink)}
+.qty button[aria-disabled="true"]{opacity:.28;cursor:not-allowed}
+.qty button:focus-visible{outline:1.5px solid var(--pencil);outline-offset:2px}
+.qty output{min-width:28px;text-align:center;font-family:var(--serif);font-size:24px;font-weight:300;font-variant-numeric:tabular-nums;color:var(--ink-2);transition:color .25s}
+.fl.has .qty output{color:var(--ink)}
+.fl.has .no{color:var(--ink)}
+
+.tray{grid-column:10/13;position:sticky;top:calc(var(--head) + env(safe-area-inset-top,0px) + 28px);display:grid;gap:22px}
+.tray-top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--ink);padding-bottom:10px}
+.tray-top .n{font-family:var(--serif);font-weight:300;font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
+.tray-top .n i{font-style:normal;color:var(--ink-2)}
+.slots{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:16px;background:var(--plate);aspect-ratio:1/1;align-content:center}
+.slots[data-size="6"]{grid-template-columns:repeat(3,1fr);aspect-ratio:3/2}
+.slot{all:unset;box-sizing:border-box;aspect-ratio:1;border-radius:50%;border:1px dashed rgba(26,25,22,.22);position:relative;overflow:hidden;display:block}
+.slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.25)}
+.slot .ini{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:20px;background:#D9DBC4;color:var(--ink)}
+.slot.full{border:0;cursor:pointer;animation:drop .5s var(--ease) both}
+.slot.full::after{content:"";position:absolute;inset:0;border-radius:50%;background:rgba(26,25,22,.0);transition:background .25s}
+.slot.full:hover::after{background:rgba(26,25,22,.28)}
+.slot.full:hover::before{content:"×";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:22px;z-index:2}
+.slot:focus-visible{outline:1.5px solid var(--pencil);outline-offset:3px}
+@keyframes drop{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
+.lines{list-style:none;margin:0;padding:0;font-size:13.5px}
+.lines li{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--hair)}
+.lines li span:last-child{font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.lines .empty{color:var(--ink-2);border:0}
+.state{font-size:12px;color:var(--ink-2);min-height:1.5em;margin:0}
+.tray-acts{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.btn-solid{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--ink);color:var(--paper);font-size:12.5px;font-weight:500;padding:13px 22px 12px;border-radius:999px;transition:opacity .25s,transform .25s var(--ease)}
+.btn-solid:hover:not([aria-disabled="true"]){transform:translateY(-1px)}
+.btn-solid[aria-disabled="true"]{opacity:.25;cursor:not-allowed}
+.btn-solid:focus-visible{outline:1.5px solid var(--pencil);outline-offset:3px}
+.link{all:unset;cursor:pointer;font-size:12.5px;color:var(--ink-2);border-bottom:1px solid var(--hair);padding-bottom:2px}
+.link:hover{color:var(--ink);border-color:var(--ink)}
+.link:focus-visible{outline:1.5px solid var(--pencil);outline-offset:3px}
+.fine{font-size:11px;color:var(--ink-2);margin:0;max-width:36ch}
+
+/* review sheet */
+.sheet{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:24px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));background:rgba(243,240,233,.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.sheet-in{width:min(620px,100%);max-height:calc(100svh - 48px);overflow:auto;background:var(--paper);border:1px solid var(--hair);padding:clamp(24px,4vw,44px);display:grid;gap:22px;box-shadow:0 30px 80px -40px rgba(26,25,22,.35);animation:rise .45s var(--ease) both}
+@keyframes rise{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
+.sheet h3{margin:0;font-family:var(--serif);font-weight:300;font-size:clamp(30px,3.4vw,44px);line-height:1;letter-spacing:-.02em}
+.sheet h3 em{font-style:italic}
+.sum{list-style:none;margin:0;padding:0;border-top:1px solid var(--ink)}
+.sum li{display:grid;grid-template-columns:52px 1fr auto;gap:16px;align-items:center;padding:10px 0;border-bottom:1px solid var(--hair)}
+.sum .th{width:52px;aspect-ratio:4/5;background:var(--plate);overflow:hidden}
+.sum .th img{width:100%;height:100%;object-fit:cover;display:block}
+.sum b{font-family:var(--serif);font-weight:300;font-size:22px}
+.sum span{font-variant-numeric:tabular-nums;font-size:13px;color:var(--ink-2)}
+.sheet .done{display:grid;gap:10px}
+.sheet .done p{margin:0;color:var(--ink-2);font-size:14px;max-width:44ch}
+
+@media (max-width:899px){
+  .box-head .lbl,.box-head h2,.box-head p,.sizes{grid-column:1/-1}
+  .sizes legend{display:none}
+  .flavours{grid-column:1/-1}
+  .fl{grid-template-columns:clamp(64px,20vw,84px) minmax(0,1fr);grid-template-rows:auto auto;row-gap:12px}
+  .fl .no{display:none}
+  .fl .ph2{grid-row:1/3}
+  .fl .qty{grid-column:2}
+  .fl p{font-size:13px}
+  .tray{grid-column:1/-1;position:sticky;top:auto;bottom:0;z-index:5;margin-top:0;background:var(--paper);border-top:1px solid var(--ink);
+    grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;padding:12px 0 calc(12px + env(safe-area-inset-bottom,0px))}
+  .tray-top{border:0;padding:0;display:block}
+  .tray-top .caps{display:none}
+  .tray-top .n{font-size:24px}
+  .tray{grid-template-areas:"n slots acts" "p slots acts";row-gap:3px}
+  .tray-top{grid-area:n}.slots{grid-area:slots}.tray-acts{grid-area:acts}
+  .tray-price{grid-area:p;border:0;padding:0;font-size:11px}
+  .tray-price span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .tray-price b{font-family:var(--sans);font-size:11.5px;font-weight:500;color:var(--ink-2)}
+  .slots,.slots[data-size="6"]{display:flex;gap:6px;padding:0;background:none;aspect-ratio:auto;min-width:0}
+  .slots,.slots[data-size="6"]{gap:5px;justify-content:center}
+  .slot{width:22px;flex:none}
+  .slot .ini{font-size:10px}
+  .slot.full:hover::before{content:none}
+  .lines,.state,.fine,.tray .link{display:none}
+  .tray-acts{gap:0}
+  .btn-solid{padding:11px 16px 10px;font-size:12px}
+}
+@media (prefers-reduced-motion:reduce){.slot.full,.sheet-in{animation:none}}
+
+/* ---------- page turn (Inici -> Pastissos) ----------
+   The right-hand leaf turns on the fold. Its front carries the opening spread's right page,
+   its back the next spread's left page; the prints ride on it and lift off the paper a little. */
+.turn{position:absolute;inset:0;z-index:1;perspective:2600px;pointer-events:none}
+.turn .half{position:absolute;top:0;bottom:0;overflow:hidden;background:var(--paper)}
+.turn .leaf{position:absolute;top:0;bottom:0;transform-style:preserve-3d;transform-origin:0 50%;will-change:transform}
+.turn .face{position:absolute;inset:0;background:var(--paper);transform-style:preserve-3d;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.turn .face.back{transform:rotateY(180deg)}
+.turn .tbox{position:absolute;transform-style:preserve-3d}
+.turn .print{transform-style:flat;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.turn .print figcaption{opacity:1}
+.turn .half,.turn .face{pointer-events:auto}
+.turn .copy a{pointer-events:auto;cursor:pointer}
+.turn .copy{opacity:1;transform:none;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.turn .shade{position:absolute;inset:0;pointer-events:none;opacity:0;transform:translateZ(0)}
+.turn .front .shade{background:linear-gradient(90deg,rgba(26,25,22,.085),rgba(26,25,22,.02) 30%,rgba(26,25,22,0) 60%)}
+.turn .back .shade{background:linear-gradient(270deg,rgba(26,25,22,.085),rgba(26,25,22,.02) 30%,rgba(26,25,22,0) 60%)}
+.turn .half.r .shade{background:linear-gradient(90deg,rgba(26,25,22,.07),rgba(26,25,22,0) 40%)}
+.turn .half.l .shade{background:linear-gradient(270deg,rgba(26,25,22,.07),rgba(26,25,22,0) 40%)}
+.turn .seg{position:absolute;top:0;bottom:0;transform-style:preserve-3d;transform-origin:0 50%;will-change:transform}
+.turn .seg>.face{overflow:hidden}
+.turn .seg .shade{background:rgba(26,25,22,.13)}
+.turn .edge{position:absolute;top:0;bottom:0;right:0;width:1px;background:rgba(26,25,22,.10)}
+.turn .fold{z-index:1}
+.turn.single .fold{display:none}
+
+/* ---------- encarregar un pastís ---------- */
+.ck{grid-column:1/-1;margin-top:clamp(44px,7vh,72px);align-items:start}
+.ck-steps{grid-column:1/9;display:grid;gap:0;min-width:0}
+.ck-step{display:grid;grid-template-columns:clamp(40px,4vw,64px) minmax(0,1fr);column-gap:clamp(12px,2vw,24px);padding:28px 0 32px;border-top:1px solid var(--hair);border-inline:0;border-bottom:0;margin:0;min-width:0}
+.ck-step:last-child{border-bottom:1px solid var(--hair)}
+.ck-step>.no{grid-row:1/span 6;font-size:10.5px;color:var(--ink-2);font-variant-numeric:tabular-nums;padding-top:9px}
+.ck-step .ttl{grid-column:2;padding:0;margin:0;display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.ck-step .ttl b{font-family:var(--serif);font-weight:300;font-variation-settings:"opsz" 48;font-size:clamp(26px,2.4vw,36px);letter-spacing:-.015em;line-height:1.1}
+.ck-step .ttl span{font-size:11.5px;color:var(--ink-2)}
+.ck-step .err{grid-column:2;margin:10px 0 0;font-size:12px;color:#9C2F26;min-height:0}
+.ck-step .err:empty{display:none}
+.opts{grid-column:2;display:flex;flex-wrap:wrap;gap:6px 26px;margin-top:18px}
+.opt{position:relative;display:inline-flex;align-items:center;gap:10px;padding:8px 0;cursor:pointer;font-size:15.5px;color:var(--ink-2);transition:color .25s}
+.opt input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.opt i{flex:none;width:11px;height:11px;border-radius:50%;border:1px solid currentColor;background:var(--sw,transparent);box-shadow:inset 0 0 0 2px var(--paper);transition:transform .3s var(--ease)}
+.opt.sq i{border-radius:2px}
+.opt .pr{font-size:11.5px;color:var(--ink-2);font-variant-numeric:tabular-nums;margin-left:-2px}
+.opt:hover{color:var(--ink)}
+.opt:has(input:checked){color:var(--ink)}
+.opt:has(input:checked) i{transform:scale(1.25);box-shadow:inset 0 0 0 1.5px var(--paper),0 0 0 1px var(--ink)}
+.opt:has(input:checked)::after{content:"";position:absolute;left:21px;right:0;bottom:4px;height:1px;background:var(--ink)}
+.opt:has(input:focus-visible){outline:1.5px solid var(--pencil);outline-offset:4px}
+.opt:has(input:disabled){opacity:.35;cursor:not-allowed}
+.fields{grid-column:2;display:grid;align-items:start;grid-template-columns:1fr 1fr;gap:18px 28px;margin-top:22px}
+.fields .wide{grid-column:1/-1}
+.fld{display:grid;gap:6px;min-width:0}
+.fld label{font-size:11px;letter-spacing:.04em;color:var(--ink-2)}
+.fld input,.fld textarea{font:inherit;font-size:15px;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--hair);padding:8px 0 9px;border-radius:0;outline:none;transition:border-color .25s;width:100%}
+.fld textarea{resize:vertical;min-height:96px;line-height:1.5;border:1px solid var(--hair);padding:12px 14px}
+.fld input:focus,.fld textarea:focus{border-color:var(--ink)}
+.fld input[aria-invalid="true"]{border-color:#9C2F26}
+.fld small{font-size:11px;color:var(--ink-2)}
+
+.ck-aside{grid-column:10/13;position:sticky;top:calc(var(--head) + env(safe-area-inset-top,0px) + 28px);display:grid;gap:18px}
+.ck-aside .tray-top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--ink);padding-bottom:10px}
+.ck-aside .tray-top .n{font-size:11px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.ck-fig{background:var(--plate);padding:18px 12px 10px}
+.ck-fig svg{display:block;width:100%;height:auto;overflow:visible}
+.ck-fig rect,.ck-fig path,.ck-fig ellipse{transition:fill .5s var(--ease)}
+.ck-sum{list-style:none;margin:0;padding:0;font-size:13px}
+.ck-sum li{display:grid;grid-template-columns:92px minmax(0,1fr);gap:10px;padding:7px 0;border-bottom:1px solid var(--hair)}
+.ck-sum li span:first-child{color:var(--ink-2);font-size:11px;padding-top:2px}
+.ck-sum li span:last-child{min-width:0;overflow-wrap:anywhere}
+.ck-sum .tbd{color:var(--ink-2)}
+
+.sum2{list-style:none;margin:0;padding:0;border-top:1px solid var(--ink);font-size:14px}
+.sum2 li{display:grid;grid-template-columns:130px minmax(0,1fr);gap:16px;padding:10px 0;border-bottom:1px solid var(--hair)}
+.sum2 li span:first-child{color:var(--ink-2);font-size:11.5px;padding-top:2px}
+.sum2 li span:last-child{white-space:pre-line;overflow-wrap:anywhere}
+
+@media (max-width:899px){
+  .ck-steps{grid-column:1/-1}
+  .ck-step{grid-template-columns:1fr}
+  .ck-step>.no{grid-row:auto;padding:0 0 6px}
+  .opts,.fields,.ck-step .err,.ck-step .ttl{grid-column:1}
+  .ck-fig{order:-1}
+  .fields{grid-template-columns:1fr}
+  .opt{font-size:15px}
+  .ck-aside{grid-column:1/-1;position:sticky;top:auto;bottom:0;z-index:5;background:var(--paper);border-top:1px solid var(--ink);
+    grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;padding:10px 0 calc(10px + env(safe-area-inset-bottom,0px))}
+  .ck-aside .tray-top{border:0;padding:0;display:block}
+  .ck-aside .tray-top .caps{display:none}
+  .ck-aside .tray-top .n{font-size:12px;color:var(--ink)}
+  .ck-fig{padding:0;background:none;width:64px}
+  .ck-fig text,.ck-fig .lead{display:none}
+  .ck-sum,.ck-aside .fine,.ck-aside .link{display:none}
+  .ck-aside .tray-acts{gap:0;justify-content:flex-end}
+  .sum2 li{grid-template-columns:96px minmax(0,1fr)}
+}
+
+@media (max-width:899px){
+  :root{--head:60px;--foot:46px}
+  .head{grid-template-columns:1fr auto}
+  .head nav{display:none}
+  .head .pill{display:none}
+  .menu{display:inline-block}
+  .fold{display:none}
+  .copy h1,.copy h2{font-size:clamp(27px,min(8.6vw,4.4svh),40px)}
+  .lang button{padding:12px 7px;margin:-6px -4px}
+  .menu{padding:14px 0 14px 12px;margin:-6px 0 -6px -12px}
+  .folio .mid{gap:4px}
+  .folio .mid button{width:24px;height:36px;margin:-9px 0}
+  .copy p{font-size:14px}
+  .studio .lbl,.order .lbl{grid-column:1/-1;margin-bottom:22px}
+  .studio blockquote,.order h2{grid-column:1/-1}
+  .studio .side,.order .steps{grid-column:1/-1;margin-top:32px}
+  .order{--ckin:0px}
+  .tabs{grid-template-columns:1fr}
+  .tabs [role=tab]{grid-template-columns:32px minmax(0,1fr);padding:14px 0 16px}
+  .tabs [role=tab]:last-child{border-bottom:1px solid var(--hair)}
+  .order .lead{grid-column:1/-1}
+  .order .steps{grid-row:auto}
+  .order .acts{grid-column:1/-1}
+  .colo .a,.colo .b,.colo .c{grid-column:1/-1;text-align:left;margin-bottom:6px}
+  .print figcaption{font-size:9.5px;margin-top:6px}
+}
+
+/* ---------- blog: the studio's notebook, pinned up like a scrapbook ---------- */
+.blog{padding-block:clamp(90px,15vh,170px) clamp(80px,12vh,140px);border-top:1px solid var(--hair)}
+.filters{grid-column:3/13;display:flex;gap:clamp(18px,2.4vw,34px);margin-top:clamp(28px,4vh,48px);border-bottom:1px solid var(--hair)}
+.filters button{all:unset;cursor:pointer;font-size:13px;color:var(--ink-2);padding:10px 0 9px;margin-bottom:-1px;border-bottom:1px solid transparent;white-space:nowrap;transition:color .25s,border-color .25s}
+.filters button:hover,.filters button[aria-pressed="true"]{color:var(--ink)}
+.filters button[aria-pressed="true"]{border-color:var(--ink)}
+.filters button sup{font-size:9px;margin-left:3px;font-variant-numeric:tabular-nums}
+.filters button:focus-visible{outline:1.5px solid var(--pencil);outline-offset:3px}
+.board{grid-column:1/-1;columns:4 230px;column-gap:clamp(28px,3.4vw,60px);margin-top:clamp(56px,9vh,96px)}
+.post{break-inside:avoid;padding:16px 0 clamp(48px,7vh,80px)}
+.post.in{animation:rise .5s var(--ease) both}
+.post>a{display:block;width:calc(var(--w,1) * 100%);margin-left:var(--ml,0);position:relative;text-decoration:none;color:inherit;transform:rotate(var(--r,0deg));transition:transform .7s var(--ease)}
+.post>a:hover{transform:rotate(0deg) translateY(-4px)}
+.post>a:focus-visible{outline-offset:10px}
+.tape{position:absolute;z-index:2;top:-12px;left:calc(50% - 44px);width:88px;height:23px;background:rgba(231,226,215,.82);transform:rotate(var(--tr,-4deg));box-shadow:0 0 0 1px rgba(26,25,22,.035)}
+.k-thought .tape{background:rgba(250,248,243,.78)}
+.pic{display:block;aspect-ratio:var(--ar,.8);background:var(--plate);overflow:hidden;position:relative}
+.pic img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.2s var(--ease)}
+.post>a:hover .pic img{transform:scale(1.04)}
+.pic.pend span{position:absolute;left:9px;bottom:8px;font-size:9.5px;letter-spacing:.04em;color:var(--ink-2)}
+.leaf{display:block;background:#FAF8F3;padding:12px 12px 22px;box-shadow:0 1px 0 rgba(26,25,22,.06),0 26px 40px -34px rgba(26,25,22,.55)}
+.post .kick{display:flex;gap:12px;align-items:baseline;margin:16px 0 8px}
+.post .kick span:last-child{color:var(--ink-2)}
+.post h3{margin:0;font-family:var(--serif);font-weight:300;font-variation-settings:"opsz" 48;font-size:clamp(24px,2.1vw,32px);line-height:1.06;letter-spacing:-.015em;text-wrap:balance}
+.post h3 em{font-style:italic}
+.post p{margin:8px 0 0;font-size:13.5px;line-height:1.5;color:var(--ink-2);max-width:40ch;text-wrap:pretty}
+.post .btn{margin-top:12px;padding:6px 0 5px;font-size:12px}
+.post>a:hover .btn{gap:16px}
+.k-image .leaf{padding:10px 10px 0}
+.k-image .cap{display:flex;gap:6px;padding:10px 2px 14px;font-size:10.5px;color:var(--ink-2)}
+.k-image .cap b{font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
+.k-image .post-t{padding:0 2px}
+.note{display:block;background:var(--plate);padding:34px 26px 44px;
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 6px),96% 100%,91% calc(100% - 5px),86% calc(100% - 1px),80% calc(100% - 6px),74% calc(100% - 2px),68% calc(100% - 7px),61% calc(100% - 1px),55% calc(100% - 5px),48% 100%,42% calc(100% - 6px),35% calc(100% - 2px),29% calc(100% - 7px),22% calc(100% - 1px),16% calc(100% - 5px),9% calc(100% - 1px),4% calc(100% - 6px),0 calc(100% - 2px))}
+.note .q{display:block;font-family:var(--serif);font-style:italic;font-weight:300;font-variation-settings:"opsz" 60;font-size:clamp(25px,2.4vw,34px);line-height:1.12;letter-spacing:-.015em;text-wrap:balance}
+.note .kick{margin:22px 0 4px}
+.note h3{font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:0;line-height:1.4}
+.cover{display:flex;flex-direction:column;justify-content:space-between;aspect-ratio:2/3;background:var(--bg);color:var(--fg);padding:14% 11% 12%;
+  box-shadow:inset 7px 0 0 rgba(26,25,22,.07),inset 8px 0 0 rgba(255,255,255,.08),0 22px 34px -24px rgba(26,25,22,.6)}
+.cover b{font-family:var(--serif);font-style:italic;font-weight:300;font-variation-settings:"opsz" 60;font-size:clamp(22px,2.2vw,32px);line-height:1;letter-spacing:-.015em}
+.cover small{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;line-height:1.4}
+.k-book .cover{width:64%}
+.blog .fine{grid-column:1/-1;margin-top:8px}
+
+/* reading sheet; an open sheet lifts its section above the running head */
+.after:has(.sheet:not([hidden])){z-index:61}
+#pSheet .sheet-in.post-in{--pp:clamp(22px,4.4vw,56px);width:min(840px,100%);display:flex;flex-direction:column;gap:0;padding:0;overflow:hidden}
+.p-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px var(--pp);border-bottom:1px solid var(--hair);flex:none}
+.p-bar .caps{color:var(--ink-2)}
+.p-body{overflow:auto;overscroll-behavior:contain;padding:var(--pp);display:grid;grid-auto-rows:max-content;gap:24px;align-content:start}
+.p-body .kick{display:flex;gap:14px}
+.p-body .kick span:last-child{color:var(--ink-2)}
+#pSheet h3{font-size:clamp(36px,4.6vw,64px);line-height:.98;letter-spacing:-.025em;font-variation-settings:"opsz" 72;text-wrap:balance}
+.p-lede{margin:0;font-family:var(--serif);font-weight:300;font-size:clamp(19px,1.7vw,23px);line-height:1.38;max-width:46ch;text-wrap:pretty}
+.p-text{display:grid;gap:14px;max-width:62ch}
+.p-text p{margin:0;font-size:15.5px;line-height:1.65;text-wrap:pretty}
+.p-pic{display:block;background:var(--plate);overflow:hidden}
+.p-pic img{display:block;width:100%;aspect-ratio:var(--ar);max-height:min(64svh,560px);object-fit:cover}
+.p-pic.pend{aspect-ratio:16/9;position:relative}
+.p-pic.pend span{position:absolute;left:12px;bottom:10px;font-size:10.5px;color:var(--ink-2)}
+.p-meta{display:flex;flex-wrap:wrap;gap:10px 40px;margin:0;padding:10px 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--hair)}
+.p-meta div{display:grid;gap:2px}
+.p-meta dt{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;color:var(--ink-2)}
+.p-meta dd{margin:0;font-family:var(--serif);font-weight:300;font-size:20px}
+.rec{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(24px,4vw,52px);align-items:start}
+.rec .sub{padding-bottom:10px;border-bottom:1px solid var(--ink)}
+.ing,.stp{list-style:none;margin:0;padding:0;font-size:14.5px}
+.ing label{display:grid;grid-template-columns:22px minmax(0,1fr);gap:8px;padding:9px 0;border-bottom:1px solid var(--hair);cursor:pointer}
+.ing input{appearance:none;-webkit-appearance:none;width:13px;height:13px;margin:4px 0 0;border:1px solid var(--ink-2);border-radius:50%;cursor:pointer;transition:background .25s,border-color .25s}
+.ing input:checked{background:var(--ink);border-color:var(--ink)}
+.ing input:checked+span{color:var(--ink-2);text-decoration:line-through;text-decoration-thickness:1px}
+.ing input:focus-visible{outline:1.5px solid var(--pencil);outline-offset:3px}
+.stp{counter-reset:s}
+.stp li{counter-increment:s;display:grid;grid-template-columns:30px minmax(0,1fr);padding:10px 0;border-bottom:1px solid var(--hair);line-height:1.55;text-wrap:pretty}
+.stp li::before{content:counter(s);font-weight:500;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.pq{margin:0;font-family:var(--serif);font-style:italic;font-weight:300;font-variation-settings:"opsz" 60;font-size:clamp(28px,3.4vw,46px);line-height:1.1;letter-spacing:-.018em;max-width:24ch;text-wrap:balance}
+.bk{display:grid;grid-template-columns:minmax(140px,220px) minmax(0,1fr);gap:clamp(24px,4vw,48px);align-items:start}
+.bk .by{margin:0 0 4px;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;color:var(--ink-2)}
+.pnav{display:grid;grid-template-columns:1fr 1fr;gap:20px;border-top:1px solid var(--ink);padding-top:14px;margin-top:12px}
+.pnav button{all:unset;cursor:pointer;display:grid;gap:4px;font-size:12px;font-weight:500;min-width:0}
+.pnav button small{font-family:var(--serif);font-weight:300;font-size:19px;line-height:1.15;color:var(--ink-2);transition:color .25s}
+.pnav button:hover small{color:var(--ink)}
+.pnav button+button{text-align:right}
+.pnav button[hidden]{display:grid!important;visibility:hidden}
+.pnav button:focus-visible{outline:1.5px solid var(--pencil);outline-offset:4px}
+@media (max-width:899px){
+  .filters{grid-column:1/-1;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:calc(-1 * var(--m));padding-inline:var(--m);gap:22px}
+  .filters::-webkit-scrollbar{display:none}
+  .board{columns:1}
+  .post>a{width:100%;margin-left:0}
+  .post[data-side="l"]{padding-right:9%}
+  .post[data-side="r"]{padding-left:9%}
+  .k-book .cover{width:56%}
+  #pSheet{padding:0}
+  #pSheet .sheet-in.post-in{width:100%;height:100svh;max-height:100svh;border:0;box-shadow:none}
+  .rec,.bk{grid-template-columns:1fr}
+  .bk .cover{width:52%}
+  .pnav button small{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){.post.in{animation:none}.post>a,.post>a:hover{transform:none}}
+</style>
+</head>
+<body>
+
+<header class="head">
+  <a class="logo" href="#top" data-go="0" aria-label="La Bastarda Studio"><span>La Bastarda</span><small>Studio</small></a>
+  <nav aria-label="Seccions"><ul class="nav">
+    <li><a href="#estudi" data-go="1" data-i18n="nav.studio">L'estudi</a></li>
+    <li><a href="#pastissos" data-go="2" data-i18n="nav.cakes">Pastissos</a></li>
+    <li><a href="#cookies" data-go="3" data-i18n="nav.cookies">Cookies</a></li>
+    <li><a href="#encarrecs" data-i18n="nav.orders">Encàrrecs</a></li>
+    <li><a href="#blog" data-i18n="nav.blog">Blog</a></li>
+  </ul></nav>
+  <div class="head-r">
+    <div class="lang" role="group" aria-label="Idioma">
+      <button type="button" data-lang="ca" aria-pressed="true">CA</button><i>/</i><button type="button" data-lang="es" aria-pressed="false">ES</button>
+    </div>
+    <a class="btn pill" href="#encarrecs" data-i18n="cta.order">Encarregar</a>
+    <button type="button" class="menu" id="menuBtn" aria-expanded="false" aria-controls="drawer" data-i18n="menu">Menú</button>
+  </div>
+</header>
+
+<div class="drawer" id="drawer" hidden>
+  <ul>
+    <li><a href="#estudi" data-go="1"><span data-i18n="nav.studio">L'estudi</span><small>02</small></a></li>
+    <li><a href="#pastissos" data-go="2"><span data-i18n="nav.cakes">Pastissos</span><small>03</small></a></li>
+    <li><a href="#cookies" data-go="3"><span>Cookies</span><small>04</small></a></li>
+    <li><a href="#encarrecs"><span data-i18n="nav.orders">Encàrrecs</span><small>05</small></a></li>
+    <li><a href="#blog"><span data-i18n="nav.blog">Blog</span><small>06</small></a></li>
+  </ul>
+  <span class="small" style="color:var(--ink-2)">La Bastarda Studio</span>
+</div>
+<main id="top">
+  <section class="book" id="book" aria-label="Portada">
+    <div class="spread" id="spread">
+      <div class="fold" aria-hidden="true"></div>
+      <div class="page" id="page">
+        <div id="prints"></div>
+
+        <div class="copy" data-c="0">
+          <div class="kick caps"><span>Núm. 01</span><span data-i18n="c0.k">Pastisseria creativa</span></div>
+          <h1 data-i18n="c0.h">Pastissos per encàrrec i <em>cookies</em> d'autor.</h1>
+          <p data-i18n="c0.p">Fem peces úniques, a mà, sense receptes de catàleg.</p>
+          <div class="acts">
+            <a class="btn" href="#pastis"><span data-i18n="cta.cake">Encarregar un pastís</span><svg viewBox="0 0 13 13" aria-hidden="true"><path d="M1 6.5h10.5M7.5 2.5l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
+            <a class="btn" href="#caixa"><span data-i18n="cta.box">La teva caixa de cookies</span><svg viewBox="0 0 13 13" aria-hidden="true"><path d="M1 6.5h10.5M7.5 2.5l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
+          </div>
+        </div>
+        <div class="copy" data-c="1" id="estudi">
+          <div class="kick caps"><span>02</span><span data-i18n="nav.studio">L'estudi</span></div>
+          <h2 data-i18n="c4.h">Un estudi de pastisseria <em>que fa les coses a la seva manera.</em></h2>
+          <p data-i18n="st.q2">Ens interessen les formes, els colors i les textures tant com el gust. Treballem per encàrrec i en petites sèries.</p>
+        </div>
+        <div class="copy" data-c="2" id="pastissos">
+          <div class="kick caps"><span>03</span><span data-i18n="nav.cakes">Pastissos</span></div>
+          <h2 data-i18n="c1.h">Cada pastís és <em>una peça única.</em></h2>
+          <p data-i18n="c1.p">Ens expliques l'ocasió. Pensem junts la forma, el color i el gust.</p>
+          <div class="acts"><a class="btn" href="#pastis"><span data-i18n="cta.cake">Encarregar un pastís</span><svg viewBox="0 0 13 13" aria-hidden="true"><path d="M1 6.5h10.5M7.5 2.5l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a><span class="soon" data-i18n="c1.s">Portafolis complet, aviat</span></div>
+        </div>
+        <div class="copy" data-c="3" id="cookies">
+          <div class="kick caps"><span>04</span><span>Cookies</span></div>
+          <h2 data-i18n="c2.h">Una col·lecció curta que <em>canvia amb les estacions.</em></h2>
+          <p data-i18n="c2.p">Les combines com vulguis en caixes de 4 o 6.</p>
+          <div class="acts"><a class="btn" href="#caixa"><span data-i18n="cta.box">La teva caixa de cookies</span><svg viewBox="0 0 13 13" aria-hidden="true"><path d="M1 6.5h10.5M7.5 2.5l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a></div>
+        </div>
+      </div>
+
+      <div class="turn" id="turn" aria-hidden="true" hidden></div>
+      <div class="folio" aria-hidden="false">
+        <span id="folioL">La Bastarda — <span data-i18n="f.0">Inici</span></span>
+        <div class="mid" role="group" aria-label="Pàgines">
+          <button type="button" data-go="0" aria-label="Inici"><i></i></button>
+          <button type="button" data-go="1" aria-label="L'estudi"><i></i></button>
+          <button type="button" data-go="2" aria-label="Pastissos"><i></i></button>
+          <button type="button" data-go="3" aria-label="Cookies"><i></i></button>
+        </div>
+        <span class="r" id="folioR">01</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="after">
+    <section class="hub" id="encarrecs" aria-labelledby="hub-l">
+      <div class="hub-head grid">
+        <div class="lbl caps" id="hub-l" data-i18n="nav.orders">Encàrrecs</div>
+        <div class="tabs" role="tablist" aria-labelledby="hub-l">
+          <button type="button" role="tab" id="tab-caixa" aria-controls="caixa" aria-selected="true"><small>01</small><span data-i18n="hub.t1">Fes la teva caixa de cookies</span></button>
+          <button type="button" role="tab" id="tab-pastis" aria-controls="pastis" aria-selected="false" tabindex="-1"><small>02</small><span data-i18n="hub.t2">Encarrega un pastís</span></button>
+        </div>
+      </div>
+    <section class="box" id="caixa" role="tabpanel" aria-labelledby="tab-caixa">
+      <div class="grid box-head">
+        <div class="lbl caps">Cookies</div>
+        <h2 id="bx-h" data-i18n="bx.h">La teva caixa <em>de cookies.</em></h2>
+        <p data-i18n="bx.p">Tria una caixa de 4 o 6 i omple-la amb els sabors que vulguis. Pots repetir-ne o barrejar-los.</p>
+        <fieldset class="sizes" role="radiogroup" aria-labelledby="bx-size-l">
+          <legend class="caps" id="bx-size-l" data-i18n="bx.size">Mida</legend>
+          <button type="button" class="size" role="radio" data-size="4" aria-checked="false"><b>4</b><span data-i18n="bx.s4">cookies<br>caixa petita</span><em class="pr" data-price="4"></em></button>
+          <button type="button" class="size" role="radio" data-size="6" aria-checked="true"><b>6</b><span data-i18n="bx.s6">cookies<br>caixa gran</span><em class="pr" data-price="6"></em></button>
+        </fieldset>
+      </div>
+      <div class="grid box-body">
+        <ol class="flavours" id="flavours"></ol>
+        <aside class="tray" aria-labelledby="bx-tray-l">
+          <div class="tray-top"><span class="caps" id="bx-tray-l" data-i18n="bx.yours">La teva caixa</span><span class="n" id="bxCount" aria-hidden="true">0<i>/6</i></span></div>
+          <div class="slots" id="slots" data-size="6"></div>
+          <ul class="lines" id="lines"></ul>
+          <div class="tray-price"><span data-i18n="bx.price">Preu de la caixa</span><b id="bxPrice"></b></div>
+          <p class="state" id="bxState" role="status" aria-live="polite"></p>
+          <div class="tray-acts">
+            <button type="button" class="btn-solid" id="bxReview" aria-disabled="true" data-i18n="bx.review">Revisar la caixa</button>
+            <button type="button" class="link" id="bxClear" data-i18n="bx.clear">Buidar</button>
+          </div>
+          <p class="fine" data-i18n="bx.fine">Sabors provisionals. Compra en línia, aviat.</p>
+        </aside>
+      </div>
+    </section>
+    <div class="sheet" id="sheet" hidden>
+      <div class="sheet-in" role="dialog" aria-modal="true" aria-labelledby="sh-h" tabindex="-1" id="sheetIn">
+        <div class="caps" id="shKick"></div>
+        <h3 id="sh-h" data-i18n="sh.h">Resum de <em>la teva caixa</em></h3>
+        <ul class="sum" id="sum"></ul>
+        <div class="done" id="shDone" hidden><h3 data-i18n="sh.doneH">Caixa <em>preparada.</em></h3><p data-i18n="sh.doneP">Encara no podem cobrar en línia. Hem guardat la teva caixa en aquest dispositiu i la trobaràs a punt quan obrim la botiga.</p></div>
+        <p class="fine" id="shFine" data-i18n="sh.fine">Recollida i pagament s'afegiran quan obrim la botiga en línia.</p>
+        <div class="tray-acts">
+          <button type="button" class="btn-solid" id="shConfirm" data-i18n="sh.confirm">Confirmar la caixa</button>
+          <button type="button" class="link" id="shBack" data-i18n="sh.back">Modificar</button>
+        </div>
+      </div>
+    </div>
+    <section class="order grid" id="pastis" role="tabpanel" aria-labelledby="tab-pastis" hidden>
+      <div class="lbl caps" data-i18n="or.lbl">Encàrrecs de pastissos</div>
+      <h2 id="or-h" data-i18n="or.h">Tens una ocasió? Fem-li un pastís.</h2>
+      <p class="lead" data-i18n="or.lead">Tria la base aquí sota, pas a pas, i explica'ns la resta. Et responem amb una proposta de forma, sabors i preu.</p>
+      <ol class="steps">
+        <li><b>1</b><span data-i18n="or.1">Ens expliques la idea i la data.</span></li>
+        <li><b>2</b><span data-i18n="or.2">Et proposem forma, sabors i preu.</span></li>
+        <li><b>3</b><span data-i18n="or.3">El fem i el véns a recollir.</span></li>
+      </ol>
+      <form class="ck grid" id="ckForm" novalidate aria-label="Encarregar un pastís">
+        <div class="ck-steps" id="ckSteps"></div>
+        <aside class="ck-aside" aria-labelledby="ck-l">
+          <div class="tray-top"><span class="caps" id="ck-l" data-i18n="ck.yours">El teu pastís</span><span class="n" id="ckProg"></span></div>
+          <div class="ck-fig" aria-hidden="true"><svg id="ckSvg" viewBox="0 0 320 210"></svg></div>
+          <ul class="ck-sum" id="ckSum"></ul>
+          <div class="tray-acts">
+            <button type="submit" class="btn-solid" id="ckReview" data-i18n="ck.review">Revisar l'encàrrec</button>
+            <button type="button" class="link" id="ckClear" data-i18n="ck.clear">Començar de nou</button>
+          </div>
+          <p class="fine" data-i18n="ck.fine">Preu orientatiu. El preu final, amb els extres, el confirmem amb la proposta.</p>
+        </aside>
+      </form>
+    </section>
+    <div class="sheet" id="ckSheet" hidden>
+      <div class="sheet-in" role="dialog" aria-modal="true" aria-labelledby="ck-sh-h" tabindex="-1" id="ckSheetIn">
+        <div class="caps" data-i18n="or.lbl">Encàrrecs de pastissos</div>
+        <h3 id="ck-sh-h" data-i18n="ck.shH">Resum del <em>teu encàrrec</em></h3>
+        <ul class="sum2" id="ckSum2"></ul>
+        <div class="done" id="ckDone" hidden><h3 data-i18n="ck.doneH">Sol·licitud <em>preparada.</em></h3><p data-i18n="ck.doneP">Encara no rebem encàrrecs des de la web. L'hem guardada en aquest dispositiu. Si vols, copia'n el resum i envia-ns-el.</p></div>
+        <p class="fine" id="ckCopied" role="status" aria-live="polite"></p>
+        <div class="tray-acts">
+          <button type="button" class="btn-solid" id="ckSave" data-i18n="ck.save">Preparar la sol·licitud</button>
+          <button type="button" class="link" id="ckCopy" data-i18n="ck.copy">Copiar el resum</button>
+          <button type="button" class="link" id="ckBack" data-i18n="ck.back">Modificar</button>
+        </div>
+      </div>
+    </div>
+    </section>
+    <section class="blog" id="blog" aria-labelledby="bl-h">
+      <div class="grid box-head">
+        <div class="lbl caps" data-i18n="nav.blog">Blog</div>
+        <h2 id="bl-h" data-i18n="bl.h">Quadern <em>de l'estudi.</em></h2>
+        <p data-i18n="bl.p">Receptes, imatges, pensaments i llibres. El que passa a l'obrador entre encàrrec i encàrrec.</p>
+        <div class="filters" id="blogFilters" role="group" aria-label="Filtrar entrades"></div>
+      </div>
+      <div class="grid">
+        <div class="board" id="blogBoard"></div>
+        <p class="fine" data-i18n="bl.fine">Entrades d'exemple, per substituir per les vostres.</p>
+      </div>
+      <p class="sr" id="blogLive" role="status" aria-live="polite"></p>
+    </section>
+    <div class="sheet" id="pSheet" hidden>
+      <div class="sheet-in post-in" role="dialog" aria-modal="true" aria-labelledby="p-h" tabindex="-1" id="pIn">
+        <div class="p-bar"><span class="caps" data-i18n="bl.bar">Blog · Quadern de l'estudi</span><button type="button" class="link" id="pClose" data-i18n="close">Tancar</button></div>
+        <div class="p-body" id="pBody"></div>
+      </div>
+    </div>
+    <footer class="colo grid">
+      <span class="a">La Bastarda Studio</span>
+      <span class="b" data-i18n="colo">Prototip de la portada. Les imatges són provisionals.</span>
+      <span class="c"><button type="button" id="toTop" data-i18n="top">Tornar a l'inici</button></span>
+    </footer>
+  </div>
+</main>
+
+<script src="content.js"></script>
+<script>
+/* ===================== CONTENT =====================
+   Swap photos here. `src` = file in img/, `alt` (optional) = second frame shown on hover.
+   Without `src`, the print shows a labelled plate. `ar` = width / height of the photo. */
+const PRINTS = [
+  { id:"blue",   ar:.703, src:"blue.webp",   n:"01", cap:"cap.blue" },
+  { id:"table",  ar:1.706,src:"table.webp",  n:"02", cap:"cap.table" },
+  { id:"sink",   ar:.551, src:"sink.webp",   n:"12", cap:"cap.sink" },
+  { id:"slices", ar:.819, src:"slices.webp", n:"03", cap:"cap.slices" },
+  { id:"moss",   ar:.799, src:"moss.webp",   n:"04", cap:"cap.moss" },
+  { id:"green",  ar:.713, src:"green.webp",  n:"05", cap:"cap.green" },
+  { id:"crush",  ar:.822, src:"crush.webp",  n:"06", cap:"cap.crush" },
+  { id:"tools",  ar:.844, src:"tools.webp",  n:"07", cap:"cap.tools" },
+  { id:"spoons", ar:.72,  src:"spoons.webp", n:"08", cap:"cap.spoons" },
+  { id:"rack",   ar:.797, src:"cookrack.webp", n:"09", cap:"cap.rack" },
+  { id:"chand",  ar:.964, src:"cookhand.webp", n:"10", cap:"cap.chand" },
+  { id:"dome",   ar:.901, src:"cookdome.webp", n:"11", cap:"cap.dome" }
+];
+/* Compositions, in fractions of the page box. x/y = top-left; w = width (fraction of page width)
+   or h = height (fraction of page height). A print missing from a composition waits, hidden,
+   where it appears next. copy = text block (x, b = bottom, w). dn = on tall screens the print slides
+   down to rest just above the text, so the page has no dead band in the middle. */
+const COMP_D = [
+  { blue:{x:.035,y:0,h:.94}, table:{x:.555,y:0,w:.26}, slices:{x:.83,y:.33,w:.12}, copy:{x:.555,b:0,w:.34} },
+  { spoons:{x:.535,y:0,h:.94}, tools:{x:.035,y:0,w:.15}, sink:{x:.22,y:.06,h:.54}, copy:{x:.035,b:0,w:.34} },
+  { moss:{x:.535,y:0,h:.94}, green:{x:.035,y:0,w:.14}, crush:{x:.21,y:.36,w:.11}, copy:{x:.035,b:0,w:.36} },
+  { rack:{x:.035,y:0,h:.94}, chand:{x:.555,y:0,w:.17}, dome:{x:.79,y:.24,w:.13}, copy:{x:.555,b:0,w:.32} }
+];
+const COMP_M = [
+  { blue:{x:0,y:0,w:.66}, slices:{x:.72,y:.24,w:.28,dn:1}, copy:{x:0,b:0,w:1} },
+  { spoons:{x:.34,y:0,w:.6}, tools:{x:0,y:0,w:.28}, sink:{x:0,y:.22,w:.28,dn:1}, copy:{x:0,b:0,w:1} },
+  { moss:{x:.34,y:0,w:.66}, green:{x:0,y:0,w:.28}, crush:{x:0,y:.24,w:.28,dn:1}, copy:{x:0,b:0,w:1} },
+  { rack:{x:0,y:0,w:.66}, chand:{x:.72,y:.2,w:.28,dn:1}, copy:{x:0,b:0,w:1} }
+];
+// fill the gaps: a print absent from a composition sits hidden where it is nearest to appearing
+[COMP_D, COMP_M].forEach(C => PRINTS.forEach(p => C.forEach((c, i) => {
+  if (c[p.id]) return;
+  for (let d = 1; d < C.length; d++) {
+    const n = C[i + d] && C[i + d][p.id] || C[i - d] && C[i - d][p.id];
+    if (n && !n._ghost) { c[p.id] = { ...n, o: 0, _ghost: true }; break; }
+  }
+  if (!c[p.id]) c[p.id] = { x: 0, y: 0, w: .1, o: 0, _ghost: true };
+})));
+/* Cookie collection for "Fes la teva caixa". `sku` is the id a future shop will use.
+   `img` lives in img/; leave it empty to show a plate until the photo exists. */
+const BOXES = [4, 6];
+const BOX_PRICE = { 4: 15, 6: 20 }; // € per box, whatever the flavours
+const eur = n => `${n.toLocaleString(document.documentElement.lang === "es" ? "es-ES" : "ca-ES")}\u00a0€`;
+const FLAVOURS = [
+  { sku:"cookie-classica",   img:"f-classica.webp",   ca:["Clàssica","Mantega torrada, xocolata negra i un punt de sal."],            es:["Clásica","Mantequilla tostada, chocolate negro y un punto de sal."] },
+  { sku:"cookie-triple",     img:"f-triple.webp",     ca:["Triple Xocolata","Cacau, xocolata negra i trossos de xocolata amb llet."], es:["Triple Chocolate","Cacao, chocolate negro y trozos de chocolate con leche."] },
+  { sku:"cookie-cheesecake", img:"f-cheesecake.webp", ca:["Cheesecake","Galeta de vainilla amb cor de crema de formatge."],             es:["Cheesecake","Galleta de vainilla con corazón de crema de queso."] },
+  { sku:"cookie-redvelvet",  img:"f-redvelvet.webp",  ca:["Red Velvet","Cacau suau, color intens i xocolata blanca."],                 es:["Red Velvet","Cacao suave, color intenso y chocolate blanco."] },
+  { sku:"cookie-caramel",    img:"f-caramel.webp",    ca:["Salted Caramel","Caramel salat fet a l'estudi i flor de sal."],             es:["Salted Caramel","Caramelo salado hecho en el estudio y flor de sal."] },
+  { sku:"cookie-pistatxo",   img:"",                 ca:["Pistatxo","Pistatxo torrat i xocolata blanca."],                            es:["Pistacho","Pistacho tostado y chocolate blanco."] },
+  { sku:"cookie-lemon",      img:"f-lemon.webp",      ca:["Lemon Pie","Llimona, sucre glas i un final de merenga."],                    es:["Lemon Pie","Limón, azúcar glas y un final de merengue."] },
+  { sku:"cookie-cinnamon",   img:"f-cinnamon.webp",   ca:["Cinnamon","Canyella, sucre moreno i civada cruixent."],                      es:["Cinnamon","Canela, azúcar moreno y avena crujiente."] }
+];
+/* Shop adapter: the only place to touch when a real store is connected.
+   checkout() receives { box, size, items:[{ sku, qty }], lang }. */
+const SHOP = {
+  connected: false,
+  checkout(order) { return Promise.resolve({ ok: false, reason: "not-connected", order }); }
+};
+/* Cake order options. `from` = starting price in € for a size; `extra: true` = costs more (amount set in the proposal). All provisional: edit names, colours (for the drawing) and limits here.
+   ORDERS.submit() is the one place to connect a real order inbox later. */
+const CAKE = {
+  notice: 7, // provisional minimum days of notice
+  size:     { type: "radio", req: true, opts: [
+    { id: "s6",  ca: "6–8 racions",   es: "6–8 raciones",  w: 150, layers: 3, from: 25 },
+    { id: "s10", ca: "10–12 racions", es: "10–12 raciones", w: 158, layers: 4, from: 35 },
+    { id: "s16", ca: "16–20 racions", es: "16–20 raciones", w: 206, layers: 4, from: 50 },
+    { id: "s20", ca: "Més de 20, en parlem", es: "Más de 20, lo hablamos", w: 228, layers: 4, from: 55 } ] },
+  sponge:   { type: "radio", req: true, opts: [
+    { id: "vainilla",  ca: "Vainilla",    es: "Vainilla",    c: "#E9D6A4" },
+    { id: "xocolata",  ca: "Xocolata",    es: "Chocolate",   c: "#5B3A2B" },
+    { id: "redvelvet", ca: "Red Velvet",  es: "Red Velvet",  c: "#8C2B2E" },
+    { id: "pistatxo",  ca: "Pistatxo",    es: "Pistacho",    c: "#B5BC80", extra: true },
+    { id: "llimona",   ca: "Llimona",     es: "Limón",       c: "#EED987" },
+    { id: "carrot",    ca: "Pastanaga i espècies", es: "Zanahoria y especias", c: "#C68A4C" } ] },
+  filling:  { type: "check", req: true, max: 2, /* one filling between each pair of layers: layers - 1 */ opts: [
+    { id: "mascarpone", ca: "Crema de mascarpone", es: "Crema de mascarpone", c: "#F3EDDD" },
+    { id: "ganache",    ca: "Ganache de xocolata", es: "Ganache de chocolate", c: "#3A2419" },
+    { id: "gerds",      ca: "Melmelada de gerds",  es: "Mermelada de frambuesa", c: "#B23A48" },
+    { id: "curd",       ca: "Crema de llimona",    es: "Crema de limón",      c: "#EFCB52" },
+    { id: "pralin",     ca: "Praliné d'avellana",  es: "Praliné de avellana", c: "#A6733F", extra: true },
+    { id: "caramel",    ca: "Caramel salat",       es: "Caramelo salado",     c: "#C4843A" },
+    { id: "fruita",     ca: "Fruita fresca",       es: "Fruta fresca",        c: "#D45A63" } ] },
+  frosting: { type: "radio", req: true, opts: [
+    { id: "buttercream", ca: "Buttercream de vainilla", es: "Buttercream de vainilla", c: "#F2E8D2" },
+    { id: "formatge",    ca: "Crema de formatge",       es: "Crema de queso",          c: "#F7F2E7" },
+    { id: "ganacheC",    ca: "Ganache",                  es: "Ganache",                 c: "#3A2419" },
+    { id: "pistatxoC",   ca: "Buttercream de pistatxo",  es: "Buttercream de pistacho", c: "#C7CD9C", extra: true },
+    { id: "merenga",     ca: "Merenga torrada",          es: "Merengue tostado",        c: "#F1E2C4" } ] },
+  deco:     { type: "check", req: false, opts: [
+    { id: "flors",    ca: "Flors",            es: "Flores",           c: "#C9A2C8", extra: true },
+    { id: "fruitaD",  ca: "Fruita",           es: "Fruta",            c: "#9C1621" },
+    { id: "pipat",    ca: "Pipat vintage",    es: "Manga vintage",    c: "#F3EBDA" },
+    { id: "escult",   ca: "Formes escultòriques", es: "Formas escultóricas", c: "#B8BEA3" },
+    { id: "minimal",  ca: "Molt minimal",     es: "Muy minimal",      c: "#E7E2D7" } ] }
+};
+const ORDERS = {
+  connected: false,
+  submit(order) { return Promise.resolve({ ok: false, reason: "not-connected", order }); }
+};
+
+/* Blog: one entry per object, shown in this order. kind = recipe | image | thought | book.
+   r = tilt in degrees; w = width on the board (1 = full column); right = push it to the right.
+   Text fields take { ca, es }. img = file in img/ (leave it out for a "photo pending" plate), ar = its width / height.
+   To add a post, copy an entry of the same kind and change it. */
+const BLOG = [
+  { id:"cookies-mantega-torrada", kind:"recipe", img:"f-classica.webp", ar:.8, r:-1.2, w:.92,
+    title:{ ca:"Cookies de <em>mantega torrada</em>", es:"Cookies de <em>mantequilla tostada</em>" },
+    time:{ ca:"40 min + 1 nit", es:"40 min + 1 noche" }, yield:{ ca:"12 cookies", es:"12 cookies" },
+    excerpt:{ ca:"La nostra Clàssica comença aquí: paciència amb la mantega i una nit de repòs.", es:"Nuestra Clásica empieza aquí: paciencia con la mantequilla y una noche de reposo." },
+    intro:{ ca:"El secret no és cap ingredient estrany. És deixar que la mantega es torri fins que faci olor d'avellana, i no tenir pressa per enfornar.", es:"El secreto no es ningún ingrediente raro. Es dejar que la mantequilla se tueste hasta que huela a avellana, y no tener prisa por hornear." },
+    ingredients:{ ca:["115 g de mantega","100 g de sucre moreno","50 g de sucre blanc","1 ou","1 culleradeta d'extracte de vainilla","160 g de farina","½ culleradeta de bicarbonat","½ culleradeta de sal","120 g de xocolata negra a trossos","Flor de sal per acabar"],
+                  es:["115 g de mantequilla","100 g de azúcar moreno","50 g de azúcar blanco","1 huevo","1 cucharadita de extracto de vainilla","160 g de harina","½ cucharadita de bicarbonato","½ cucharadita de sal","120 g de chocolate negro en trozos","Flor de sal para terminar"] },
+    steps:{ ca:["Fon la mantega en un cassó i deixa-la coure fins que faci olor d'avellana i el pòsit es torni daurat. Deixa-la refredar 10 minuts.","Bat la mantega amb els dos sucres i afegeix-hi l'ou i la vainilla.","Incorpora-hi la farina, el bicarbonat i la sal sense treballar gaire la massa. Afegeix-hi la xocolata.","Tapa la massa i deixa-la reposar a la nevera tota la nit.","Fes boles d'uns 50 g, posa-les ben separades a la safata i enforna-les a 180 °C uns 11 minuts. Les vores han de quedar daurades i el centre, tou.","Acaba-les amb flor de sal en sortir del forn i deixa-les refredar a la safata."],
+            es:["Funde la mantequilla en un cazo y déjala cocer hasta que huela a avellana y el poso se vuelva dorado. Déjala enfriar 10 minutos.","Bate la mantequilla con los dos azúcares y añade el huevo y la vainilla.","Incorpora la harina, el bicarbonato y la sal sin trabajar mucho la masa. Añade el chocolate.","Tapa la masa y déjala reposar en la nevera toda la noche.","Haz bolas de unos 50 g, ponlas bien separadas en la bandeja y hornéalas a 180 °C unos 11 minutos. Los bordes deben quedar dorados y el centro, tierno.","Termínalas con flor de sal al salir del horno y déjalas enfriar en la bandeja."] } },
+  { id:"sense-cataleg", kind:"thought", r:.9,
+    title:{ ca:"Per què no tenim catàleg", es:"Por qué no tenemos catálogo" },
+    quote:{ ca:"Cada pastís comença amb una conversa, no amb una foto.", es:"Cada pastel empieza con una conversación, no con una foto." },
+    body:{ ca:["Ens pregunten sovint on és el catàleg. No en tenim, i no és per deixadesa.","Un pastís per a un aniversari de noranta anys no hauria de ser el mateix que un per a un sopar entre amics. Preferim escoltar què se celebra, qui hi serà i què us agrada, i dibuixar-lo a partir d'aquí.","Les fotos d'aquesta web són punts de partida, no models per copiar."],
+            es:["Nos preguntan a menudo dónde está el catálogo. No tenemos, y no es por dejadez.","Un pastel para un noventa cumpleaños no debería ser el mismo que uno para una cena entre amigos. Preferimos escuchar qué se celebra, quién estará y qué os gusta, y dibujarlo a partir de ahí.","Las fotos de esta web son puntos de partida, no modelos para copiar."] } },
+  { id:"final-de-festa", kind:"image", img:"crush.webp", ar:.822, r:-.5, w:.8, right:1,
+    title:{ ca:"Final de festa", es:"Fin de fiesta" },
+    excerpt:{ ca:"El que queda de la taula quan la festa s'acaba.", es:"Lo que queda de la mesa cuando la fiesta se acaba." },
+    body:{ ca:["El que queda de la taula quan la festa s'acaba. Les engrunes també expliquen si un pastís ha agradat."], es:["Lo que queda de la mesa cuando la fiesta se acaba. Las migas también cuentan si un pastel ha gustado."] } },
+  { id:"tartine", kind:"book", r:1.3, bg:"#D9DBC4", fg:"var(--ink)",
+    title:{ ca:"Tartine", es:"Tartine" }, author:"Elisabeth M. Prueitt i Chad Robertson", year:"2006",
+    excerpt:{ ca:"Un clàssic de la pastisseria de San Francisco. El tenim sempre obert al costat del forn.", es:"Un clásico de la pastelería de San Francisco. Lo tenemos siempre abierto junto al horno." },
+    body:{ ca:["Un clàssic de la pastisseria de San Francisco. El tenim sempre obert al costat del forn.","El llegim tant per les tècniques com pel to: rigorós, però sense pressa. Hi ha receptes que hem fet tantes vegades que ja tenen taques de mantega."],
+            es:["Un clásico de la pastelería de San Francisco. Lo tenemos siempre abierto junto al horno.","Lo leemos tanto por las técnicas como por el tono: riguroso, pero sin prisa. Hay recetas que hemos hecho tantas veces que ya tienen manchas de mantequilla."] } },
+  { id:"melmelada-gerds", kind:"recipe", ar:1.1, r:.6, w:.86, right:1,
+    title:{ ca:"Melmelada de gerds <em>ràpida</em>", es:"Mermelada de frambuesa <em>rápida</em>" },
+    time:{ ca:"20 min", es:"20 min" }, yield:{ ca:"1 pot petit", es:"1 tarro pequeño" },
+    excerpt:{ ca:"La que posem entre capes de pa de pessic. Poc sucre, molta fruita.", es:"La que ponemos entre capas de bizcocho. Poco azúcar, mucha fruta." },
+    intro:{ ca:"La que posem entre capes de pa de pessic. Poc sucre, molta fruita i un punt d'acidesa que talla la crema.", es:"La que ponemos entre capas de bizcocho. Poco azúcar, mucha fruta y un punto de acidez que corta la crema." },
+    ingredients:{ ca:["300 g de gerds, frescos o congelats","120 g de sucre","El suc de mitja llimona"], es:["300 g de frambuesas, frescas o congeladas","120 g de azúcar","El zumo de medio limón"] },
+    steps:{ ca:["Posa els gerds, el sucre i el suc de llimona en un cassó a foc mitjà.","Quan arrenqui el bull, abaixa el foc i remena sovint durant 10 o 12 minuts, xafant una mica la fruita.","Fes la prova del plat: posa'n una gota en un plat fred. Si en inclinar-lo gairebé no corre, ja està.","Passa-la a un pot net i deixa-la refredar. Es conserva una setmana a la nevera."],
+            es:["Pon las frambuesas, el azúcar y el zumo de limón en un cazo a fuego medio.","Cuando empiece a hervir, baja el fuego y remueve a menudo durante 10 o 12 minutos, aplastando un poco la fruta.","Haz la prueba del plato: pon una gota en un plato frío. Si al inclinarlo casi no corre, ya está.","Pásala a un tarro limpio y déjala enfriar. Se conserva una semana en la nevera."] } },
+  { id:"proves-de-color", kind:"image", img:"moss.webp", ar:.799, r:-1, w:.84,
+    title:{ ca:"Proves de color", es:"Pruebas de color" },
+    excerpt:{ ca:"Molsa, flors seques i cireres per al pastís silvestre.", es:"Musgo, flores secas y cerezas para el pastel silvestre." },
+    body:{ ca:["Molsa, flors seques i cireres. Abans de decidir la cobertura del pastís silvestre en vam fer tres proves, i aquesta és la que es va quedar."], es:["Musgo, flores secas y cerezas. Antes de decidir la cobertura del pastel silvestre hicimos tres pruebas, y esta es la que se quedó."] } },
+  { id:"pastis-imperfecte", kind:"thought", r:-.8, w:.94, right:1,
+    title:{ ca:"Elogi del pastís imperfecte", es:"Elogio del pastel imperfecto" },
+    quote:{ ca:"Una vora que no és del tot recta diu que algú l'ha feta a mà.", es:"Un borde que no es del todo recto dice que alguien lo ha hecho a mano." },
+    body:{ ca:["No busquem la perfecció de l'aparador. Una vora que no és del tot recta, una flor que cau una mica de costat, diuen que algú hi ha posat les mans.","Això no vol dir fer-ho de qualsevol manera. Vol dir que preferim un pastís viu a un pastís de plàstic."],
+            es:["No buscamos la perfección del escaparate. Un borde que no es del todo recto, una flor que cae un poco de lado, dicen que alguien ha puesto las manos.","Eso no quiere decir hacerlo de cualquier manera. Quiere decir que preferimos un pastel vivo a un pastel de plástico."] } },
+  { id:"flavor-thesaurus", kind:"book", r:.7, bg:"var(--ink)", fg:"var(--paper)",
+    title:{ ca:"The Flavor Thesaurus", es:"The Flavor Thesaurus" }, author:"Niki Segnit", year:"2010",
+    excerpt:{ ca:"Un diccionari de combinacions de sabors. L'obrim quan busquem una parella inesperada.", es:"Un diccionario de combinaciones de sabores. Lo abrimos cuando buscamos una pareja inesperada." },
+    body:{ ca:["Un diccionari de combinacions de sabors, escrit amb molt d'humor. L'obrim quan busquem una parella inesperada per a un farcit.","D'aquí va sortir la idea de provar el pistatxo amb llimona."],
+            es:["Un diccionario de combinaciones de sabores, escrito con mucho humor. Lo abrimos cuando buscamos una pareja inesperada para un relleno.","De aquí salió la idea de probar el pistacho con limón."] } }
+];
+
+const I18N = {
+  ca:{
+    "cta.box":"La teva caixa de cookies",
+    "bx.h":"La teva caixa <em>de cookies.</em>","bx.p":"Tria una caixa de 4 o 6 i omple-la amb els sabors que vulguis. Pots repetir-ne o barrejar-los.",
+    "bx.size":"Mida","bx.s4":"cookies<br>caixa petita","bx.s6":"cookies<br>caixa gran","bx.yours":"La teva caixa",
+    "bx.review":"Revisar la caixa","bx.clear":"Buidar","bx.fine":"Sabors provisionals. Compra en línia, aviat.","bx.price":"Preu de la caixa","bx.total":"Total",
+    "bx.pending":"Foto pendent","bx.less":"Una menys de","bx.more":"Una més de","bx.takeOut":"Treure",
+    "bx.empty":"Encara és buida. Tria sabors de la llista.","bx.full":"Caixa completa.","bx.isFull":"La caixa ja és plena. Treu-ne una per canviar-la.",
+    "bx.left1":"Falta 1 cookie.","bx.leftN":"Falten {n} cookies.",
+    "bx.cut1":"Hem tret 1 cookie perquè la caixa de {s} hi càpiga.","bx.cutN":"Hem tret {n} cookies perquè la caixa de {s} hi càpiga.",
+    "sh.kick":"Caixa de {s}","sh.h":"Resum de <em>la teva caixa</em>","sh.confirm":"Confirmar la caixa","sh.back":"Modificar","sh.close":"Tancar",
+    "sh.fine":"Recollida i pagament s'afegiran quan obrim la botiga en línia.",
+    "sh.doneH":"Caixa <em>preparada.</em>","sh.doneP":"Encara no podem cobrar en línia. Hem guardat la teva caixa en aquest dispositiu i la trobaràs a punt quan obrim la botiga.",
+    "nav.cakes":"Pastissos","nav.cookies":"Cookies","nav.notebook":"Quadern","nav.studio":"L'estudi","nav.orders":"Encàrrecs","hub.t1":"Fes la teva caixa de cookies","hub.t2":"Encarrega un pastís","hub.l":"Què vols encarregar",
+    "cta.order":"Encarregar","cta.cake":"Encarregar un pastís","cta.cookies":"Veure cookies",
+    "c0.k":"Pastisseria creativa","c0.h":"Pastissos per encàrrec i <em>cookies</em> d'autor.","c0.p":"Fem peces úniques, a mà, sense receptes de catàleg.",
+    "c1.h":"Cada pastís és <em>una peça única.</em>","c1.p":"Ens expliques l'ocasió. Pensem junts la forma, el color i el gust.","c1.s":"Portafolis complet, aviat",
+    "c2.h":"Una col·lecció curta que <em>canvia amb les estacions.</em>","c2.p":"Les combines com vulguis en caixes de 4 o 6.","c2.s":"Botiga en línia, aviat",
+    "c3.h":"El que passa <em>abans</em> d'un pastís.","c3.p":"Proves, esbossos i idees a mig fer.","c3.s":"Primeres pàgines, aviat",
+    "f.0":"Inici","f.1":"L'estudi","f.2":"Pastissos","f.3":"Cookies",
+    "c4.h":"Un estudi de pastisseria <em>que fa les coses a la seva manera.</em>","st.q2":"Ens interessen les formes, els colors i les textures tant com el gust. Treballem per encàrrec i en petites sèries.",
+    "or.h2":"Tens una ocasió? <em>Fem-li un pastís.</em>",
+    "cap.blue":"Tall lateral","cap.table":"Sobretaula","cap.sink":"Després del postre","cap.slices":"Porcions","cap.moss":"Pastís silvestre","cap.green":"Mans","cap.crush":"Final de festa","cap.tools":"Eines","cap.spoons":"Culleres","cap.rack":"Safates","cap.chand":"Doble xocolata","cap.dome":"Sota la campana",
+    "ph":"Foto provisional · flash directe",
+    "st.q":"La Bastarda és un estudi de pastisseria. Ens interessen les formes, els colors i les textures <em>tant com el gust.</em>",
+    "st.s":"Treballem per encàrrec i en petites sèries.",
+    "or.h":"Tens una ocasió?<br>Fem-li un pastís.","or.1":"Ens expliques la idea i la data.","or.2":"Et proposem forma, sabors i preu.","or.3":"El fem i el véns a recollir.",
+    "ck.yours":"El teu pastís","ck.review":"Revisar l'encàrrec","ck.clear":"Començar de nou","ck.fine":"Preu orientatiu. El preu final, amb els extres, el confirmem amb la proposta.",
+    "ck.prog":"{n}/5 obligatoris","ck.tbd":"—",
+    "ck.t.size":"Racions","ck.h.size":"Per a quantes persones",
+    "ck.t.sponge":"Pa de pessic","ck.h.sponge":"Tria'n un",
+    "ck.t.filling":"Farcit","ck.h.filling":"Un per capa: fins a {m}",
+    "ck.t.frosting":"Cobertura","ck.h.frosting":"Tria'n una",
+    "ck.t.deco":"Decoració","ck.h.deco":"Opcional · a especificar a baix",
+    "ck.t.when":"Data i contacte","ck.h.when":"Mínim {n} dies d'antelació",
+    "ck.f.msg":"Missatge al pastís","ck.f.msg.h":"Fins a 40 caràcters",
+    "ck.f.palette":"Paleta de colors","ck.f.palette.p":"Ex.: blanc trencat i vermell cirera",
+    "ck.f.idea":"Explica'ns la idea","ck.f.idea.p":"Quines flors o quina fruita, l'ocasió, l'estil, el que t'imagines…",
+    "ck.f.ref":"Enllaç de referència","ck.f.ref.h":"Una imatge de Pinterest, Instagram… Opcional.","ck.f.ref.p":"https://",
+    "ck.f.allergy":"Al·lèrgies o intoleràncies","ck.f.allergy.h":"Si no n'hi ha cap, escriu «cap».","ck.f.allergy.p":"Ex.: fruits secs, gluten, lactosa…","ck.e.allergy":"Digues-nos si hi ha al·lèrgies, o escriu «cap».","ck.s.allergy":"Al·lèrgies","ck.f.date":"Quan el necessites","ck.f.cname":"Nom","ck.f.email":"Correu electrònic","ck.f.phone":"Telèfon","ck.f.phone.h":"Correu o telèfon, com a mínim un.",
+    "ck.e.size":"Tria les racions.","ck.e.sponge":"Tria un pa de pessic.","ck.e.filling":"Tria com a mínim un farcit.","ck.layers":"{n} capes","ck.trim":"Amb {n} capes hi caben {m} farcits: hem tret l'últim.","ck.e.frosting":"Tria una cobertura.",
+    "ck.e.date":"Indica una data.","ck.e.soon":"Necessitem com a mínim {n} dies.","ck.e.name":"Escriu el teu nom.","ck.e.contact":"Deixa'ns un correu o un telèfon.","ck.e.email":"Revisa el correu.",
+    "ck.s.size":"Racions","ck.s.sponge":"Pa de pessic","ck.s.filling":"Farcit","ck.s.frosting":"Cobertura","ck.s.deco":"Decoració","ck.s.date":"Data",
+    "ck.s.palette":"Colors","ck.s.idea":"Idea","ck.s.ref":"Referència","ck.s.contact":"Contacte","ck.s.price":"Preu","ck.from":"des de {p}","ck.extra":"extra","ck.plusEx":"+ extres",
+    "ck.shH":"Resum del <em>teu encàrrec</em>","ck.save":"Preparar la sol·licitud","ck.copy":"Copiar el resum","ck.back":"Modificar",
+    "ck.doneH":"Sol·licitud <em>preparada.</em>","ck.doneP":"Encara no rebem encàrrecs des de la web. L'hem guardada en aquest dispositiu. Si vols, copia'n el resum i envia-ns-el.",
+    "ck.sentH":"Sol·licitud <em>enviada.</em>","ck.sentP":"Te la responem amb una proposta de forma, sabors i preu.",
+    "ck.copied":"Resum copiat.","ck.copyFail":"No s'ha pogut copiar. Selecciona el text del resum.","ck.copyHead":"Encàrrec de pastís · La Bastarda Studio",
+    "or.s":"Formulari d'encàrrecs, aviat","or.how":"Com funciona","or.lbl":"Encàrrecs de pastissos","or.lead":"Tria la base aquí sota, pas a pas, i explica'ns la resta. Et responem amb una proposta de forma, sabors i preu.",
+    "nav.blog":"Blog","bl.h":"Quadern <em>de l'estudi.</em>","bl.p":"Receptes, imatges, pensaments i llibres. El que passa a l'obrador entre encàrrec i encàrrec.",
+    "bl.fine":"Entrades d'exemple, per substituir per les vostres.","bl.bar":"Blog · Quadern de l'estudi","bl.filter":"Filtrar entrades","bl.no":"Núm.","bl.read":"Llegir",
+    "bl.k.all":"Tot","bl.k.recipe":"Receptes","bl.k.image":"Imatges","bl.k.thought":"Pensaments","bl.k.book":"Llibres",
+    "bl.one.recipe":"Recepta","bl.one.image":"Imatge","bl.one.thought":"Pensament","bl.one.book":"Llibre",
+    "bl.time":"Temps","bl.yield":"Surten","bl.ing":"Ingredients","bl.steps":"Elaboració","bl.prev":"Anterior","bl.next":"Següent","bl.shown":"entrades","bl.shown1":"entrada",
+    "colo":"Prototip de la portada. Fotografies de referència provisionals, a substituir per fotografia pròpia.","top":"Tornar a l'inici","menu":"Menú","close":"Tancar"
+  },
+  es:{
+    "cta.box":"Tu caja de cookies",
+    "bx.h":"Tu caja <em>de cookies.</em>","bx.p":"Elige una caja de 4 o 6 y llénala con los sabores que quieras. Puedes repetir o mezclarlos.",
+    "bx.size":"Tamaño","bx.s4":"cookies<br>caja pequeña","bx.s6":"cookies<br>caja grande","bx.yours":"Tu caja",
+    "bx.review":"Revisar la caja","bx.clear":"Vaciar","bx.fine":"Sabores provisionales. Compra en línea, pronto.","bx.price":"Precio de la caja","bx.total":"Total",
+    "bx.pending":"Foto pendiente","bx.less":"Una menos de","bx.more":"Una más de","bx.takeOut":"Quitar",
+    "bx.empty":"Todavía está vacía. Elige sabores de la lista.","bx.full":"Caja completa.","bx.isFull":"La caja ya está llena. Quita una para cambiarla.",
+    "bx.left1":"Falta 1 cookie.","bx.leftN":"Faltan {n} cookies.",
+    "bx.cut1":"Hemos quitado 1 cookie para que quepa en la caja de {s}.","bx.cutN":"Hemos quitado {n} cookies para que quepan en la caja de {s}.",
+    "sh.kick":"Caja de {s}","sh.h":"Resumen de <em>tu caja</em>","sh.confirm":"Confirmar la caja","sh.back":"Modificar","sh.close":"Cerrar",
+    "sh.fine":"Recogida y pago se añadirán cuando abramos la tienda en línea.",
+    "sh.doneH":"Caja <em>preparada.</em>","sh.doneP":"Todavía no podemos cobrar en línea. Hemos guardado tu caja en este dispositivo y la encontrarás lista cuando abramos la tienda.",
+    "nav.cakes":"Pasteles","nav.cookies":"Cookies","nav.notebook":"Cuaderno","nav.studio":"El estudio","nav.orders":"Encargos","hub.t1":"Haz tu caja de cookies","hub.t2":"Encarga un pastel","hub.l":"Qué quieres encargar",
+    "cta.order":"Encargar","cta.cake":"Encargar un pastel","cta.cookies":"Ver cookies",
+    "c0.k":"Pastelería creativa","c0.h":"Pasteles por encargo y <em>cookies</em> de autor.","c0.p":"Hacemos piezas únicas, a mano, sin recetas de catálogo.",
+    "c1.h":"Cada pastel es <em>una pieza única.</em>","c1.p":"Nos cuentas la ocasión. Pensamos juntos la forma, el color y el sabor.","c1.s":"Portafolio completo, pronto",
+    "c2.h":"Una colección corta que <em>cambia con las estaciones.</em>","c2.p":"Las combinas como quieras en cajas de 4 o 6.","c2.s":"Tienda en línea, pronto",
+    "c3.h":"Lo que pasa <em>antes</em> de un pastel.","c3.p":"Pruebas, bocetos e ideas a medio hacer.","c3.s":"Primeras páginas, pronto",
+    "f.0":"Inicio","f.1":"El estudio","f.2":"Pasteles","f.3":"Cookies",
+    "c4.h":"Un estudio de pastelería <em>que hace las cosas a su manera.</em>","st.q2":"Nos interesan las formas, los colores y las texturas tanto como el sabor. Trabajamos por encargo y en pequeñas series.",
+    "or.h2":"¿Tienes una ocasión? <em>Hagámosle un pastel.</em>",
+    "cap.blue":"Corte lateral","cap.table":"Sobremesa","cap.sink":"Después del postre","cap.slices":"Porciones","cap.moss":"Pastel silvestre","cap.green":"Manos","cap.crush":"Fin de fiesta","cap.tools":"Herramientas","cap.spoons":"Cucharas","cap.rack":"Bandejas","cap.chand":"Doble chocolate","cap.dome":"Bajo la campana",
+    "ph":"Foto provisional · flash directo",
+    "st.q":"La Bastarda es un estudio de pastelería. Nos interesan las formas, los colores y las texturas <em>tanto como el sabor.</em>",
+    "st.s":"Trabajamos por encargo y en pequeñas series.",
+    "or.h":"¿Tienes una ocasión?<br>Hagámosle un pastel.","or.1":"Nos cuentas la idea y la fecha.","or.2":"Te proponemos forma, sabores y precio.","or.3":"Lo hacemos y vienes a recogerlo.",
+    "ck.yours":"Tu pastel","ck.review":"Revisar el encargo","ck.clear":"Empezar de nuevo","ck.fine":"Precio orientativo. El precio final, con los extras, lo confirmamos con la propuesta.",
+    "ck.prog":"{n}/5 obligatorios","ck.tbd":"—",
+    "ck.t.size":"Raciones","ck.h.size":"Para cuántas personas",
+    "ck.t.sponge":"Bizcocho","ck.h.sponge":"Elige uno",
+    "ck.t.filling":"Relleno","ck.h.filling":"Uno por capa: hasta {m}",
+    "ck.t.frosting":"Cobertura","ck.h.frosting":"Elige una",
+    "ck.t.deco":"Decoración","ck.h.deco":"Opcional · a especificar abajo",
+    "ck.t.when":"Fecha y contacto","ck.h.when":"Mínimo {n} días de antelación",
+    "ck.f.msg":"Mensaje en el pastel","ck.f.msg.h":"Hasta 40 caracteres",
+    "ck.f.palette":"Paleta de colores","ck.f.palette.p":"Ej.: blanco roto y rojo cereza",
+    "ck.f.idea":"Cuéntanos la idea","ck.f.idea.p":"Qué flores o qué fruta, la ocasión, el estilo, lo que imaginas…",
+    "ck.f.ref":"Enlace de referencia","ck.f.ref.h":"Una imagen de Pinterest, Instagram… Opcional.","ck.f.ref.p":"https://",
+    "ck.f.allergy":"Alergias o intolerancias","ck.f.allergy.h":"Si no hay ninguna, escribe «ninguna».","ck.f.allergy.p":"Ej.: frutos secos, gluten, lactosa…","ck.e.allergy":"Dinos si hay alergias, o escribe «ninguna».","ck.s.allergy":"Alergias","ck.f.date":"Cuándo lo necesitas","ck.f.cname":"Nombre","ck.f.email":"Correo electrónico","ck.f.phone":"Teléfono","ck.f.phone.h":"Correo o teléfono, al menos uno.",
+    "ck.e.size":"Elige las raciones.","ck.e.sponge":"Elige un bizcocho.","ck.e.filling":"Elige al menos un relleno.","ck.layers":"{n} capas","ck.trim":"Con {n} capas caben {m} rellenos: hemos quitado el último.","ck.e.frosting":"Elige una cobertura.",
+    "ck.e.date":"Indica una fecha.","ck.e.soon":"Necesitamos al menos {n} días.","ck.e.name":"Escribe tu nombre.","ck.e.contact":"Déjanos un correo o un teléfono.","ck.e.email":"Revisa el correo.",
+    "ck.s.size":"Raciones","ck.s.sponge":"Bizcocho","ck.s.filling":"Relleno","ck.s.frosting":"Cobertura","ck.s.deco":"Decoración","ck.s.date":"Fecha",
+    "ck.s.palette":"Colores","ck.s.idea":"Idea","ck.s.ref":"Referencia","ck.s.contact":"Contacto","ck.s.price":"Precio","ck.from":"desde {p}","ck.extra":"extra","ck.plusEx":"+ extras",
+    "ck.shH":"Resumen de <em>tu encargo</em>","ck.save":"Preparar la solicitud","ck.copy":"Copiar el resumen","ck.back":"Modificar",
+    "ck.doneH":"Solicitud <em>preparada.</em>","ck.doneP":"Todavía no recibimos encargos desde la web. La hemos guardado en este dispositivo. Si quieres, copia el resumen y envíanoslo.",
+    "ck.sentH":"Solicitud <em>enviada.</em>","ck.sentP":"Te respondemos con una propuesta de forma, sabores y precio.",
+    "ck.copied":"Resumen copiado.","ck.copyFail":"No se ha podido copiar. Selecciona el texto del resumen.","ck.copyHead":"Encargo de pastel · La Bastarda Studio",
+    "or.s":"Formulario de encargos, pronto","or.how":"Cómo funciona","or.lbl":"Encargos de pasteles","or.lead":"Elige la base aquí abajo, paso a paso, y cuéntanos el resto. Te respondemos con una propuesta de forma, sabores y precio.",
+    "nav.blog":"Blog","bl.h":"Cuaderno <em>del estudio.</em>","bl.p":"Recetas, imágenes, pensamientos y libros. Lo que pasa en el obrador entre encargo y encargo.",
+    "bl.fine":"Entradas de ejemplo, para sustituir por las vuestras.","bl.bar":"Blog · Cuaderno del estudio","bl.filter":"Filtrar entradas","bl.no":"Núm.","bl.read":"Leer",
+    "bl.k.all":"Todo","bl.k.recipe":"Recetas","bl.k.image":"Imágenes","bl.k.thought":"Pensamientos","bl.k.book":"Libros",
+    "bl.one.recipe":"Receta","bl.one.image":"Imagen","bl.one.thought":"Pensamiento","bl.one.book":"Libro",
+    "bl.time":"Tiempo","bl.yield":"Salen","bl.ing":"Ingredientes","bl.steps":"Elaboración","bl.prev":"Anterior","bl.next":"Siguiente","bl.shown":"entradas","bl.shown1":"entrada",
+    "colo":"Prototipo de la portada. Fotografías de referencia provisionales, a sustituir por fotografía propia.","top":"Volver al inicio","menu":"Menú","close":"Cerrar"
+  }
+};
+/* What the panel (/admin) saves reaches the page through content.js; without it, the defaults above stay */
+(C => {
+  if (!C) return;
+  if (C.blog) BLOG.splice(0, BLOG.length, ...C.blog);
+  if (C.flavours && C.flavours.length) FLAVOURS.splice(0, FLAVOURS.length, ...C.flavours);
+  if (C.prices) {
+    Object.keys(C.prices.box || {}).forEach(k => { if (C.prices.box[k] != null) BOX_PRICE[k] = C.prices.box[k]; });
+    CAKE.size.opts.forEach(o => { const v = (C.prices.cake || {})[o.id]; if (v != null) o.from = v; });
+  }
+  if (C.text) Object.keys(C.text).forEach(l => I18N[l] && Object.assign(I18N[l], C.text[l]));
+})(window.LB_CONTENT);
+// an image is a file in img/, or a path the panel gives (img/uploads/...)
+const imgSrc = f => f.includes("/") ? f : "img/" + f;
+/* =================================================== */
+
+(() => {
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const soft = t => .5 - Math.cos(Math.PI * t) / 2;
+// mostly linear, so the page keeps one pace through the turn; just a touch of ease at both ends
+const even = t => t + (soft(t) - t) * .4;
+const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+const book = $("#book"), page = $("#page"), printsEl = $("#prints"), copies = $$(".copy");
+let lang = "ca", PW = 0, PH = 0, COMP = COMP_D, mobile = false, pos = 0, target = 0, raf = 0, introT = 0;
+
+/* ---------- prints ---------- */
+const els = {};
+PRINTS.forEach(p => {
+  const f = document.createElement("figure");
+  f.className = "print"; f.dataset.id = p.id;
+  const im = p.src
+    ? `<img src="img/${p.src}" alt="" loading="eager" decoding="async">${p.alt ? `<img class="alt" src="img/${p.alt}" alt="">` : ""}`
+    : `<div class="ph"><b>${p.n}</b><span data-i18n="ph"></span></div>`;
+  f.innerHTML = `<div class="im">${im}</div><figcaption><b>${p.n}</b><span data-i18n="${p.cap}"></span></figcaption>`;
+  printsEl.appendChild(f); els[p.id] = { el: f, ar: p.ar, cap: f.querySelector("figcaption") };
+  if (p.alt) {
+    f.classList.add("has-alt");
+    f.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") f.classList.add("swap"); });
+    f.addEventListener("pointerleave", e => { if (e.pointerType === "mouse") f.classList.remove("swap"); });
+    f.addEventListener("click", e => { if (e.pointerType !== "mouse") f.classList.toggle("swap"); });
+  }
+});
+
+/* ---------- language ---------- */
+const t = k => (I18N[lang] || I18N.ca)[k] ?? I18N.ca[k] ?? "";
+function setLang(l) {
+  lang = I18N[l] ? l : "ca";
+  document.documentElement.lang = lang;
+  $$("[data-i18n]").forEach(el => el.innerHTML = t(el.dataset.i18n));
+  $$(".lang button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+  $(".order .steps").dataset.h = t("or.how");
+  $("#blogFilters").setAttribute("aria-label", t("bl.filter"));
+  try { localStorage.setItem("lb-lang", lang); } catch (e) {}
+  buildFlavours(); renderBox();
+  if (typeof buildCake === "function") { ckRead(); buildCake(); }
+  buildBlog();
+  if (PW) fitPrints();
+  turnBuilt = -1;
+  render(true);
+}
+$$(".lang button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+
+/* ---------- geometry ---------- */
+function rectOf(spec, ar) {
+  let w, h;
+  if (spec.h != null) { h = spec.h * PH; w = h * ar; } else { w = spec.w * PW; h = w / ar; }
+  const f = FIT.get(spec), k = f ? f.k : 1; w *= k; h *= k;
+  return { x: spec.x * PW, y: f ? f.y : spec.y * PH, w, h, o: f && f.o != null ? f.o : spec.o ?? 1 };
+}
+// a print that sits above its page's text never runs into it: on short or wide screens it gets smaller
+const FIT = new WeakMap();
+function fitPrints() {
+  COMP.forEach((C, i) => {
+    const cs = C.copy, cx0 = cs.x * PW, cx1 = cx0 + cs.w * PW;
+    copies[i].style.width = cs.w * PW + "px";
+    const top = PH - cs.b * PH - copies[i].offsetHeight - 34; // room for the caption
+    Object.keys(C).forEach(id => {
+      const sp = C[id]; if (id === "copy" || !els[id]) return;
+      FIT.delete(sp); if (sp._ghost || sp.o === 0) return;
+      const r = rectOf(sp, els[id].ar);
+      if (sp.dn && r.y + r.h < top) { FIT.set(sp, { y: top - r.h, k: 1 }); return; }
+      if (r.x > cx1 || r.x + r.w < cx0 || r.y + r.h <= top) return;
+      // first lift it, as far as the prints above it allow; then shrink what is still in the way
+      let minY = 0;
+      Object.keys(C).forEach(o => {
+        const so = C[o]; if (o === id || o === "copy" || !els[o] || so._ghost || so.o === 0) return;
+        const q = rectOf(so, els[o].ar);
+        if (q.y < r.y && q.x < r.x + r.w && q.x + q.w > r.x) minY = Math.max(minY, q.y + q.h + 34);
+      });
+      const y = Math.max(minY, r.y - (r.y + r.h - top)), k = Math.min(1, (top - y) / r.h);
+      // too little room left for it to read as a photo (very small phones): it sits this page out
+      FIT.set(sp, k < .5 ? { y: r.y, k: 1, o: 0 } : { y, k });
+    });
+  });
+}
+function measure() {
+  mobile = innerWidth < 900;
+  COMP = mobile ? COMP_M : COMP_D;
+  PW = page.clientWidth; PH = page.clientHeight;
+  // on phones the copy sits under the prints: leave it room
+  copies.forEach(c => c.style.maxHeight = "");
+  fitPrints();
+  turnBuilt = -1;
+}
+const N = () => COMP.length;
+function progress() {
+  const r = book.getBoundingClientRect();
+  return clamp(-r.top / (r.height - innerHeight)) * (N() - 1);
+}
+function render() {
+  const k = Math.floor(clamp(pos, 0, N() - 1 - 1e-6)), f = pos - k;
+  // hold each spread, then move: the turn happens in the middle of each scroll step
+  const tt = reduce.matches ? (f > .5 ? 1 : 0) : even(clamp((f - .05) / .9));
+  const A = COMP[k], B = COMP[Math.min(k + 1, N() - 1)];
+  // the first step is a real page turn; the others keep re-arranging the prints
+  // every step is a page turn; with reduced motion the spread simply changes
+  const turnStep = !reduce.matches;
+  const turning = turnStep && tt > 0 && tt < 1 && k < N() - 1;
+  page.style.visibility = turning ? "hidden" : "";
+  if (turning) { if (turnBuilt !== k) buildTurn(k); turnEl.hidden = false; drawTurn(tt); } else turnEl.hidden = true;
+  PRINTS.forEach((p, i) => {
+    const e = els[p.id];
+    const a = rectOf(A[p.id], e.ar), b = rectOf(B[p.id], e.ar);
+    // stagger: each print leaves a little later than the previous one
+    const s = reduce.matches || turnStep ? tt : ease(clamp((clamp((f - .18) / .64) - i * .05) / .8));
+    const x = lerp(a.x, b.x, s), y = lerp(a.y, b.y, s), w = lerp(a.w, b.w, s), h = lerp(a.h, b.h, s);
+    // leaving prints fade early and arriving ones late, so two large photos never sit half-transparent on top of each other
+    const fo = a.o > b.o ? 1 - clamp(s / .4) : b.o > a.o ? clamp((s - .6) / .4) : a.o;
+    const o = fo * clamp((introT - i * .06) / .5);
+    e.el.style.transform = `translate3d(${x}px,${y}px,0)`;
+    e.el.style.width = w + "px"; e.el.style.height = h + "px";
+    e.el.style.opacity = o;
+    e.el.style.pointerEvents = o < .05 ? "none" : "";
+    e.el.style.zIndex = Math.round(w);
+    e.cap.style.opacity = (w > PW * (mobile ? .26 : .1) ? 1 : 0) * (1 - Math.sin(s * Math.PI));
+  });
+  // copy blocks
+  const cur = Math.round(pos);
+  copies.forEach((c, i) => {
+    const spec = COMP[i].copy;
+    const d = Math.abs((turnStep ? k + tt : pos) - i);
+    const o = clamp(1 - d * 2.6) * clamp(introT * 1.4 - .3);
+    c.style.left = spec.x * PW + "px"; c.style.width = spec.w * PW + "px"; c.style.bottom = (spec.b * PH) + "px";
+    c.style.opacity = o;
+    c.style.transform = reduce.matches || turnStep ? "none" : `translateY(${(pos - i) * -18}px)`;
+    // the current spread's links work from the first moment, even while the intro is still fading in
+    const live = d < .19;
+    c.classList.toggle("on", live);
+    c.setAttribute("aria-hidden", String(!live));
+    $$("a", c).forEach(a => a.tabIndex = live ? 0 : -1);
+  });
+  // folio + nav state
+  $$(".folio .mid button").forEach((b, i) => b.setAttribute("aria-current", String(i === cur)));
+  navCur = cur; navSync();
+  $("#folioL").innerHTML = `La Bastarda — <span>${t("f." + cur)}</span>`;
+  $("#folioR").textContent = String(cur + 1).padStart(2, "0") + " / " + String(N()).padStart(2, "0");
+}
+
+// the dot over the nav: the book's spread, or Encàrrecs / Blog once that section fills the screen
+let navCur = 0;
+function navSync() {
+  const seen = id => { const r = document.getElementById(id).getBoundingClientRect(); return r.top < innerHeight * .5 && r.bottom > innerHeight * .3; };
+  const inHub = seen("encarrecs"), inBlog = seen("blog");
+  $$(".nav a[data-go]").forEach(a => a.setAttribute("aria-current", String(!inHub && !inBlog && +a.dataset.go === navCur && navCur > 0)));
+  $('.nav a[href="#encarrecs"]').setAttribute("aria-current", String(inHub));
+  $('.nav a[href="#blog"]').setAttribute("aria-current", String(inBlog));
+}
+addEventListener("scroll", navSync, { passive: true });
+
+/* ---------- page turn ---------- */
+const turnEl = $("#turn"), spread = $("#spread");
+let turnBuilt = -1, T = null;
+function cloneCopy(i) {
+  const c = copies[i].cloneNode(true), spec = COMP[i].copy;
+  c.removeAttribute("id"); c.classList.remove("on");
+  c.style.cssText = `left:${spec.x * PW}px;width:${spec.w * PW}px;bottom:${spec.b * PH}px;opacity:1`;
+  $$("a,button", c).forEach(a => a.tabIndex = -1);
+  return c;
+}
+function clonePrint(id, spec) {
+  const e = els[id], r = rectOf(spec, e.ar);
+  const f = e.el.cloneNode(true);
+  f.classList.remove("swap");
+  f.style.cssText = `transform:none;left:${r.x}px;top:${r.y}px;width:${r.w}px;height:${r.h}px;opacity:1`;
+  return f;
+}
+// which prints of composition `c` sit on the left (side 0) or right (side 1) page; side null = all
+function pageOf(c, side) {
+  const C = COMP[c], out = [], fold = spread.clientWidth / 2 - page.offsetLeft;
+  PRINTS.forEach(p => {
+    const sp = C[p.id]; if (!sp || sp._ghost || sp.o === 0) return;
+    const r = rectOf(sp, els[p.id].ar); if (!r.o) return;
+    const onL = r.x < fold - 1, onR = r.x + r.w > fold + 1;
+    if (side != null && !(side === 0 ? onL : onR)) return;
+    const el = clonePrint(p.id, sp);
+    if (side != null && onL && onR) {
+      el.style.clipPath = side === 0 ? `inset(0 ${r.x + r.w - fold}px -60px 0)` : `inset(0 0 -60px ${fold - r.x}px)`;
+      el.dataset.split = "1";
+    }
+    out.push(el);
+  });
+  const cc = COMP[c].copy;
+  if (side == null || (side === 0) === (cc.x + cc.w / 2 < .5)) out.push(cloneCopy(c));
+  return out;
+}
+function tboxOf(offX, nodes) {
+  const b = document.createElement("div");
+  b.className = "tbox";
+  b.style.cssText = `left:${offX}px;top:${page.offsetTop}px;width:${PW}px;height:${PH}px`;
+  nodes.forEach(n => b.appendChild(n));
+  return b;
+}
+function buildTurn(k) {
+  const W = spread.clientWidth, H = spread.clientHeight, PL = page.offsetLeft;
+  turnEl.innerHTML = ""; turnEl.classList.toggle("single", mobile);
+  const mk = (cls, x, w) => { const d = document.createElement("div"); d.className = cls; d.style.left = x + "px"; d.style.width = w + "px"; return d; };
+  const shade = () => { const i = document.createElement("i"); i.className = "shade"; return i; };
+  T = { W, single: mobile, lifts: [] };
+  // the leaf is a chain of narrow strips hinged to each other, so the paper can bend as it turns
+  const NS = mobile ? 10 : 14;
+  const makeLeaf = (x, Wl, front, back) => {
+    const leaf = mk("leaf", x, Wl), sw = Wl / NS, segs = [];
+    let parent = leaf;
+    for (let i = 0; i < NS; i++) {
+      const g = document.createElement("div"); g.className = "seg";
+      g.style.cssText = `left:${i ? sw : 0}px;width:${sw + .7}px`;
+      const f = document.createElement("div"); f.className = "face front"; f.append(front(-i * sw));
+      const b = document.createElement("div"); b.className = "face back"; b.append(back(-(Wl - (i + 1) * sw)));
+      const fs = shade(), bs = shade(); f.append(fs); b.append(bs);
+      if (i === NS - 1) { const edge = document.createElement("i"); edge.className = "edge"; f.appendChild(edge); }
+      g.append(f, b); parent.appendChild(g); parent = g; segs.push({ el: g, fs, bs });
+    }
+    return { leaf, segs };
+  };
+  if (mobile) {
+    // one page at a time: the whole page turns on its left edge and uncovers the next one
+    const under = mk("half r", 0, W); under.append(tboxOf(PL, pageOf(k + 1, null)), shade());
+    const { leaf, segs } = makeLeaf(0, W, o => tboxOf(PL + o, pageOf(k, null)), () => document.createElement("div"));
+    turnEl.append(under, leaf);
+    Object.assign(T, { underR: under, leaf, segs });
+  } else {
+    const half = W / 2, Wl = W - half;
+    const L = mk("half l", 0, half); L.append(tboxOf(PL, pageOf(k, 0)), shade());        // stays: opening left page
+    const Rr = mk("half r", half, Wl); Rr.append(tboxOf(PL - half, pageOf(k + 1, 1)), shade()); // uncovered: next right page
+    const fold = $(".fold").cloneNode(true);
+    const { leaf, segs } = makeLeaf(half, Wl, o => tboxOf(PL - half + o, pageOf(k, 1)), o => tboxOf(PL - (half - Wl) + o, pageOf(k + 1, 0)));
+    turnEl.append(L, Rr, fold, leaf);
+    Object.assign(T, { underL: L, underR: Rr, leaf, segs });
+  }
+  turnBuilt = k;
+}
+function drawTurn(tt) {
+  // the outer edge leads as the page lifts, the paper bows over the top, and the edge trails as it lands
+  const A = 180 * tt, lead = 26 * Math.sin(2 * Math.PI * tt) + 22 * Math.sin(Math.PI * tt), n = T.segs.length;
+  let prev = 0;
+  T.segs.forEach((g, i) => {
+    const th = clamp(A + lead * Math.pow(i / (n - 1), 1.6), 0, 180);
+    g.el.style.transform = `rotateY(${(prev - th).toFixed(3)}deg)`; prev = th;
+    // paper turned edge-on to the light reads darker
+    const d = .85 * Math.pow(1 - Math.abs(Math.cos(th * Math.PI / 180)), 1.4);
+    g.fs.style.opacity = d; g.bs.style.opacity = d;
+  });
+  const sn = Math.sin(A * Math.PI / 180);
+  T.underR.querySelector(".shade").style.opacity = A < 90 ? sn * .9 : sn * .4;
+  if (T.underL) T.underL.querySelector(".shade").style.opacity = A > 90 ? sn * .9 : 0;
+}
+// a damped spring follows the scroll: it eases in and out of every movement, at the same speed on any screen refresh rate
+let vel = 0, lastT = 0;
+function tick(now) {
+  target = progress();
+  const dt = Math.min(.05, lastT ? (now - lastT) / 1000 : 1 / 60); lastT = now;
+  if (reduce.matches) { pos = target; vel = 0; }
+  else {
+    const w = 5.2; // stiffness: lower is softer, with more weight
+    vel += ((target - pos) * w * w - 2 * w * vel) * dt;
+    pos += vel * dt;
+  }
+  if (Math.abs(target - pos) < .0004 && Math.abs(vel) < .002) { pos = target; vel = 0; }
+  render();
+  if (pos !== target || introT < 1) raf = requestAnimationFrame(tick);
+  else { raf = 0; lastT = 0; }
+}
+const wake = () => { if (!raf) raf = requestAnimationFrame(tick); };
+addEventListener("scroll", wake, { passive: true });
+addEventListener("resize", () => { measure(); render(); wake(); });
+
+/* ---------- navigation to a spread ---------- */
+function go(i) {
+  const top = book.offsetTop + (book.offsetHeight - innerHeight) * (i / (N() - 1));
+  scrollTo({ top, behavior: reduce.matches ? "auto" : "smooth" });
+}
+$$("[data-go]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); go(+a.dataset.go); }));
+addEventListener("keydown", e => {
+  if (e.target.closest("input,textarea")) return;
+  const r = book.getBoundingClientRect(); if (r.bottom < innerHeight * .5) return;
+  if (e.key === "ArrowRight") { e.preventDefault(); go(Math.min(N() - 1, Math.round(pos) + 1)); }
+  if (e.key === "ArrowLeft") { e.preventDefault(); go(Math.max(0, Math.round(pos) - 1)); }
+});
+const drawer = $("#drawer"), menuBtn = $("#menuBtn");
+const setMenu = open => { drawer.hidden = !open; menuBtn.setAttribute("aria-expanded", String(open)); menuBtn.innerHTML = t(open ? "close" : "menu"); document.body.style.overflow = open ? "hidden" : ""; };
+menuBtn.addEventListener("click", () => setMenu(drawer.hidden));
+$$("#drawer a").forEach(a => a.addEventListener("click", () => setMenu(false)));
+addEventListener("keydown", e => { if (e.key === "Escape" && !drawer.hidden) { setMenu(false); menuBtn.focus(); } });
+$("#toTop").addEventListener("click", () => scrollTo({ top: 0, behavior: reduce.matches ? "auto" : "smooth" }));
+
+/* ---------- fes la teva caixa ---------- */
+const BOX_KEY = "lb-box";
+let box = { size: 6, sel: [] };          // sel: one entry per cookie, in the order it went in
+try { const b = JSON.parse(localStorage.getItem(BOX_KEY) || "null"); if (b && BOXES.includes(b.size) && Array.isArray(b.sel)) box = { size: b.size, sel: b.sel.filter(s => FLAVOURS.some(f => f.sku === s)).slice(0, b.size) }; } catch (e) {}
+const saveBox = () => { try { localStorage.setItem(BOX_KEY, JSON.stringify(box)); } catch (e) {} };
+const fname = f => (f[lang] || f.ca)[0], fdesc = f => (f[lang] || f.ca)[1];
+const bySku = sku => FLAVOURS.find(f => f.sku === sku);
+const countOf = sku => box.sel.filter(s => s === sku).length;
+const ICON_MINUS = '<svg viewBox="0 0 11 11" aria-hidden="true"><path d="M1 5.5h9" stroke="currentColor" stroke-width="1.2"/></svg>';
+const ICON_PLUS = '<svg viewBox="0 0 11 11" aria-hidden="true"><path d="M1 5.5h9M5.5 1v9" stroke="currentColor" stroke-width="1.2"/></svg>';
+const thumb = (f, cls = "") => f.img ? `<img src="${imgSrc(f.img)}" alt="" loading="lazy" decoding="async"${cls}>` : "";
+const flList = $("#flavours"), slotsEl = $("#slots"), linesEl = $("#lines"), stateEl = $("#bxState");
+const reviewBtn = $("#bxReview"), sheet = $("#sheet");
+let note = "";
+
+function buildFlavours() {
+  flList.innerHTML = FLAVOURS.map((f, i) => `
+    <li class="fl" data-sku="${f.sku}">
+      <span class="no">${String(i + 1).padStart(2, "0")}</span>
+      <div class="ph2">${f.img ? thumb(f) : `<span class="pend">${t("bx.pending")}</span>`}</div>
+      <div><h3 id="fl-${f.sku}">${fname(f)}</h3><p>${fdesc(f)}</p></div>
+      <div class="qty" role="group" aria-labelledby="fl-${f.sku}">
+        <button type="button" data-act="dec" aria-label="${t("bx.less")} ${fname(f)}">${ICON_MINUS}</button>
+        <output aria-live="off">0</output>
+        <button type="button" data-act="inc" aria-label="${t("bx.more")} ${fname(f)}">${ICON_PLUS}</button>
+      </div>
+    </li>`).join("");
+}
+function add(sku) {
+  if (box.sel.length >= box.size) { note = t("bx.isFull"); renderBox(); return; }
+  box.sel.push(sku); note = ""; commit();
+}
+function remove(sku) {
+  const i = box.sel.lastIndexOf(sku); if (i < 0) return;
+  box.sel.splice(i, 1); note = ""; commit();
+}
+function setSize(n) {
+  if (n === box.size) return;
+  const cut = Math.max(0, box.sel.length - n);
+  box.size = n;
+  if (cut) { box.sel = box.sel.slice(0, n); note = t(cut === 1 ? "bx.cut1" : "bx.cutN").replace("{n}", cut).replace("{s}", n); }
+  else note = "";
+  commit();
+}
+function commit() { saveBox(); renderBox(); }
+
+function renderBox() {
+  const n = box.sel.length, full = n === box.size;
+  $$(".size").forEach(b => { const on = +b.dataset.size === box.size; b.setAttribute("aria-checked", String(on)); b.tabIndex = on ? 0 : -1; });
+  $$(".fl").forEach(li => {
+    const c = countOf(li.dataset.sku);
+    li.classList.toggle("has", c > 0);
+    li.querySelector("output").textContent = c;
+    li.querySelector('[data-act="dec"]').setAttribute("aria-disabled", String(c === 0));
+    li.querySelector('[data-act="inc"]').setAttribute("aria-disabled", String(full));
+  });
+  // slots: what is in the box, in the order it went in; click one to take it out
+  slotsEl.dataset.size = box.size;
+  const prev = slotsEl.querySelectorAll(".slot.full").length;
+  slotsEl.innerHTML = Array.from({ length: box.size }, (_, i) => {
+    const sku = box.sel[i];
+    if (!sku) return `<span class="slot" aria-hidden="true"></span>`;
+    const f = bySku(sku);
+    const inner = f.img ? `<img src="${imgSrc(f.img)}" alt="">` : `<span class="ini">${fname(f).slice(0, 2)}</span>`;
+    return `<button type="button" class="slot full" data-i="${i}" style="${i < prev ? "animation:none" : ""}" aria-label="${t("bx.takeOut")} ${fname(f)}">${inner}</button>`;
+  }).join("");
+  $("#bxCount").innerHTML = `${n}<i>/${box.size}</i>`;
+  $$(".size .pr").forEach(e => e.textContent = eur(BOX_PRICE[e.dataset.price]));
+  $("#bxPrice").textContent = eur(BOX_PRICE[box.size]);
+  // summary lines, grouped
+  const groups = FLAVOURS.map(f => [f, countOf(f.sku)]).filter(([, c]) => c);
+  linesEl.innerHTML = groups.length
+    ? groups.map(([f, c]) => `<li><span>${fname(f)}</span><span>× ${c}</span></li>`).join("")
+    : `<li class="empty">${t("bx.empty")}</li>`;
+  const left = box.size - n;
+  stateEl.textContent = note || (full ? t("bx.full") : n ? t(left === 1 ? "bx.left1" : "bx.leftN").replace("{n}", left) : "");
+  reviewBtn.setAttribute("aria-disabled", String(!full));
+}
+flList.addEventListener("click", e => {
+  const b = e.target.closest("button[data-act]"); if (!b) return;
+  const sku = b.closest(".fl").dataset.sku;
+  if (b.getAttribute("aria-disabled") === "true") { if (b.dataset.act === "inc") { note = t("bx.isFull"); renderBox(); } return; }
+  b.dataset.act === "inc" ? add(sku) : remove(sku);
+  // keep focus on the same control after re-render
+  const again = $(`.fl[data-sku="${sku}"] [data-act="${b.dataset.act}"]`); again && again.focus();
+});
+slotsEl.addEventListener("click", e => {
+  const s = e.target.closest(".slot.full"); if (!s) return;
+  box.sel.splice(+s.dataset.i, 1); note = ""; commit();
+  const nx = slotsEl.querySelector(".slot.full"); (nx || reviewBtn).focus();
+});
+$$(".size").forEach(b => {
+  b.addEventListener("click", () => setSize(+b.dataset.size));
+  b.addEventListener("keydown", e => {
+    if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) return;
+    e.preventDefault(); const i = BOXES.indexOf(box.size), j = (i + (e.key === "ArrowLeft" || e.key === "ArrowUp" ? -1 : 1) + BOXES.length) % BOXES.length;
+    setSize(BOXES[j]); $(`.size[data-size="${BOXES[j]}"]`).focus();
+  });
+});
+$("#bxClear").addEventListener("click", () => { box.sel = []; note = ""; commit(); });
+
+/* review */
+let lastFocus = null;
+function order() {
+  return { box: `box-${box.size}`, size: box.size, lang, price: BOX_PRICE[box.size], currency: "EUR",
+    items: FLAVOURS.map(f => ({ sku: f.sku, qty: countOf(f.sku) })).filter(i => i.qty) };
+}
+function openSheet() {
+  if (box.sel.length !== box.size) { note = t(box.size - box.sel.length === 1 ? "bx.left1" : "bx.leftN").replace("{n}", box.size - box.sel.length); renderBox(); return; }
+  lastFocus = document.activeElement;
+  $("#shKick").textContent = t("sh.kick").replace("{s}", box.size);
+  $("#sum").innerHTML = order().items.map(it => { const f = bySku(it.sku); return `<li><span class="th">${thumb(f)}</span><b>${fname(f)}</b><span>× ${it.qty}</span></li>`; }).join("")
+    + `<li class="total"><span></span><b>${t("bx.total")}</b><span>${eur(BOX_PRICE[box.size])}</span></li>`;
+  $("#sh-h").hidden = false; $("#shDone").hidden = true; $("#sum").hidden = false;
+  $("#shConfirm").hidden = false; $("#shBack").innerHTML = t("sh.back"); $("#shFine").hidden = false;
+  sheet.hidden = false; document.body.style.overflow = "hidden"; $("#sheetIn").focus();
+}
+function closeSheet() { sheet.hidden = true; document.body.style.overflow = ""; lastFocus && lastFocus.focus(); }
+reviewBtn.addEventListener("click", openSheet);
+$("#shBack").addEventListener("click", closeSheet);
+sheet.addEventListener("click", e => { if (e.target === sheet) closeSheet(); });
+sheet.addEventListener("keydown", e => {
+  if (e.key === "Escape") { e.preventDefault(); closeSheet(); }
+  if (e.key === "Tab") { // keep focus inside the sheet
+    const f = $$("button:not([hidden])", sheet).filter(b => b.offsetParent);
+    if (!f.length) return; const a = f[0], z = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
+    else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
+  }
+});
+$("#shConfirm").addEventListener("click", () => {
+  const o = order();
+  try { localStorage.setItem("lb-box-confirmed", JSON.stringify(o)); } catch (e) {}
+  SHOP.checkout(o).then(() => {
+    // no store yet: say so plainly and keep the box as it is
+    $("#sh-h").hidden = true; $("#sum").hidden = true; $("#shDone").hidden = false;
+    $("#shConfirm").hidden = true; $("#shFine").hidden = true; $("#shBack").innerHTML = t("sh.close");
+    $("#shBack").focus();
+  });
+});
+buildFlavours();
+
+/* ---------- encarregar un pastís ---------- */
+const ckForm = $("#ckForm"), ckStepsEl = $("#ckSteps"), ckSheet = $("#ckSheet"), ckSvg = $("#ckSvg");
+const CK_GROUPS = ["size", "sponge", "filling", "frosting", "deco"];
+const CK_FIELDS = ["msg", "palette", "idea", "ref", "allergy", "date", "cname", "email", "phone"];
+const CK_EMPTY = () => ({ size: "", sponge: "", filling: [], frosting: "", deco: [], msg: "", palette: "", idea: "", ref: "", allergy: "", date: "", cname: "", email: "", phone: "" });
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const ckName = o => o ? (o[lang] || o.ca) : "";
+const ckOpt = (g, id) => CAKE[g].opts.find(o => o.id === id);
+const ckLayers = () => { const z = ckOpt("size", ck.size); return z ? z.layers : 3; };
+const ckMaxFill = () => ckLayers() - 1;
+const isoDay = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+const ckMin = () => { const d = new Date(); d.setDate(d.getDate() + CAKE.notice); return isoDay(d); };
+let ck = CK_EMPTY(), ckTried = false;
+try {
+  const d = JSON.parse(localStorage.getItem("lb-cake-draft") || "null");
+  if (d && typeof d === "object") Object.keys(ck).forEach(k => { if (typeof d[k] === typeof ck[k] && Array.isArray(d[k]) === Array.isArray(ck[k])) ck[k] = d[k]; });
+} catch (e) {}
+
+function ckField(id, type, attrs = "", wide = false) {
+  const hint = t(`ck.f.${id}.h`), ph = t(`ck.f.${id}.p`);
+  const a = `id="ck-${id}" name="${id}" ${ph ? `placeholder="${esc(ph)}"` : ""} ${hint ? `aria-describedby="ck-${id}-h"` : ""} ${attrs}`;
+  return `<div class="fld${wide ? " wide" : ""}"><label for="ck-${id}">${t(`ck.f.${id}`)}</label>`
+    + (type === "textarea" ? `<textarea ${a}></textarea>` : `<input type="${type}" ${a}>`)
+    + (hint ? `<small id="ck-${id}-h">${hint}</small>` : "") + `</div>`;
+}
+function ckStep(no, g, body) {
+  return `<div class="ck-step" id="ck-g-${g}" role="${CAKE[g] && CAKE[g].type === "radio" ? "radiogroup" : "group"}" aria-labelledby="ck-t-${g}" aria-describedby="ck-e-${g}">`
+    + `<span class="no">${String(no).padStart(2, "0")}</span>`
+    + `<div class="ttl" id="ck-t-${g}"><b>${t(`ck.t.${g}`)}</b><span>${t(`ck.h.${g}`).replace("{n}", CAKE.notice).replace("{m}", ckMaxFill())}</span></div>`
+    + body + `<p class="err" id="ck-e-${g}"></p></div>`;
+}
+function ckOpts(g) {
+  const G = CAKE[g], type = G.type === "radio" ? "radio" : "checkbox";
+  return `<div class="opts">` + G.opts.map(o =>
+    `<label class="opt${type === "checkbox" ? " sq" : ""}"${o.c ? ` style="--sw:${o.c}"` : ""}><input type="${type}" name="${g}" value="${o.id}"><i></i><span>${esc(ckName(o))}</span>${o.from ? `<small class="pr">${t("ck.from").replace("{p}", eur(o.from))}</small>` : o.extra ? `<small class="pr">${t("ck.extra")}</small>` : ""}</label>`
+  ).join("") + `</div>`;
+}
+function buildCake() {
+  ckStepsEl.innerHTML =
+      ckStep(1, "size", ckOpts("size"))
+    + ckStep(2, "sponge", ckOpts("sponge"))
+    + ckStep(3, "filling", ckOpts("filling"))
+    + ckStep(4, "frosting", ckOpts("frosting"))
+    + ckStep(5, "deco", ckOpts("deco") + `<div class="fields">`
+        + ckField("msg", "text", `maxlength="40" autocomplete="off"`)
+        + ckField("palette", "text", `maxlength="80" autocomplete="off"`)
+        + ckField("idea", "textarea", `maxlength="1200" rows="4"`, true)
+        + ckField("ref", "url", `inputmode="url" autocomplete="url"`, true) + `</div>`)
+    + ckStep(6, "when", `<div class="fields">`
+        + ckField("allergy", "text", `maxlength="200" autocomplete="off" required`, true)
+        + ckField("date", "date", `min="${ckMin()}" required`, true)
+        + ckField("cname", "text", `autocomplete="name" required`)
+        + ckField("email", "email", `autocomplete="email"`)
+        + ckField("phone", "tel", `autocomplete="tel"`)
+        + `</div>`);
+  // put back what was already chosen
+  CK_GROUPS.forEach(g => [].concat(ck[g]).forEach(v => { const i = $(`input[name="${g}"][value="${v}"]`, ckForm); if (i) i.checked = true; }));
+  CK_FIELDS.forEach(f => { const el = ckForm.elements[f]; if (el) el.value = ck[f]; });
+  renderCake();
+}
+function ckRead() {
+  CK_GROUPS.forEach(g => { const v = $$(`input[name="${g}"]:checked`, ckForm).map(i => i.value); ck[g] = CAKE[g].type === "radio" ? (v[0] || "") : v; });
+  CK_FIELDS.forEach(f => { const el = ckForm.elements[f]; if (el) ck[f] = el.value; });
+}
+const ckEmailOk = s => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+function ckErrors() {
+  const e = {}, when = [];
+  if (!ck.size) e.size = t("ck.e.size");
+  if (!ck.sponge) e.sponge = t("ck.e.sponge");
+  if (!ck.filling.length) e.filling = t("ck.e.filling");
+  if (!ck.frosting) e.frosting = t("ck.e.frosting");
+  if (!ck.allergy.trim()) when.push(["allergy", t("ck.e.allergy")]);
+  if (!ck.date) when.push(["date", t("ck.e.date")]);
+  else if (ck.date < ckMin()) when.push(["date", t("ck.e.soon").replace("{n}", CAKE.notice)]);
+  if (!ck.cname.trim()) when.push(["cname", t("ck.e.name")]);
+  if (!ck.email.trim() && !ck.phone.trim()) when.push(["email", t("ck.e.contact")]);
+  else if (ck.email.trim() && !ckEmailOk(ck.email.trim())) when.push(["email", t("ck.e.email")]);
+  if (when.length) e.when = when;
+  return e;
+}
+function ckDone() {
+  const e = ckErrors();
+  return ["size", "sponge", "filling", "frosting", "when"].filter(g => !e[g]).length;
+}
+function ckExtras() {
+  return ["sponge", "filling", "frosting", "deco"].flatMap(g => [].concat(ck[g]).map(id => ckOpt(g, id)).filter(o => o && o.extra));
+}
+function ckPrice() {
+  const z = ckOpt("size", ck.size); if (!z) return "";
+  const ex = ckExtras();
+  return t("ck.from").replace("{p}", eur(z.from)) + (ex.length ? ` ${t("ck.plusEx")} (${ex.map(ckName).join(", ")})` : "");
+}
+function ckRows(full) {
+  const list = (g) => [].concat(ck[g]).map(id => ckName(ckOpt(g, id))).filter(Boolean).join(", ");
+  const tbd = `<span class="tbd">${t("ck.tbd")}</span>`;
+  const deco = [list("deco"), ck.msg.trim() && `«${ck.msg.trim()}»`].filter(Boolean).join(full ? "\n" : " · ");
+  const d = ck.date ? new Date(ck.date + "T12:00").toLocaleDateString(lang === "es" ? "es-ES" : "ca-ES", { weekday: "long", day: "numeric", month: "long", year: "numeric" }) : "";
+  const rows = [
+    ["size", ck.size ? `${list("size")} · ${t("ck.layers").replace("{n}", ckLayers())}` : ""], ["sponge", list("sponge")], ["filling", list("filling")], ["frosting", list("frosting")],
+    ["deco", deco], ["allergy", ck.allergy.trim()], ["date", d], ["price", ckPrice()]
+  ];
+  if (full) rows.push(["palette", ck.palette.trim()], ["idea", ck.idea.trim()], ["ref", ck.ref.trim()],
+    ["contact", [ck.cname.trim(), ck.email.trim(), ck.phone.trim()].filter(Boolean).join("\n")]);
+  return full ? rows.filter(r => r[1] || ["size", "sponge", "filling", "frosting", "allergy", "date", "contact", "price"].includes(r[0])) .map(r => [t(`ck.s.${r[0]}`), r[1]])
+              : rows.map(r => [t(`ck.s.${r[0]}`), r[1]]).map(([k, v]) => [k, v, tbd]);
+}
+
+/* a quiet cross-section that fills in as you choose */
+function ckDraw() {
+  const ink = "rgba(26,25,22,.55)", paper = "#F3F0E9", L = "rgba(26,25,22,.4)";
+  const sz = ckOpt("size", ck.size), sp = ckOpt("sponge", ck.sponge), fr = ckOpt("frosting", ck.frosting);
+  const fl = ck.filling.map(id => ckOpt("filling", id)).filter(Boolean);
+  const w = sz ? sz.w : 170, cx = 122, x0 = cx - w / 2, x1 = cx + w / 2, base = 188;
+  const nL = ckLayers(), SP = nL === 3 ? 28 : 24, FL = 8, coat = 6, top = base - (SP * nL + FL * (nL - 1)) - 8;
+  const st = `stroke="${ink}" stroke-width=".7" vector-effect="non-scaling-stroke"`;
+  let s = `<ellipse cx="${cx}" cy="${base + 5}" rx="${w / 2 + 24}" ry="6" fill="none" ${st}/>`;
+  // frosting shell
+  s += `<path d="M${x0 - coat} ${base}V${top + 6}q0-6 6-6H${x1}q6 0 6 6V${base}Z" fill="${fr ? fr.c : paper}" ${st}/>`;
+  let y = base;
+  const layers = [];
+  for (let i = 0; i < nL; i++) {
+    y -= SP; layers.push(`<rect x="${x0}" y="${y}" width="${w}" height="${SP}" fill="${sp ? sp.c : paper}" ${st}/>`);
+    if (i < nL - 1) { y -= FL; const f = fl[i % Math.max(1, fl.length)]; layers.push(`<rect x="${x0}" y="${y}" width="${w}" height="${FL}" fill="${f ? f.c : paper}" ${st}/>`); }
+  }
+  s += layers.join("");
+  // decoration on top
+  const dz = ck.deco, tp = top;
+  if (dz.includes("pipat")) { const n = Math.round(w / 12); for (let i = 0; i <= n; i++) s += `<circle cx="${x0 - coat + 3 + i * ((w + coat * 2 - 6) / n)}" cy="${tp}" r="3.2" fill="${ckOpt("deco", "pipat").c}" ${st}/>`; }
+  if (dz.includes("escult")) s += `<path d="M${cx + w * .12} ${tp}L${cx + w * .2} ${tp - 34}L${cx + w * .3} ${tp}Z" fill="${ckOpt("deco", "escult").c}" ${st}/><circle cx="${cx + w * .06}" cy="${tp - 9}" r="9" fill="${ckOpt("deco", "escult").c}" ${st}/>`;
+  if (dz.includes("flors")) [[-.28, -10, 6], [-.2, -6, 4.5], [-.33, -4, 4]].forEach(([k, dy, r]) => {
+    const fx = cx + w * k, fy = tp + dy;
+    for (let p = 0; p < 5; p++) { const a = p * 1.2566; s += `<circle cx="${(fx + Math.cos(a) * r * .8).toFixed(1)}" cy="${(fy + Math.sin(a) * r * .8).toFixed(1)}" r="${r * .55}" fill="${ckOpt("deco", "flors").c}" ${st}/>`; }
+    s += `<circle cx="${fx}" cy="${fy}" r="${r * .35}" fill="#E7C46A"/>`;
+  });
+  if (dz.includes("fruitaD")) [[-.05, 5], [.02, 4], [-.11, 4.2]].forEach(([k, r]) => s += `<circle cx="${cx + w * k}" cy="${tp - r}" r="${r}" fill="${ckOpt("deco", "fruitaD").c}" ${st}/>`);
+  if (dz.includes("minimal") && dz.length === 1) s += `<line x1="${cx - 10}" y1="${tp - 5}" x2="${cx + 10}" y2="${tp - 5}" ${st}/>`;
+  // labels
+  const lab = (yy, key, on) => `<g class="lead"><line x1="${x1 + coat + 4}" y1="${yy}" x2="262" y2="${yy}" stroke="${L}" stroke-width=".5" vector-effect="non-scaling-stroke"/>`
+    + `<text x="266" y="${yy + 3}" font-size="8.5" font-family="Hanken Grotesk, sans-serif" fill="${on ? "#1A1916" : L}">${esc(t(`ck.t.${key}`))}</text></g>`;
+  s += lab(tp + 3, "frosting", !!fr) + lab(base - SP - FL / 2, "filling", fl.length > 0) + lab(base - SP * 2 - FL - SP / 2, "sponge", !!sp);
+  if (dz.length) s += lab(tp - 16, "deco", true);
+  ckSvg.innerHTML = s;
+}
+function renderCake() {
+  // two fillings at most: lock the rest until one is taken out
+  const max = ckMaxFill(), nf = ck.filling.length;
+  const fh = $("#ck-t-filling span"); if (fh) fh.textContent = t("ck.h.filling").replace("{m}", max);
+  $$(`input[name="filling"]`, ckForm).forEach(i => { i.disabled = !i.checked && nf >= max; });
+  $("#ckProg").textContent = t("ck.prog").replace("{n}", ckDone());
+  $("#ckSum").innerHTML = ckRows(false).map(([k, v, tbd]) => `<li><span>${k}</span><span>${v ? esc(v) : tbd}</span></li>`).join("");
+  ckDraw();
+  const e = ckTried ? ckErrors() : {};
+  ["size", "sponge", "filling", "frosting", "when"].forEach(g => {
+    const p = $(`#ck-e-${g}`); if (!p) return;
+    p.textContent = g === "when" ? (e.when || []).map(x => x[1]).join(" ") : (e[g] || p.dataset.note || "");
+  });
+  CK_FIELDS.forEach(f => { const el = ckForm.elements[f]; if (el) el.toggleAttribute("aria-invalid", !!(e.when || []).find(x => x[0] === f)); });
+  $$("[aria-invalid]", ckForm).forEach(el => el.setAttribute("aria-invalid", "true"));
+}
+function ckSaveDraft() { try { localStorage.setItem("lb-cake-draft", JSON.stringify(ck)); } catch (e) {} }
+ckForm.addEventListener("input", () => { ckRead(); renderCake(); ckSaveDraft(); });
+ckForm.addEventListener("change", e => {
+  ckRead();
+  // fewer layers, fewer fillings: drop the last ones chosen
+  const max = ckMaxFill();
+  if (e.target.name === "size" && ck.filling.length > max) {
+    const drop = ck.filling.length - max;
+    ck.filling.slice(-drop).forEach(v => { const i = $(`input[name="filling"][value="${v}"]`, ckForm); if (i) i.checked = false; });
+    ckRead(); $("#ck-e-filling").dataset.note = t("ck.trim").replace("{n}", ckLayers()).replace("{m}", max);
+  } else if (e.target.name === "filling") delete $("#ck-e-filling").dataset.note;
+  renderCake(); ckSaveDraft();
+});
+$("#ckClear").addEventListener("click", () => {
+  ck = CK_EMPTY(); ckTried = false;
+  try { localStorage.removeItem("lb-cake-draft"); } catch (e) {}
+  buildCake(); $("#ck-g-size input").focus();
+});
+
+/* review */
+function cakeOrder() {
+  const c = s => s.trim();
+  return { type: "cake", lang, size: ck.size, sponge: ck.sponge, filling: ck.filling.slice(), frosting: ck.frosting, decoration: ck.deco.slice(),
+    priceFrom: (ckOpt("size", ck.size) || {}).from || null, extras: ckExtras().map(o => o.id), currency: "EUR",
+    allergies: c(ck.allergy), message: c(ck.msg), palette: c(ck.palette), idea: c(ck.idea), reference: c(ck.ref), date: ck.date,
+    contact: { name: c(ck.cname), email: c(ck.email), phone: c(ck.phone) }, createdAt: new Date().toISOString() };
+}
+function ckText() {
+  return [t("ck.copyHead"), ""].concat(ckRows(true).map(([k, v]) => `${k}: ${String(v).replace(/\n/g, ", ")}`)).join("\n");
+}
+let ckLast = null;
+function openCk() {
+  ckLast = document.activeElement;
+  $("#ckSum2").innerHTML = ckRows(true).map(([k, v]) => `<li><span>${k}</span><span>${esc(v)}</span></li>`).join("");
+  $("#ck-sh-h").hidden = false; $("#ckSum2").hidden = false; $("#ckDone").hidden = true;
+  $("#ckSave").hidden = false; $("#ckBack").innerHTML = t("ck.back"); $("#ckCopied").textContent = "";
+  ckSheet.hidden = false; document.body.style.overflow = "hidden"; $("#ckSheetIn").focus();
+}
+function closeCk() { ckSheet.hidden = true; document.body.style.overflow = ""; ckLast && ckLast.focus(); }
+ckForm.addEventListener("submit", e => {
+  e.preventDefault(); ckRead(); ckTried = true; renderCake();
+  const err = ckErrors(), first = ["size", "sponge", "filling", "frosting", "when"].find(g => err[g]);
+  if (!first) { openCk(); return; }
+  const g = $(`#ck-g-${first}`);
+  const el = first === "when" ? ckForm.elements[err.when[0][0]] : $("input:not(:disabled)", g);
+  g.scrollIntoView({ behavior: reduce.matches ? "auto" : "smooth", block: "center" });
+  el && el.focus({ preventScroll: true });
+});
+$("#ckBack").addEventListener("click", closeCk);
+ckSheet.addEventListener("click", e => { if (e.target === ckSheet) closeCk(); });
+ckSheet.addEventListener("keydown", e => {
+  if (e.key === "Escape") { e.preventDefault(); closeCk(); }
+  if (e.key === "Tab") {
+    const f = $$("button:not([hidden])", ckSheet).filter(b => b.offsetParent);
+    if (!f.length) return; const a = f[0], z = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
+    else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
+  }
+});
+$("#ckSave").addEventListener("click", () => {
+  const o = cakeOrder();
+  try { localStorage.setItem("lb-cake-request", JSON.stringify(o)); } catch (e) {}
+  ORDERS.submit(o).then(r => {
+    // until an inbox is connected, say so plainly and keep everything as it is
+    $("#ckDone").querySelector("h3").innerHTML = t(r && r.ok ? "ck.sentH" : "ck.doneH");
+    $("#ckDone").querySelector("p").innerHTML = t(r && r.ok ? "ck.sentP" : "ck.doneP");
+    $("#ck-sh-h").hidden = true; $("#ckSum2").hidden = true; $("#ckDone").hidden = false;
+    $("#ckSave").hidden = true; $("#ckBack").innerHTML = t("close"); $("#ckCopy").focus();
+  });
+});
+$("#ckCopy").addEventListener("click", () => {
+  const txt = ckText(), ok = () => $("#ckCopied").textContent = t("ck.copied"), no = () => $("#ckCopied").textContent = t("ck.copyFail");
+  const fallback = () => {
+    const ta = document.createElement("textarea"); ta.value = txt; ta.setAttribute("readonly", ""); ta.style.cssText = "position:fixed;opacity:0;left:0;top:0";
+    $("#ckSheetIn").appendChild(ta); ta.select();
+    let done = false; try { done = document.execCommand("copy"); } catch (e) {}
+    ta.remove(); $("#ckCopy").focus(); done ? ok() : no();
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(ok, fallback);
+  else fallback();
+});
+buildCake();
+
+/* ---------- encàrrecs tabs ---------- */
+const hubTabs = $$('.tabs [role="tab"]');
+function showTab(id) {
+  hubTabs.forEach(b => {
+    const on = b.getAttribute("aria-controls") === id;
+    b.setAttribute("aria-selected", String(on)); b.tabIndex = on ? 0 : -1;
+    $("#" + b.getAttribute("aria-controls")).hidden = !on;
+  });
+  try { localStorage.setItem("lb-tab", id); } catch (e) {}
+}
+hubTabs.forEach((b, i) => {
+  b.addEventListener("click", () => showTab(b.getAttribute("aria-controls")));
+  b.addEventListener("keydown", e => {
+    const j = { ArrowRight: i + 1, ArrowDown: i + 1, ArrowLeft: i - 1, ArrowUp: i - 1, Home: 0, End: hubTabs.length - 1 }[e.key];
+    if (j == null) return;
+    e.preventDefault(); const n = hubTabs[(j + hubTabs.length) % hubTabs.length];
+    showTab(n.getAttribute("aria-controls")); n.focus();
+  });
+});
+// links to #caixa / #pastis open their tab; #encarrecs keeps the current one; #blog goes to the notebook
+// delegated, so the copies riding on a turning page work too
+document.addEventListener("click", e => {
+  const a = e.target.closest('a[href="#caixa"], a[href="#pastis"], a[href="#encarrecs"], a[href="#blog"]'); if (!a) return;
+  const id = a.getAttribute("href").slice(1);
+  e.preventDefault();
+  if (id === "caixa" || id === "pastis") showTab(id);
+  jumpTo(id === "blog" ? "blog" : "encarrecs");
+  try { history.replaceState(null, "", "#" + id); } catch (err) {}
+});
+// straight there: no scrolling back through every spread, just a quiet fade in
+function jumpTo(id) {
+  const el = document.getElementById(id);
+  el.scrollIntoView({ behavior: "auto" });
+  pos = target = progress(); vel = 0; render();
+  if (!reduce.matches && el.animate) el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 450, easing: "ease-out" });
+}
+{
+  let start = "caixa"; try { start = localStorage.getItem("lb-tab") || "caixa"; } catch (e) {}
+  const h = location.hash.slice(1);
+  showTab(h === "pastis" || h === "caixa" ? h : (start === "pastis" ? "pastis" : "caixa"));
+}
+
+/* ---------- blog ---------- */
+const blogBoard = $("#blogBoard"), blogFilters = $("#blogFilters"), pSheet = $("#pSheet"), pBody = $("#pBody");
+const KINDS = ["all", "recipe", "image", "thought", "book"];
+const L = o => o && typeof o === "object" && !Array.isArray(o) ? (o[lang] ?? o.ca) : (o ?? "");
+const plain = s => String(s).replace(/<[^>]+>/g, "");
+const arrow = `<svg viewBox="0 0 13 13" aria-hidden="true"><path d="M1 6.5h10.5M7 2l4.5 4.5L7 11" fill="none" stroke="currentColor" stroke-width="1.1"/></svg>`;
+let blogKind = "all", blogCur = -1, blogLast = null, ticks = {};
+try { ticks = JSON.parse(localStorage.getItem("lb-blog-ticks") || "{}") || {}; } catch (e) {}
+const no = i => String(i + 1).padStart(2, "0");
+const kick = (p, i, extra) => `<span class="kick caps"><span>${t("bl.no")} ${no(i)}</span><span>${t("bl.one." + p.kind)}${extra ? " · " + esc(extra) : ""}</span></span>`;
+const pic = (p, cls) => p.img
+  ? `<span class="${cls}"${p.ar ? ` style="--ar:${p.ar}"` : ""}><img src="${imgSrc(p.img)}" alt=""${cls === "pic" ? ' loading="lazy"' : ""}></span>`
+  : `<span class="${cls} pend" style="--ar:${p.ar || .8}"><span>${t("bx.pending")}</span></span>`;
+const cover = p => `<span class="cover" style="--bg:${p.bg};--fg:${p.fg}" aria-hidden="true"><b>${L(p.title)}</b><small>${esc(p.author)}</small></span>`;
+function card(p, i) {
+  const read = `<span class="btn">${t("bl.read")} ${arrow}</span>`;
+  let inner;
+  if (p.kind === "recipe") inner = `<span class="leaf">${pic(p, "pic")}${kick(p, i, L(p.time))}<h3>${L(p.title)}</h3><p>${L(p.excerpt)}</p>${read}</span>`;
+  else if (p.kind === "image") inner = `<span class="leaf">${pic(p, "pic")}<span class="cap"><b>${no(i)}</b>${L(p.title)}</span></span><span class="post-t">${kick(p, i)}<h3>${L(p.title)}</h3><p>${L(p.excerpt)}</p></span>`;
+  else if (p.kind === "thought") inner = `<span class="note"><span class="q">«${L(p.quote)}»</span>${kick(p, i)}<h3>${L(p.title)}</h3></span>`;
+  else inner = `${cover(p)}${kick(p, i, p.year)}<h3><em>${L(p.title)}</em></h3><p>${L(p.excerpt)}</p>${read}`;
+  const tape = p.kind === "book" ? "" : `<span class="tape" style="--tr:${(i % 3 - 1) * 4 - 1}deg" aria-hidden="true"></span>`;
+  return `<article class="post k-${p.kind}" data-kind="${p.kind}"><a href="#blog/${p.id}" style="--r:${p.r || 0}deg;--w:${p.w || 1};--ml:${p.right ? (1 - (p.w || 1)) * 100 + "%" : 0}" aria-haspopup="dialog">${tape}${inner}</a></article>`;
+}
+function buildBlog() {
+  blogFilters.innerHTML = KINDS.map(k => {
+    const n = k === "all" ? BLOG.length : BLOG.filter(p => p.kind === k).length;
+    return n ? `<button type="button" data-kind="${k}" aria-pressed="${k === blogKind}">${t("bl.k." + k)}<sup>${n}</sup></button>` : "";
+  }).join("");
+  blogBoard.innerHTML = BLOG.map(card).join("");
+  filterBlog(false);
+  if (!pSheet.hidden && blogCur >= 0) renderPost();
+}
+const shown = () => BLOG.map((p, i) => i).filter(i => blogKind === "all" || BLOG[i].kind === blogKind);
+function filterBlog(announce) {
+  const vis = shown();
+  $$(".post", blogBoard).forEach((el, i) => {
+    const on = vis.includes(i);
+    el.hidden = !on;
+    el.dataset.side = vis.indexOf(i) % 2 ? "r" : "l";
+    if (on && announce) { el.classList.remove("in"); void el.offsetWidth; el.classList.add("in"); }
+  });
+  $$("button", blogFilters).forEach(b => b.setAttribute("aria-pressed", String(b.dataset.kind === blogKind)));
+  if (announce) $("#blogLive").textContent = `${vis.length} ${t(vis.length === 1 ? "bl.shown1" : "bl.shown")}`;
+}
+blogFilters.addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  blogKind = b.dataset.kind; filterBlog(true);
+});
+function renderPost() {
+  const p = BLOG[blogCur], i = blogCur, list = shown(), at = list.indexOf(i);
+  const text = arr => `<div class="p-text">${(L(arr) || []).map(x => `<p>${x}</p>`).join("")}</div>`;
+  let h = `<div class="kick caps"><span>${t("bl.no")} ${no(i)}</span><span>${t("bl.one." + p.kind)}</span></div>`
+    + `<h3 id="p-h">${p.kind === "book" ? `<em>${L(p.title)}</em>` : L(p.title)}</h3>`;
+  if (p.kind === "recipe") {
+    const done = new Set(ticks[p.id] || []);
+    h += `<p class="p-lede">${L(p.intro)}</p>`
+      + `<dl class="p-meta"><div><dt>${t("bl.time")}</dt><dd>${L(p.time)}</dd></div><div><dt>${t("bl.yield")}</dt><dd>${L(p.yield)}</dd></div></dl>`
+      + pic(p, "p-pic")
+      + `<div class="rec"><div><div class="caps sub">${t("bl.ing")}</div><ul class="ing">${L(p.ingredients).map((x, j) =>
+          `<li><label><input type="checkbox" data-j="${j}"${done.has(j) ? " checked" : ""}><span>${x}</span></label></li>`).join("")}</ul></div>`
+      + `<div><div class="caps sub">${t("bl.steps")}</div><ol class="stp">${L(p.steps).map(x => `<li>${x}</li>`).join("")}</ol></div></div>`;
+  } else if (p.kind === "image") {
+    h += pic(p, "p-pic") + text(p.body);
+  } else if (p.kind === "thought") {
+    h += `<blockquote class="pq">«${L(p.quote)}»</blockquote>` + text(p.body);
+  } else {
+    h += `<div class="bk">${cover(p)}<div><p class="by">${esc(p.author)} · ${p.year}</p>${text(p.body)}</div></div>`;
+  }
+  const prev = list[at - 1], next = list[at + 1];
+  h += `<nav class="pnav" aria-label="${t("nav.blog")}">`
+    + `<button type="button" data-step="-1"${prev == null ? " hidden" : ""}>← ${t("bl.prev")}<small>${prev == null ? "" : plain(L(BLOG[prev].title))}</small></button>`
+    + `<button type="button" data-step="1"${next == null ? " hidden" : ""}>${t("bl.next")} →<small>${next == null ? "" : plain(L(BLOG[next].title))}</small></button></nav>`;
+  pBody.innerHTML = h;
+}
+function openPost(i) {
+  if (pSheet.hidden) blogLast = document.activeElement;
+  blogCur = i; renderPost();
+  pSheet.hidden = false; document.body.style.overflow = "hidden";
+  pBody.scrollTop = 0; $("#pIn").focus();
+  try { history.replaceState(null, "", "#blog/" + BLOG[i].id); } catch (e) {}
+}
+function closePost() {
+  pSheet.hidden = true; document.body.style.overflow = ""; blogCur = -1;
+  try { history.replaceState(null, "", "#blog"); } catch (e) {}
+  blogLast && blogLast.focus && blogLast.focus({ preventScroll: true });
+}
+function stepPost(d) {
+  const list = shown(), n = list[list.indexOf(blogCur) + d];
+  if (n == null) return;
+  blogCur = n; renderPost(); pBody.scrollTop = 0; $("#pIn").focus();
+  try { history.replaceState(null, "", "#blog/" + BLOG[n].id); } catch (e) {}
+}
+document.addEventListener("click", e => {
+  const a = e.target.closest('a[href^="#blog/"]'); if (!a) return;
+  const i = BLOG.findIndex(p => "#blog/" + p.id === a.getAttribute("href")); if (i < 0) return;
+  e.preventDefault(); openPost(i);
+});
+$("#pClose").addEventListener("click", closePost);
+pSheet.addEventListener("click", e => {
+  if (e.target === pSheet) return closePost();
+  const b = e.target.closest(".pnav button"); if (b) stepPost(+b.dataset.step);
+});
+pBody.addEventListener("change", e => {
+  const c = e.target.closest(".ing input"); if (!c) return;
+  const id = BLOG[blogCur].id;
+  ticks[id] = $$(".ing input", pBody).filter(x => x.checked).map(x => +x.dataset.j);
+  try { localStorage.setItem("lb-blog-ticks", JSON.stringify(ticks)); } catch (err) {}
+});
+pSheet.addEventListener("keydown", e => {
+  if (e.key === "Escape") { e.preventDefault(); closePost(); return; }
+  if ((e.key === "ArrowLeft" || e.key === "ArrowRight") && !e.target.closest("input")) { e.preventDefault(); stepPost(e.key === "ArrowLeft" ? -1 : 1); return; }
+  if (e.key === "Tab") { // keep focus inside the sheet
+    const f = $$("button, input, a[href]", pSheet).filter(b => b.offsetParent && getComputedStyle(b).visibility !== "hidden");
+    if (!f.length) return; const a = f[0], z = f[f.length - 1];
+    if (e.shiftKey && (document.activeElement === a || document.activeElement === $("#pIn"))) { e.preventDefault(); z.focus(); }
+    else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
+  }
+});
+function blogFromHash() {
+  const h = location.hash; if (!h.startsWith("#blog")) return;
+  jumpTo("blog");
+  const i = BLOG.findIndex(p => "#blog/" + p.id === h); if (i >= 0) openPost(i);
+}
+
+/* ---------- boot ---------- */
+let saved = "ca"; try { saved = localStorage.getItem("lb-lang") || "ca"; } catch (e) {}
+measure(); pos = target = progress();
+const boot = () => {
+  measure(); setLang(saved); blogFromHash();
+  const t0 = performance.now(), D = reduce.matches ? 1 : 1400;
+  const step = now => { introT = clamp((now - t0) / D); if (introT < 1) requestAnimationFrame(step); wake(); };
+  requestAnimationFrame(step);
+};
+let booted = false; const once = () => { if (!booted) { booted = true; boot(); } };
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(once);
+setTimeout(once, 1200);
+})();
+</script>
+</body>
+</html>

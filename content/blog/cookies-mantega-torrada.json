@@ -1,0 +1,20 @@
+{
+  "kind": "recipe",
+  "date": "2026-10-27",
+  "published": true,
+  "title_ca": "Cookies de *mantega torrada*",
+  "title_es": "Cookies de *mantequilla tostada*",
+  "excerpt_ca": "La nostra Clàssica comença aquí: paciència amb la mantega i una nit de repòs.",
+  "excerpt_es": "Nuestra Clásica empieza aquí: paciencia con la mantequilla y una noche de reposo.",
+  "intro_ca": "El secret no és cap ingredient estrany. És deixar que la mantega es torri fins que faci olor d'avellana, i no tenir pressa per enfornar.",
+  "intro_es": "El secreto no es ningún ingrediente raro. Es dejar que la mantequilla se tueste hasta que huela a avellana, y no tener prisa por hornear.",
+  "time_ca": "40 min + 1 nit",
+  "time_es": "40 min + 1 noche",
+  "yield_ca": "12 cookies",
+  "yield_es": "12 cookies",
+  "ingredients_ca": "115 g de mantega\n100 g de sucre moreno\n50 g de sucre blanc\n1 ou\n1 culleradeta d'extracte de vainilla\n160 g de farina\n½ culleradeta de bicarbonat\n½ culleradeta de sal\n120 g de xocolata negra a trossos\nFlor de sal per acabar",
+  "ingredients_es": "115 g de mantequilla\n100 g de azúcar moreno\n50 g de azúcar blanco\n1 huevo\n1 cucharadita de extracto de vainilla\n160 g de harina\n½ cucharadita de bicarbonato\n½ cucharadita de sal\n120 g de chocolate negro en trozos\nFlor de sal para terminar",
+  "steps_ca": "Fon la mantega en un cassó i deixa-la coure fins que faci olor d'avellana i el pòsit es torni daurat. Deixa-la refredar 10 minuts.\nBat la mantega amb els dos sucres i afegeix-hi l'ou i la vainilla.\nIncorpora-hi la farina, el bicarbonat i la sal sense treballar gaire la massa. Afegeix-hi la xocolata.\nTapa la massa i deixa-la reposar a la nevera tota la nit.\nFes boles d'uns 50 g, posa-les ben separades a la safata i enforna-les a 180 °C uns 11 minuts. Les vores han de quedar daurades i el centre, tou.\nAcaba-les amb flor de sal en sortir del forn i deixa-les refredar a la safata.",
+  "steps_es": "Funde la mantequilla en un cazo y déjala cocer hasta que huela a avellana y el poso se vuelva dorado. Déjala enfriar 10 minutos.\nBate la mantequilla con los dos azúcares y añade el huevo y la vainilla.\nIncorpora la harina, el bicarbonato y la sal sin trabajar mucho la masa. Añade el chocolate.\nTapa la masa y déjala reposar en la nevera toda la noche.\nHaz bolas de unos 50 g, ponlas bien separadas en la bandeja y hornéalas a 180 °C unos 11 minutos. Los bordes deben quedar dorados y el centro, tierno.\nTermínalas con flor de sal al salir del horno y déjalas enfriar en la bandeja.",
+  "image": "/img/f-classica.webp"
+}
