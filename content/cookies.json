@@ -15,11 +15,11 @@
       "name_es": "Cheesecake",
       "alcada": 2.2,
       "available": true,
-      "desc_ca": "Galeta de mantega, xocolata blanca i un cor de crema de formatge.",
+      "desc_ca": "Galeta de mantega, xocolata blanca farcida de crema de formatge.",
       "name_ca": "Cheesecake",
       "foto_caixa": "/img/t-cheesecake.webp",
       "image": "/img/f-cheesecake.webp",
-      "desc_es": "Galleta de mantequilla, chocolate blanco y un corazón de crema de queso.",
+      "desc_es": "Galleta de mantequilla, chocolate blanco rellena de crema de queso.",
       "sku": "cookie-cheesecake"
     },
     {
