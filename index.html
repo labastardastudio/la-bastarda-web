@@ -921,14 +921,14 @@ const BOXES = [4, 6];
 const BOX_PRICE = { 4: 15, 6: 20 }; // € per box, whatever the flavours
 const eur = n => `${n.toLocaleString(document.documentElement.lang === "es" ? "es-ES" : "ca-ES", n % 1 ? { minimumFractionDigits: 2, maximumFractionDigits: 2 } : {})}\u00a0€`;
 const FLAVOURS = [
-  { sku:"cookie-classica",   img:"f-classica.webp", top:"t-classica.webp", h:2.2,   ca:["Clàssica","Mantega torrada, xocolata negra i un punt de sal."],            es:["Clásica","Mantequilla tostada, chocolate negro y un punto de sal."] },
-  { sku:"cookie-triple",     img:"f-triple.webp", top:"t-triple.webp", h:2.2,     ca:["Triple Xocolata","Cacau, xocolata negra i trossos de xocolata amb llet."], es:["Triple Chocolate","Cacao, chocolate negro y trozos de chocolate con leche."] },
-  { sku:"cookie-cheesecake", img:"f-cheesecake.webp", top:"t-cheesecake.webp", h:2.2, ca:["Cheesecake","Galeta de vainilla amb cor de crema de formatge."],             es:["Cheesecake","Galleta de vainilla con corazón de crema de queso."] },
-  { sku:"cookie-redvelvet",  img:"f-redvelvet.webp",  ca:["Red Velvet","Cacau suau, color intens i xocolata blanca."],                 es:["Red Velvet","Cacao suave, color intenso y chocolate blanco."] },
-  { sku:"cookie-caramel",    img:"f-caramel.webp", top:"t-caramel.webp", h:2.2,    ca:["Salted Caramel","Caramel salat fet a l'estudi i flor de sal."],             es:["Salted Caramel","Caramelo salado hecho en el estudio y flor de sal."] },
-  { sku:"cookie-pistatxo",   img:"",                 ca:["Pistatxo","Pistatxo torrat i xocolata blanca."],                            es:["Pistacho","Pistacho tostado y chocolate blanco."] },
-  { sku:"cookie-lemon",      img:"f-lemon.webp",      ca:["Lemon Pie","Llimona, sucre glas i un final de merenga."],                    es:["Lemon Pie","Limón, azúcar glas y un final de merengue."] },
-  { sku:"cookie-cinnamon",   img:"f-cinnamon.webp", top:"t-cinnamon.webp", h:2.2,   ca:["Cinnamon","Canyella, sucre moreno i civada cruixent."],                      es:["Cinnamon","Canela, azúcar moreno y avena crujiente."] }
+  { sku:"cookie-classica", img:"f-classica.webp", top:"t-classica.webp", h:2.2, ca:["Original","Mantega torrada, xocolata negra i un punt de sal."], es:["Original","Mantequilla tostada, chocolate negro y un punto de sal."] },
+  { sku:"cookie-cheesecake", img:"f-cheesecake.webp", top:"t-cheesecake.webp", h:2.2, ca:["Cheesecake","Galeta de vainilla amb cor de crema de formatge."], es:["Cheesecake","Galleta de vainilla con corazón de crema de queso."] },
+  { sku:"cookie-taronja", img:"f-triple.webp", top:"t-triple.webp", h:2.2, ca:["Xocolata i taronja","Xocolata negra i trossos de taronja confitada."], es:["Chocolate y naranja","Chocolate negro y trozos de naranja confitada."] },
+  { sku:"cookie-maduixes", img:"f-redvelvet.webp", ca:["Maduixes i xoco","Maduixa i trossos de xocolata."], es:["Fresas y choco","Fresa y trozos de chocolate."] },
+  { sku:"cookie-lemon", img:"f-lemon.webp", ca:["Llimona","Llimona, sucre glas i un final de merenga."], es:["Limón","Limón, azúcar glas y un final de merengue."] },
+  { sku:"cookie-xurros", img:"f-cinnamon.webp", top:"t-cinnamon.webp", h:2.2, ca:["Xurros amb xoco","Arrebossada amb sucre i canyella, amb cor de xocolata."], es:["Churros con choco","Rebozada en azúcar y canela, con corazón de chocolate."] },
+  { sku:"cookie-miso", img:"f-caramel.webp", top:"t-caramel.webp", h:2.2, ca:["Miso i cacauet","Miso blanc i crema de cacauet: dolça, salada i molt addictiva."], es:["Miso y cacahuete","Miso blanco y crema de cacahuete: dulce, salada y muy adictiva."] },
+  { sku:"cookie-ruffles", img:"", ca:["Ruffles i pernil","Patates Ruffles i pernil cruixent. Sí, de veritat."], es:["Ruffles y jamón","Patatas Ruffles y jamón crujiente. Sí, de verdad."] }
 ];
 /* Shipping for the cookie box, by postcode, from the bakery in Premià de Dalt. Editable from the panel (Enviaments).
    codes: [postcode or its first digits, town]; "080" covers every postcode that starts with 080. Collection at the studio is not offered. */

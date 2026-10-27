@@ -2,24 +2,13 @@
   "sabors": [
     {
       "sku": "cookie-classica",
-      "name_ca": "Clàssica",
-      "name_es": "Clásica",
+      "name_ca": "Original",
+      "name_es": "Original",
       "desc_ca": "Mantega torrada, xocolata negra i un punt de sal.",
       "desc_es": "Mantequilla tostada, chocolate negro y un punto de sal.",
       "image": "/img/f-classica.webp",
       "available": true,
       "foto_caixa": "/img/t-classica.webp",
-      "alcada": 2.2
-    },
-    {
-      "sku": "cookie-triple",
-      "name_ca": "Triple Xocolata",
-      "name_es": "Triple Chocolate",
-      "desc_ca": "Cacau, xocolata negra i trossos de xocolata amb llet.",
-      "desc_es": "Cacao, chocolate negro y trozos de chocolate con leche.",
-      "image": "/img/f-triple.webp",
-      "available": true,
-      "foto_caixa": "/img/t-triple.webp",
       "alcada": 2.2
     },
     {
@@ -34,42 +23,31 @@
       "alcada": 2.2
     },
     {
-      "sku": "cookie-redvelvet",
-      "name_ca": "Red Velvet",
-      "name_es": "Red Velvet",
-      "desc_ca": "Cacau suau, color intens i xocolata blanca.",
-      "desc_es": "Cacao suave, color intenso y chocolate blanco.",
+      "sku": "cookie-taronja",
+      "name_ca": "Xocolata i taronja",
+      "name_es": "Chocolate y naranja",
+      "desc_ca": "Xocolata negra i trossos de taronja confitada.",
+      "desc_es": "Chocolate negro y trozos de naranja confitada.",
+      "image": "/img/f-triple.webp",
+      "available": true,
+      "foto_caixa": "/img/t-triple.webp",
+      "alcada": 2.2
+    },
+    {
+      "sku": "cookie-maduixes",
+      "name_ca": "Maduixes i xoco",
+      "name_es": "Fresas y choco",
+      "desc_ca": "Maduixa i trossos de xocolata.",
+      "desc_es": "Fresa y trozos de chocolate.",
       "image": "/img/f-redvelvet.webp",
       "available": true,
       "foto_caixa": "",
       "alcada": 2.2
     },
     {
-      "sku": "cookie-caramel",
-      "name_ca": "Salted Caramel",
-      "name_es": "Salted Caramel",
-      "desc_ca": "Caramel salat fet a l'estudi i flor de sal.",
-      "desc_es": "Caramelo salado hecho en el estudio y flor de sal.",
-      "image": "/img/f-caramel.webp",
-      "available": true,
-      "foto_caixa": "/img/t-caramel.webp",
-      "alcada": 2.2
-    },
-    {
-      "sku": "cookie-pistatxo",
-      "name_ca": "Pistatxo",
-      "name_es": "Pistacho",
-      "desc_ca": "Pistatxo torrat i xocolata blanca.",
-      "desc_es": "Pistacho tostado y chocolate blanco.",
-      "image": "",
-      "available": true,
-      "foto_caixa": "",
-      "alcada": 2.2
-    },
-    {
       "sku": "cookie-lemon",
-      "name_ca": "Lemon Pie",
-      "name_es": "Lemon Pie",
+      "name_ca": "Llimona",
+      "name_es": "Limón",
       "desc_ca": "Llimona, sucre glas i un final de merenga.",
       "desc_es": "Limón, azúcar glas y un final de merengue.",
       "image": "/img/f-lemon.webp",
@@ -78,14 +56,36 @@
       "alcada": 2.2
     },
     {
-      "sku": "cookie-cinnamon",
-      "name_ca": "Cinnamon",
-      "name_es": "Cinnamon",
-      "desc_ca": "Canyella, sucre moreno i civada cruixent.",
-      "desc_es": "Canela, azúcar moreno y avena crujiente.",
+      "sku": "cookie-xurros",
+      "name_ca": "Xurros amb xoco",
+      "name_es": "Churros con choco",
+      "desc_ca": "Arrebossada amb sucre i canyella, amb cor de xocolata.",
+      "desc_es": "Rebozada en azúcar y canela, con corazón de chocolate.",
       "image": "/img/f-cinnamon.webp",
       "available": true,
       "foto_caixa": "/img/t-cinnamon.webp",
+      "alcada": 2.2
+    },
+    {
+      "sku": "cookie-miso",
+      "name_ca": "Miso i cacauet",
+      "name_es": "Miso y cacahuete",
+      "desc_ca": "Miso blanc i crema de cacauet: dolça, salada i molt addictiva.",
+      "desc_es": "Miso blanco y crema de cacahuete: dulce, salada y muy adictiva.",
+      "image": "/img/f-caramel.webp",
+      "available": true,
+      "foto_caixa": "/img/t-caramel.webp",
+      "alcada": 2.2
+    },
+    {
+      "sku": "cookie-ruffles",
+      "name_ca": "Ruffles i pernil",
+      "name_es": "Ruffles y jamón",
+      "desc_ca": "Patates Ruffles i pernil cruixent. Sí, de veritat.",
+      "desc_es": "Patatas Ruffles y jamón crujiente. Sí, de verdad.",
+      "image": "",
+      "available": true,
+      "foto_caixa": "",
       "alcada": 2.2
     }
   ]
