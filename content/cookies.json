@@ -1,92 +1,92 @@
 {
   "sabors": [
     {
-      "sku": "cookie-classica",
-      "name_ca": "Original",
       "name_es": "Original",
+      "alcada": 2.2,
+      "available": true,
       "desc_ca": "Mantega torrada, xocolata negra i un punt de sal.",
-      "desc_es": "Mantequilla tostada, chocolate negro y un punto de sal.",
-      "image": "/img/f-classica.webp",
-      "available": true,
+      "name_ca": "Original",
       "foto_caixa": "/img/t-classica.webp",
-      "alcada": 2.2
+      "image": "/img/f-classica.webp",
+      "desc_es": "Mantequilla tostada, chocolate negro y un punto de sal.",
+      "sku": "cookie-classica"
     },
     {
-      "sku": "cookie-cheesecake",
-      "name_ca": "Cheesecake",
       "name_es": "Cheesecake",
-      "desc_ca": "Galeta de vainilla amb cor de crema de formatge.",
-      "desc_es": "Galleta de vainilla con corazón de crema de queso.",
-      "image": "/img/f-cheesecake.webp",
+      "alcada": 2.2,
       "available": true,
+      "desc_ca": "Galeta de mantega, xocolata blanca i un cor de crema de formatge.",
+      "name_ca": "Cheesecake",
       "foto_caixa": "/img/t-cheesecake.webp",
-      "alcada": 2.2
+      "image": "/img/f-cheesecake.webp",
+      "desc_es": "Galleta de mantequilla, chocolate blanco y un corazón de crema de queso.",
+      "sku": "cookie-cheesecake"
     },
     {
-      "sku": "cookie-taronja",
-      "name_ca": "Xocolata i taronja",
       "name_es": "Chocolate y naranja",
-      "desc_ca": "Xocolata negra i trossos de taronja confitada.",
-      "desc_es": "Chocolate negro y trozos de naranja confitada.",
-      "image": "/img/f-triple.webp",
+      "alcada": 2.2,
       "available": true,
+      "desc_ca": "Galeta de xocolata negra farcida de confitura taronja confitada.",
+      "name_ca": "Xocolata i taronja",
       "foto_caixa": "/img/t-triple.webp",
-      "alcada": 2.2
+      "image": "/img/f-triple.webp",
+      "desc_es": "Galleta de chocolate negro rellena de confitura naranja confitada.",
+      "sku": "cookie-taronja"
     },
     {
-      "sku": "cookie-maduixes",
-      "name_ca": "Maduixes i xoco",
-      "name_es": "Fresas y choco",
-      "desc_ca": "Maduixa i trossos de xocolata.",
-      "desc_es": "Fresa y trozos de chocolate.",
+      "name_es": "Fresas y chocolate",
+      "alcada": 2.2,
+      "available": true,
+      "desc_ca": "Galeta de chocolata amb llet farcida de confitura de maduixa i alfàbrega.",
+      "name_ca": "Maduixes i xocolata",
+      "foto_caixa": "",
       "image": "/img/f-redvelvet.webp",
-      "available": true,
-      "foto_caixa": "",
-      "alcada": 2.2
+      "desc_es": "Galleta de chocolate con leche rellena de confitura de fresa y albahaca.",
+      "sku": "cookie-maduixes"
     },
     {
-      "sku": "cookie-lemon",
-      "name_ca": "Llimona",
-      "name_es": "Limón",
-      "desc_ca": "Llimona, sucre glas i un final de merenga.",
-      "desc_es": "Limón, azúcar glas y un final de merengue.",
+      "name_es": "Limón y mascarpone",
+      "alcada": 2.2,
+      "available": true,
+      "desc_ca": "Llimona, mascarpone i sucre glace.",
+      "name_ca": "Llimona i mascarpone",
+      "foto_caixa": "",
       "image": "/img/f-lemon.webp",
-      "available": true,
-      "foto_caixa": "",
-      "alcada": 2.2
+      "desc_es": "Limón, mascarpone y azúcar grace.",
+      "sku": "cookie-lemon"
     },
     {
-      "sku": "cookie-xurros",
-      "name_ca": "Xurros amb xoco",
-      "name_es": "Churros con choco",
-      "desc_ca": "Arrebossada amb sucre i canyella, amb cor de xocolata.",
-      "desc_es": "Rebozada en azúcar y canela, con corazón de chocolate.",
-      "image": "/img/f-cinnamon.webp",
+      "name_es": "Churros con chocolate a la taza",
+      "alcada": 2.2,
       "available": true,
+      "desc_ca": "Galeta de xurros amb farcit de xocolata a la tassa.",
+      "name_ca": "Xurros amb xocolata a la tassa",
       "foto_caixa": "/img/t-cinnamon.webp",
-      "alcada": 2.2
+      "image": "/img/f-cinnamon.webp",
+      "desc_es": "Galleta de churros con relleno de chocolate en la taza.",
+      "sku": "cookie-xurros"
     },
     {
-      "sku": "cookie-miso",
-      "name_ca": "Miso i cacauet",
       "name_es": "Miso y cacahuete",
-      "desc_ca": "Miso blanc i crema de cacauet: dolça, salada i molt addictiva.",
-      "desc_es": "Miso blanco y crema de cacahuete: dulce, salada y muy adictiva.",
-      "image": "/img/f-caramel.webp",
+      "alcada": 2.2,
       "available": true,
+      "desc_ca": "Galeta de miso blanc i xocolata blanca farcida de crema de cacauet.",
+      "name_ca": "Miso i cacauet",
       "foto_caixa": "/img/t-caramel.webp",
-      "alcada": 2.2
+      "image": "/img/f-caramel.webp",
+      "desc_es": "Galleta de miso blanco y chocolate blanco rellena de crema de cacahuete.",
+      "sku": "cookie-miso"
     },
     {
-      "sku": "cookie-ruffles",
-      "name_ca": "Ruffles i pernil",
-      "name_es": "Ruffles y jamón",
-      "desc_ca": "Patates Ruffles i pernil cruixent. Sí, de veritat.",
-      "desc_es": "Patatas Ruffles y jamón crujiente. Sí, de verdad.",
-      "image": "",
+      "name_es": "Ruffles de jamón",
+      "alcada": 2.2,
       "available": true,
+      "desc_ca": "Galeta de patates Ruffles, pernil cruixent y farcida de beixamel de pernil.",
+      "name_ca": "Ruffles de pernil ",
       "foto_caixa": "",
-      "alcada": 2.2
+      "image": "",
+      "desc_es": "Galleta de patatas Ruffles, jamón crujiente y rellena de bechamel de jamón.",
+      "sku": "cookie-ruffles"
     }
   ]
 }
