@@ -38,6 +38,10 @@ function ratio(rel) {
 
 // the board's collage: tilt, width and side follow the position, so new posts fall into it
 const TILT = [-1.2, .9, -.5, 1.3, .6, -1, -.8, .7], WIDTH = [.92, 1, .8, 1, .86, .84, .94, 1], RIGHT = [0, 0, 1, 0, 1, 0, 1, 0];
+const hex = v => { const m = String(v ?? "").trim().match(/^#?([0-9a-f]{3}|[0-9a-f]{6})$/i); if (!m) return "";
+  const h = m[1].length === 3 ? m[1].replace(/./g, "$&$&") : m[1]; return "#" + h.toUpperCase(); };
+const light = c => { const n = parseInt(c.slice(1), 16), ch = [n >> 16, n >> 8 & 255, n & 255].map(v => { v /= 255; return v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; });
+  return .2126 * ch[0] + .7152 * ch[1] + .0722 * ch[2] > .28; };
 const COVERS = { salvia: ["#D9DBC4", "var(--ink)"], negre: ["var(--ink)", "var(--paper)"], paper: ["var(--plate)", "var(--ink)"] };
 
 const blog = fs.readdirSync(path.join(C, "blog")).filter(f => f.endsWith(".json"))
@@ -52,7 +56,12 @@ const blog = fs.readdirSync(path.join(C, "blog")).filter(f => f.endsWith(".json"
       ingredients: bi(p, "ingredients", lines), steps: bi(p, "steps", lines) });
     if (p.kind === "thought") o.quote = bi(p, "quote");
     if (p.kind !== "recipe") o.body = bi(p, "body", paras);
-    if (p.kind === "book") { const c = COVERS[p.cover] || COVERS.salvia; Object.assign(o, { author: String(p.author ?? ""), year: String(p.year ?? ""), bg: c[0], fg: c[1] }); }
+    if (p.kind === "book") {
+      // a colour chosen in the panel wins over the old fixed ones; the lettering goes dark or light to stay readable
+      const cc = hex(p.cover_color), c = cc ? [cc, light(cc) ? "var(--ink)" : "var(--paper)"] : COVERS[p.cover] || COVERS.salvia;
+      Object.assign(o, { author: String(p.author ?? ""), year: String(p.year ?? ""), bg: c[0], fg: c[1] });
+      if (p.cover_image) o.coverImg = img(p.cover_image);
+    }
     return o;
   });
 

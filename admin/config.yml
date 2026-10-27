@@ -66,8 +66,11 @@ collections:
       # llibres
       - { label: "Llibre · Autor o autora", name: author, widget: string, required: false }
       - { label: "Llibre · Any", name: year, widget: string, required: false }
-      - { label: "Llibre · Color de la portada", name: cover, widget: select, required: false, default: salvia,
-          options: [ { label: Sàlvia, value: salvia }, { label: Negre, value: negre }, { label: Paper, value: paper } ] }
+      - { label: "Llibre · Color de la portada", name: cover_color, widget: color, required: false, allowInput: true, enableAlpha: false,
+          hint: "Tria el color que vulguis. Les lletres de la portada es posen soles en fosc o en clar perquè es llegeixin." }
+      - { label: "Llibre · Foto de la portada", name: cover_image, widget: image, required: false, choose_url: false,
+          hint: "Opcional. Si poses la foto de la portada del llibre, surt la portada real en lloc del color." }
+      - { label: "Llibre · Color d'abans", name: cover, widget: hidden, required: false }
 
   - name: cookies
     label: Cookies

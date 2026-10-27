@@ -1,92 +1,92 @@
 {
   "sabors": [
     {
-      "name_es": "Clásica",
-      "alcada": 2.2,
-      "available": true,
-      "desc_ca": "Mantega torrada, xocolata negra i un punt de sal.",
+      "sku": "cookie-classica",
       "name_ca": "Clàssica",
-      "foto_caixa": "/img/t-classica.webp",
-      "image": "",
+      "name_es": "Clásica",
+      "desc_ca": "Mantega torrada, xocolata negra i un punt de sal.",
       "desc_es": "Mantequilla tostada, chocolate negro y un punto de sal.",
-      "sku": "cookie-classica"
+      "image": "/img/f-classica.webp",
+      "available": true,
+      "foto_caixa": "/img/t-classica.webp",
+      "alcada": 2.2
     },
     {
-      "name_es": "Triple Chocolate",
-      "alcada": 2.2,
-      "available": true,
-      "desc_ca": "Cacau, xocolata negra i trossos de xocolata amb llet.",
+      "sku": "cookie-triple",
       "name_ca": "Triple Xocolata",
-      "foto_caixa": "/img/t-triple.webp",
-      "image": "",
+      "name_es": "Triple Chocolate",
+      "desc_ca": "Cacau, xocolata negra i trossos de xocolata amb llet.",
       "desc_es": "Cacao, chocolate negro y trozos de chocolate con leche.",
-      "sku": "cookie-triple"
+      "image": "/img/f-triple.webp",
+      "available": true,
+      "foto_caixa": "/img/t-triple.webp",
+      "alcada": 2.2
     },
     {
-      "name_es": "Cheesecake",
-      "alcada": 2.2,
-      "available": true,
-      "desc_ca": "Galeta de vainilla amb cor de crema de formatge.",
+      "sku": "cookie-cheesecake",
       "name_ca": "Cheesecake",
-      "foto_caixa": "/img/t-cheesecake.webp",
-      "image": "",
+      "name_es": "Cheesecake",
+      "desc_ca": "Galeta de vainilla amb cor de crema de formatge.",
       "desc_es": "Galleta de vainilla con corazón de crema de queso.",
-      "sku": "cookie-cheesecake"
+      "image": "/img/f-cheesecake.webp",
+      "available": true,
+      "foto_caixa": "/img/t-cheesecake.webp",
+      "alcada": 2.2
     },
     {
-      "name_es": "Red Velvet",
-      "alcada": 2.2,
-      "available": true,
-      "desc_ca": "Cacau suau, color intens i xocolata blanca.",
+      "sku": "cookie-redvelvet",
       "name_ca": "Red Velvet",
-      "foto_caixa": "",
-      "image": "/img/f-redvelvet.webp",
+      "name_es": "Red Velvet",
+      "desc_ca": "Cacau suau, color intens i xocolata blanca.",
       "desc_es": "Cacao suave, color intenso y chocolate blanco.",
-      "sku": "cookie-redvelvet"
+      "image": "/img/f-redvelvet.webp",
+      "available": true,
+      "foto_caixa": "",
+      "alcada": 2.2
     },
     {
-      "name_es": "Salted Caramel",
-      "alcada": 2.2,
-      "available": true,
-      "desc_ca": "Caramel salat fet a l'estudi i flor de sal.",
+      "sku": "cookie-caramel",
       "name_ca": "Salted Caramel",
-      "foto_caixa": "/img/t-caramel.webp",
-      "image": "",
+      "name_es": "Salted Caramel",
+      "desc_ca": "Caramel salat fet a l'estudi i flor de sal.",
       "desc_es": "Caramelo salado hecho en el estudio y flor de sal.",
-      "sku": "cookie-caramel"
+      "image": "/img/f-caramel.webp",
+      "available": true,
+      "foto_caixa": "/img/t-caramel.webp",
+      "alcada": 2.2
     },
     {
-      "name_es": "Pistacho",
-      "alcada": 2.2,
-      "available": true,
-      "desc_ca": "Pistatxo torrat i xocolata blanca.",
+      "sku": "cookie-pistatxo",
       "name_ca": "Pistatxo",
-      "foto_caixa": "",
-      "image": "",
+      "name_es": "Pistacho",
+      "desc_ca": "Pistatxo torrat i xocolata blanca.",
       "desc_es": "Pistacho tostado y chocolate blanco.",
-      "sku": "cookie-pistatxo"
-    },
-    {
-      "name_es": "Lemon Pie",
-      "alcada": 2.2,
-      "available": true,
-      "desc_ca": "Llimona, sucre glas i un final de merenga.",
-      "name_ca": "Lemon Pie",
-      "foto_caixa": "",
-      "image": "/img/f-lemon.webp",
-      "desc_es": "Limón, azúcar glas y un final de merengue.",
-      "sku": "cookie-lemon"
-    },
-    {
-      "name_es": "Cinnamon",
-      "alcada": 2.2,
-      "available": true,
-      "desc_ca": "Canyella, sucre moreno i civada cruixent.",
-      "name_ca": "Cinnamon",
-      "foto_caixa": "/img/t-cinnamon.webp",
       "image": "",
+      "available": true,
+      "foto_caixa": "",
+      "alcada": 2.2
+    },
+    {
+      "sku": "cookie-lemon",
+      "name_ca": "Lemon Pie",
+      "name_es": "Lemon Pie",
+      "desc_ca": "Llimona, sucre glas i un final de merenga.",
+      "desc_es": "Limón, azúcar glas y un final de merengue.",
+      "image": "/img/f-lemon.webp",
+      "available": true,
+      "foto_caixa": "",
+      "alcada": 2.2
+    },
+    {
+      "sku": "cookie-cinnamon",
+      "name_ca": "Cinnamon",
+      "name_es": "Cinnamon",
+      "desc_ca": "Canyella, sucre moreno i civada cruixent.",
       "desc_es": "Canela, azúcar moreno y avena crujiente.",
-      "sku": "cookie-cinnamon"
+      "image": "/img/f-cinnamon.webp",
+      "available": true,
+      "foto_caixa": "/img/t-cinnamon.webp",
+      "alcada": 2.2
     }
   ]
 }
