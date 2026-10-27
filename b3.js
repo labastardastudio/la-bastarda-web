@@ -256,7 +256,7 @@ function listThumbs() {
 function phoneDiscs() {
   document.querySelectorAll("#slots .slot.full").forEach(s => { const f = L.bySku(L.box.sel[+s.dataset.i]); if (!f) return;
     sprite(f).then(url => { if (!url || !s.isConnected) return; const fl = s.querySelector(".c3d"); if (!fl) return;
-      fl.innerHTML = `<span class="flat b3s"><img src="${url}" alt=""></span>`; }); });
+      fl.classList.remove("on"); fl.innerHTML = `<span class="flat b3s"><img src="${url}" alt=""></span>`; }); });
 }
 let lastSel = "";
 function syncTray() {

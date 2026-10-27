@@ -245,6 +245,8 @@ a{color:inherit}
   .slot.full:hover::before{inset:30%;border-radius:50%;background:rgba(26,25,22,.62);transform:translateZ(calc(var(--cm) * 3.4))}
 }
 @media (max-width:899px){.slots3{display:contents}.slots .w3d{display:none}}
+/* the 3D tray is only for wide screens: if the window is narrowed after it was drawn, hide it so the phone bar keeps its height (three.js sets display:block inline) */
+.slots3:not(.gl) canvas.b3{display:none!important}
 /* real 3D (b3.js): the canvas draws the box; the slot buttons stay underneath for the keyboard and screen readers */
 @media (min-width:900px){
   .slots3.gl{position:relative;margin:0}
@@ -941,7 +943,7 @@ const FLAVOURS = [
   { sku:"cookie-maduixes", img:"f-redvelvet.webp", ca:["Maduixes i xoco","Maduixa i trossos de xocolata."], es:["Fresas y choco","Fresa y trozos de chocolate."] },
   { sku:"cookie-lemon", img:"f-lemon.webp", ca:["Llimona","Llimona, sucre glas i un final de merenga."], es:["Limón","Limón, azúcar glas y un final de merengue."] },
   { sku:"cookie-xurros", img:"f-cinnamon.webp", top:"t-cinnamon.webp", h:2.2, ca:["Xurros amb xoco","Arrebossada amb sucre i canyella, amb cor de xocolata."], es:["Churros con choco","Rebozada en azúcar y canela, con corazón de chocolate."] },
-  { sku:"cookie-miso", img:"f-caramel.webp", top:"t-caramel.webp", h:2.2, ca:["Miso i cacauet","Miso blanc i crema de cacauet: dolça, salada i molt addictiva."], es:["Miso y cacahuete","Miso blanco y crema de cacahuete: dulce, salada y muy adictiva."] },
+  { sku:"cookie-miso", img:"f-caramel.webp", top:"t-caramel.webp", h:2.2, ca:["Tartufo i nous pecanes","Galeta dolça-salada de tartufo negre amb nous pecanes farcida de crema de tartufo"], es:["Tartufo y nueces pecanas","Galleta dulce-salada de trufa negra con nueces pecanas rellena de crema de trufa"] },
   { sku:"cookie-ruffles", img:"", ca:["Ruffles i pernil","Patates Ruffles i pernil cruixent. Sí, de veritat."], es:["Ruffles y jamón","Patatas Ruffles y jamón crujiente. Sí, de verdad."] }
 ];
 /* Shipping for the cookie box, by postcode, from the bakery in Premià de Dalt. Editable from the panel (Enviaments).
@@ -1613,6 +1615,8 @@ async function rlfCookie(el, src, round, rot) {
   const key = src + (round ? "#r" : ""), S = RLF.size, N = S * S, n = RLF.slices;
   if (!RLF_MAPS[key]) RLF_MAPS[key] = rlfLoad(src).then(img => { if (!img) return null; const m = rlfMask(img, round); return { px: m.px, H: rlfHeight(m.px, m.A) }; });
   const map = await RLF_MAPS[key]; if (!map || !el.isConnected) return;
+  // the WebGL tray arrived meanwhile: it draws these cookies itself
+  if (window.B3 && el.closest("#slots")) return;
   const sk = key + "@" + rot;
   if (!RLF_SLICES[sk]) {
   const { px, H } = map, a = -rot * Math.PI / 180, lx = -.6 * Math.cos(a) + .75 * Math.sin(a), ly = -.6 * Math.sin(a) - .75 * Math.cos(a), sh = new Float32Array(N);
