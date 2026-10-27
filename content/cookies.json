@@ -67,14 +67,14 @@
       "sku": "cookie-xurros"
     },
     {
-      "name_es": "Miso y cacahuete",
+      "name_es": "Tartufo i nueces pecanas",
       "alcada": 2.2,
       "available": true,
-      "desc_ca": "Galeta de miso blanc i xocolata blanca farcida de crema de cacauet.",
-      "name_ca": "Miso i cacauet",
+      "desc_ca": "Galeta dolça-salada de tartufo negre amb nous pecanes farcida de crema de tartufo",
+      "name_ca": "Tartufo i nous pecanes",
       "foto_caixa": "/img/t-caramel.webp",
       "image": "/img/f-caramel.webp",
-      "desc_es": "Galleta de miso blanco y chocolate blanco rellena de crema de cacahuete.",
+      "desc_es": "Galleta dulce-salada de trufa negra con nueces pecanas rellena de crema de trufa",
       "sku": "cookie-miso"
     },
     {
