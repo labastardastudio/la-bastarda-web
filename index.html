@@ -425,7 +425,7 @@ a{color:inherit}
 .pic img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.2s var(--ease)}
 .post>a:hover .pic img{transform:scale(1.04)}
 .pic.pend span{position:absolute;left:9px;bottom:8px;font-size:9.5px;letter-spacing:.04em;color:var(--ink-2)}
-.leaf{display:block;background:#FAF8F3;padding:12px 12px 22px;box-shadow:0 1px 0 rgba(26,25,22,.06),0 26px 40px -34px rgba(26,25,22,.55)}
+.pcard{display:block;background:#FAF8F3;padding:12px 12px 22px;box-shadow:0 1px 0 rgba(26,25,22,.06),0 26px 40px -34px rgba(26,25,22,.55)}
 .post .kick{display:flex;gap:12px;align-items:baseline;margin:16px 0 8px}
 .post .kick span:last-child{color:var(--ink-2)}
 .post h3{margin:0;font-family:var(--serif);font-weight:300;font-variation-settings:"opsz" 48;font-size:clamp(24px,2.1vw,32px);line-height:1.06;letter-spacing:-.015em;text-wrap:balance}
@@ -433,7 +433,7 @@ a{color:inherit}
 .post p{margin:8px 0 0;font-size:13.5px;line-height:1.5;color:var(--ink-2);max-width:40ch;text-wrap:pretty}
 .post .btn{margin-top:12px;padding:6px 0 5px;font-size:12px}
 .post>a:hover .btn{gap:16px}
-.k-image .leaf{padding:10px 10px 0}
+.k-image .pcard{padding:10px 10px 0}
 .k-image .cap{display:flex;gap:6px;padding:10px 2px 14px;font-size:10.5px;color:var(--ink-2)}
 .k-image .cap b{font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
 .k-image .post-t{padding:0 2px}
@@ -1721,8 +1721,8 @@ const cover = p => `<span class="cover" style="--bg:${p.bg};--fg:${p.fg}" aria-h
 function card(p, i) {
   const read = `<span class="btn">${t("bl.read")} ${arrow}</span>`;
   let inner;
-  if (p.kind === "recipe") inner = `<span class="leaf">${pic(p, "pic")}${kick(p, i, L(p.time))}<h3>${L(p.title)}</h3><p>${L(p.excerpt)}</p>${read}</span>`;
-  else if (p.kind === "image") inner = `<span class="leaf">${pic(p, "pic")}<span class="cap"><b>${no(i)}</b>${L(p.title)}</span></span><span class="post-t">${kick(p, i)}<h3>${L(p.title)}</h3><p>${L(p.excerpt)}</p></span>`;
+  if (p.kind === "recipe") inner = `<span class="pcard">${pic(p, "pic")}${kick(p, i, L(p.time))}<h3>${L(p.title)}</h3><p>${L(p.excerpt)}</p>${read}</span>`;
+  else if (p.kind === "image") inner = `<span class="pcard">${pic(p, "pic")}<span class="cap"><b>${no(i)}</b>${L(p.title)}</span></span><span class="post-t">${kick(p, i)}<h3>${L(p.title)}</h3><p>${L(p.excerpt)}</p></span>`;
   else if (p.kind === "thought") inner = `<span class="note"><span class="q">«${L(p.quote)}»</span>${kick(p, i)}<h3>${L(p.title)}</h3></span>`;
   else inner = `${cover(p)}${kick(p, i, p.year)}<h3><em>${L(p.title)}</em></h3><p>${L(p.excerpt)}</p>${read}`;
   const tape = p.kind === "book" ? "" : `<span class="tape" style="--tr:${(i % 3 - 1) * 4 - 1}deg" aria-hidden="true"></span>`;
