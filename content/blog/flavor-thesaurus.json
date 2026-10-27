@@ -1,14 +1,15 @@
 {
-  "kind": "book",
-  "date": "2026-10-20",
-  "published": true,
   "title_ca": "The Flavor Thesaurus",
-  "title_es": "The Flavor Thesaurus",
-  "excerpt_ca": "Un diccionari de combinacions de sabors. L'obrim quan busquem una parella inesperada.",
-  "excerpt_es": "Un diccionario de combinaciones de sabores. Lo abrimos cuando buscamos una pareja inesperada.",
-  "body_ca": "Un diccionari de combinacions de sabors, escrit amb molt d'humor. L'obrim quan busquem una parella inesperada per a un farcit.\n\nD'aquí va sortir la idea de provar el pistatxo amb llimona.",
   "body_es": "Un diccionario de combinaciones de sabores, escrito con mucho humor. Lo abrimos cuando buscamos una pareja inesperada para un relleno.\n\nDe aquí salió la idea de probar el pistacho con limón.",
   "author": "Niki Segnit",
-  "year": "2010",
-  "cover": "negre"
+  "excerpt_es": "Un diccionario de combinaciones de sabores. Lo abrimos cuando buscamos una pareja inesperada.",
+  "published": true,
+  "date": "2026-10-20",
+  "kind": "book",
+  "title_es": "The Flavor Thesaurus",
+  "cover": "negre",
+  "body_ca": "Un diccionari de combinacions de sabors, escrit amb molt d'humor. L'obrim quan busquem una parella inesperada per a un farcit.\n\nD'aquí va sortir la idea de provar el pistatxo amb llimona.",
+  "image": "/img/uploads/61id4nlu-0l._ac_uf1000-1000_ql80_.jpg",
+  "excerpt_ca": "Un diccionari de combinacions de sabors. L'obrim quan busquem una parella inesperada.",
+  "year": "2010"
 }
