@@ -58,7 +58,7 @@ const blog = fs.readdirSync(path.join(C, "blog")).filter(f => f.endsWith(".json"
 
 const slug = s => String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 const flavours = read(path.join(C, "cookies.json")).sabors.filter(f => f.available !== false).map(f => ({
-  sku: f.sku || "cookie-" + slug(f.name_ca), img: img(f.image),
+  sku: f.sku || "cookie-" + slug(f.name_ca), img: img(f.image), top: img(f.foto_caixa), h: Number(f.alcada) > 0 ? Number(f.alcada) : 2.2,
   ca: [esc(f.name_ca), esc(f.desc_ca)], es: [esc(f.name_es || f.name_ca), esc(f.desc_es || f.desc_ca)]
 }));
 

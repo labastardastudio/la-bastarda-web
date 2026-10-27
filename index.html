@@ -215,9 +215,41 @@ a{color:inherit}
 .slots{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:16px;background:var(--plate);aspect-ratio:1/1;align-content:center}
 .slots[data-size="6"]{grid-template-columns:repeat(3,1fr);aspect-ratio:3/2}
 .slot{all:unset;box-sizing:border-box;aspect-ratio:1;border-radius:50%;border:1px dashed rgba(26,25,22,.22);position:relative;overflow:hidden;display:block}
-.slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.25)}
+.slot .c3d{position:absolute;inset:0}
+.slot .c3d::before{content:none}
+.slot .c3d .flat{border-radius:50%}
+.slots3{min-width:0}
+@media (min-width:900px){
+  .slots3{perspective:1000px;margin:calc(var(--cm,14px) * -.6) 0 calc(var(--cm,14px) * .2)}
+  .slots{--cm:14px;position:relative;transform-style:preserve-3d;transform:rotateX(34deg);box-shadow:inset 0 0 0 1px rgba(26,25,22,.08)}
+  .slot{transform-style:preserve-3d}
+  .slot.full{overflow:visible;border-radius:0}
+  .slot.full .c3d::before{content:""}
+  .slot.full::after{content:none}
+  .slot.full:hover::before{inset:30%;border-radius:50%;background:rgba(26,25,22,.62);transform:translateZ(calc(var(--cm) * 3.4))}
+}
+@media (max-width:899px){.slots3{display:contents}.slots .w3d{display:none}}
+/* real 3D (b3.js): the canvas draws the box; the slot buttons stay underneath for the keyboard and screen readers */
+@media (min-width:900px){
+  .slots3.gl{position:relative;margin:0}
+  .slots3.gl .slots{transform:none;background:none;box-shadow:none}
+  .slots3.gl .slots>*{opacity:0;pointer-events:none;animation:none}
+  .slots3.gl canvas.b3{position:absolute;left:-4%;top:-6%;width:108%;height:112%;display:block}
+  .slots3.gl:focus-within canvas.b3{outline:1.5px solid var(--pencil);outline-offset:2px}
+}
+.sh-box3.gl{height:auto;aspect-ratio:4/3;max-height:min(62vh,520px);width:100%;cursor:grab}
+.sh-box3.gl .sh-box{display:none}
+.bx-go{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));z-index:30;display:flex;align-items:center;gap:20px;padding:10px 10px 10px 22px;background:var(--paper);border:1px solid var(--ink);border-radius:999px;box-shadow:0 10px 30px rgba(26,25,22,.12);font-size:12.5px;transform:translateX(-50%);animation:bxGo .4s var(--ease) both}
+.bx-go[hidden]{display:none}
+@keyframes bxGo{from{opacity:0;transform:translate(-50%,12px)}}
+@media (max-width:899px){.bx-go{display:none}}
+@media (prefers-reduced-motion:reduce){.bx-go{animation:none}}
+.ph2.b3c img,.th.b3c img{object-fit:contain}.fl .ph2.b3c,.sum .th.b3c{background:none;overflow:visible}.fl .ph2.b3c img{transform:scale(1.18)}.fl:hover .ph2.b3c img{transform:scale(1.23)}@media (max-width:899px){.fl .ph2.b3c img,.fl:hover .ph2.b3c img{transform:scale(1.1)}}
+.slot .flat.b3s{background:#E7E1D4}.slot .flat.b3s img{object-fit:contain;transform:scale(1.18)}
+.sh-box3.gl canvas.b3{position:absolute;inset:0;width:100%;height:100%;display:block}
+.sh-box3.gl:focus-visible canvas.b3{outline:1.5px solid var(--pencil);outline-offset:4px}
 .slot .ini{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:20px;background:#D9DBC4;color:var(--ink)}
-.slot.full{border:0;cursor:pointer;animation:drop .5s var(--ease) both}
+.slot.full{border:0;cursor:pointer;animation:drop .5s var(--ease) both;transform-style:preserve-3d}
 .slot.full::after{content:"";position:absolute;inset:0;border-radius:50%;background:rgba(26,25,22,.0);transition:background .25s}
 .slot.full:hover::after{background:rgba(26,25,22,.28)}
 .slot.full:hover::before{content:"×";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:22px;z-index:2}
@@ -290,10 +322,32 @@ a{color:inherit}
 .sh-steps li.on{opacity:1;color:var(--ink);border-bottom:1px solid var(--ink)}
 .sh-steps li.ok{opacity:.8}
 .sh-pane{margin:0;display:grid;gap:14px;min-width:0}
-.sh-box{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(8px,2vw,14px);padding:clamp(14px,3vw,22px);background:var(--plate);width:min(100%,300px);aspect-ratio:1/1;align-content:center;box-sizing:border-box;box-shadow:inset 0 0 0 1px rgba(26,25,22,.08)}
-.sh-box[data-size="6"]{grid-template-columns:repeat(3,1fr);aspect-ratio:3/2;width:min(100%,420px)}
-.sh-box span{aspect-ratio:1;border-radius:50%;overflow:hidden;position:relative;background:#D9DBC4;display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:18px;box-shadow:0 6px 14px -8px rgba(26,25,22,.45)}
-.sh-box img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.25)}
+/* 3D boxes (the box in «Revisar», and the tray while choosing on wide screens): an open box seen at an angle, with walls 4 cm high,
+   and each cookie standing in it with its own relief. --cm = 1 cm on screen, set from the box width. */
+.sh-box3{perspective:1100px;display:block;min-width:0;height:var(--h3,260px);cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;outline:none;position:relative}
+.sh-box3:active{cursor:grabbing}
+.sh-box3 .sh-box,.sh-box3 .sh-box *{pointer-events:none}
+.sh-box3:focus-visible .sh-box{outline:1.5px solid var(--pencil);outline-offset:6px}
+.sh-turn{position:relative;z-index:2;display:flex;align-items:center;gap:8px;margin:0;font-size:11.5px;color:var(--ink-2)}
+.sh-turn button{all:unset;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.sh-turn button:focus-visible{outline:1.5px solid var(--pencil);outline-offset:2px}
+.sh-box{--cm:15px;--rx:36deg;--rz:0deg;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(8px,2vw,14px);padding:clamp(14px,3vw,22px);background:var(--plate);width:min(100%,300px);aspect-ratio:1/1;align-content:center;box-sizing:border-box;margin-left:auto;margin-right:auto;
+  transform-style:preserve-3d;transform:scale(var(--k,1)) rotateX(var(--rx)) rotateZ(var(--rz));transform-origin:50% 50%;position:absolute;left:0;right:0;top:50%;margin-top:calc(var(--bh,260px) / -2);transition:transform .5s var(--ease);box-shadow:inset 0 0 0 1px rgba(26,25,22,.08)}
+.sh-box.drag{transition:none}
+.sh-box[data-size="6"]{grid-template-columns:repeat(3,minmax(0,1fr));aspect-ratio:3/2;width:min(100%,420px)}
+.box3d .w3d{position:absolute;background:#DCD5C6;transform-style:preserve-3d;pointer-events:none}
+.box3d .w3d.t,.box3d .w3d.b{left:0;right:0;height:calc(var(--cm) * 4)}
+.box3d .w3d.l,.box3d .w3d.r{top:2px;bottom:2px;width:calc(var(--cm) * 4)}
+.box3d .w3d.t{top:0;transform-origin:50% 0;transform:rotateX(90deg);background:#E2DCCF}
+.box3d .w3d.b{bottom:0;transform-origin:50% 100%;transform:rotateX(-90deg);background:#D3CCBC}
+.box3d .w3d.l{left:0;transform-origin:0 50%;transform:rotateY(-90deg);background:#D8D1C2}
+.box3d .w3d.r{right:0;transform-origin:100% 50%;transform:rotateY(90deg);background:#D8D1C2}
+.c3d{aspect-ratio:1;min-width:0;width:100%;align-self:center;position:relative;display:block;transform-style:preserve-3d;transform:rotate(var(--r,0deg))}
+.c3d::before{content:"";position:absolute;inset:-3%;border-radius:50%;background:radial-gradient(closest-side,rgba(26,25,22,.34),rgba(26,25,22,.12) 70%,transparent);transform:translate(4%,6%)}
+.c3d .flat,.c3d .ini{position:absolute;inset:0;border-radius:50%;overflow:hidden;background:#D9DBC4;display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:18px;color:var(--ink)}
+.c3d .flat img{width:100%;height:100%;object-fit:cover;transform:scale(1.25)}
+.c3d.on .flat{display:none}
+.c3d canvas{position:absolute;inset:0;width:100%;height:100%;transform:translateZ(calc(var(--cm) * var(--h,2.2) * var(--z)))}
 .sh-fl li{grid-template-columns:52px minmax(0,1fr) auto;align-items:start}
 .sh-fl .tx{display:grid;gap:3px;min-width:0}
 .sh-fl .tx small{font-size:12.5px;color:var(--ink-2);line-height:1.45}
@@ -691,7 +745,7 @@ a{color:inherit}
         <ol class="flavours" id="flavours"></ol>
         <aside class="tray" aria-labelledby="bx-tray-l">
           <div class="tray-top"><span class="caps" id="bx-tray-l" data-i18n="bx.yours">La teva caixa</span><span class="n" id="bxCount" aria-hidden="true">0<i>/6</i></span></div>
-          <div class="slots" id="slots" data-size="6"></div>
+          <div class="slots3"><div class="slots box3d" id="slots" data-size="6"></div></div>
           <ul class="lines" id="lines"></ul>
           <div class="tray-price"><span data-i18n="bx.price">Preu de la caixa</span><b id="bxPrice"></b></div>
           <p class="state" id="bxState" role="status" aria-live="polite"></p>
@@ -702,12 +756,13 @@ a{color:inherit}
           <p class="fine" data-i18n="bx.fine">El preu de l'enviament depèn del codi postal.</p>
         </aside>
       </div>
+      <div class="bx-go" id="bxGo" hidden><span data-i18n="bx.full">Caixa completa.</span><button type="button" class="btn-solid" data-i18n="bx.review">Revisar la caixa</button></div>
     </section>
     <div class="sheet" id="sheet" hidden>
       <div class="sheet-in" role="dialog" aria-modal="true" aria-labelledby="sh-h" tabindex="-1" id="sheetIn">
         <div class="sh-top"><span class="caps" id="shKick"></span><ol class="sh-steps" id="shSteps"></ol></div>
         <h3 id="sh-h" data-i18n="sh.h">Resum de <em>la teva caixa</em></h3>
-        <div class="sh-pane" data-pane="0"><div class="sh-box" id="shBox" aria-hidden="true"></div><ul class="sum sh-fl" id="sum"></ul></div>
+        <div class="sh-pane" data-pane="0"><div class="sh-box3" id="shBox3" tabindex="0" role="img"><div class="sh-box box3d" id="shBox" aria-hidden="true"></div></div><p class="sh-turn"><span id="shTurn"></span><button type="button" id="shTurnReset"></button></p><ul class="sum sh-fl" id="sum"></ul></div>
         <form class="sh-pane" data-pane="1" id="shShip" novalidate hidden>
           <div class="fields sh-fields">
             <div class="fld"><label for="shCp" data-i18n="sh.f.cp">Codi postal</label><input id="shCp" name="cp" inputmode="numeric" autocomplete="postal-code" maxlength="5" aria-describedby="shCpOut"><small class="err" id="shCpE"></small></div>
@@ -862,14 +917,14 @@ const BOXES = [4, 6];
 const BOX_PRICE = { 4: 15, 6: 20 }; // € per box, whatever the flavours
 const eur = n => `${n.toLocaleString(document.documentElement.lang === "es" ? "es-ES" : "ca-ES", n % 1 ? { minimumFractionDigits: 2, maximumFractionDigits: 2 } : {})}\u00a0€`;
 const FLAVOURS = [
-  { sku:"cookie-classica",   img:"f-classica.webp",   ca:["Clàssica","Mantega torrada, xocolata negra i un punt de sal."],            es:["Clásica","Mantequilla tostada, chocolate negro y un punto de sal."] },
-  { sku:"cookie-triple",     img:"f-triple.webp",     ca:["Triple Xocolata","Cacau, xocolata negra i trossos de xocolata amb llet."], es:["Triple Chocolate","Cacao, chocolate negro y trozos de chocolate con leche."] },
-  { sku:"cookie-cheesecake", img:"f-cheesecake.webp", ca:["Cheesecake","Galeta de vainilla amb cor de crema de formatge."],             es:["Cheesecake","Galleta de vainilla con corazón de crema de queso."] },
+  { sku:"cookie-classica",   img:"f-classica.webp", top:"t-classica.webp", h:2.2,   ca:["Clàssica","Mantega torrada, xocolata negra i un punt de sal."],            es:["Clásica","Mantequilla tostada, chocolate negro y un punto de sal."] },
+  { sku:"cookie-triple",     img:"f-triple.webp", top:"t-triple.webp", h:2.2,     ca:["Triple Xocolata","Cacau, xocolata negra i trossos de xocolata amb llet."], es:["Triple Chocolate","Cacao, chocolate negro y trozos de chocolate con leche."] },
+  { sku:"cookie-cheesecake", img:"f-cheesecake.webp", top:"t-cheesecake.webp", h:2.2, ca:["Cheesecake","Galeta de vainilla amb cor de crema de formatge."],             es:["Cheesecake","Galleta de vainilla con corazón de crema de queso."] },
   { sku:"cookie-redvelvet",  img:"f-redvelvet.webp",  ca:["Red Velvet","Cacau suau, color intens i xocolata blanca."],                 es:["Red Velvet","Cacao suave, color intenso y chocolate blanco."] },
-  { sku:"cookie-caramel",    img:"f-caramel.webp",    ca:["Salted Caramel","Caramel salat fet a l'estudi i flor de sal."],             es:["Salted Caramel","Caramelo salado hecho en el estudio y flor de sal."] },
+  { sku:"cookie-caramel",    img:"f-caramel.webp", top:"t-caramel.webp", h:2.2,    ca:["Salted Caramel","Caramel salat fet a l'estudi i flor de sal."],             es:["Salted Caramel","Caramelo salado hecho en el estudio y flor de sal."] },
   { sku:"cookie-pistatxo",   img:"",                 ca:["Pistatxo","Pistatxo torrat i xocolata blanca."],                            es:["Pistacho","Pistacho tostado y chocolate blanco."] },
   { sku:"cookie-lemon",      img:"f-lemon.webp",      ca:["Lemon Pie","Llimona, sucre glas i un final de merenga."],                    es:["Lemon Pie","Limón, azúcar glas y un final de merengue."] },
-  { sku:"cookie-cinnamon",   img:"f-cinnamon.webp",   ca:["Cinnamon","Canyella, sucre moreno i civada cruixent."],                      es:["Cinnamon","Canela, azúcar moreno y avena crujiente."] }
+  { sku:"cookie-cinnamon",   img:"f-cinnamon.webp", top:"t-cinnamon.webp", h:2.2,   ca:["Cinnamon","Canyella, sucre moreno i civada cruixent."],                      es:["Cinnamon","Canela, azúcar moreno y avena crujiente."] }
 ];
 /* Shipping for the cookie box, by postcode, from the bakery in Premià de Dalt. Editable from the panel (Enviaments).
    codes: [postcode or its first digits, town]; "080" covers every postcode that starts with 080. Collection at the studio is not offered. */
@@ -1003,7 +1058,7 @@ const I18N = {
     "sh.h1":"On te la <em>portem?</em>","sh.h2":"Quin dia <em>la vols?</em>","sh.h3":"Les teves <em>dades</em>","sh.h4":"Revisa <em>i paga</em>",
     "sh.fineDay":"Cal un mínim de {h} hores d'antelació. Els dies ratllats no fem enviaments.",
     "sh.cal.prev":"Mes anterior","sh.cal.next":"Mes següent","sh.cal.slots":"Franja horària · {d}","sh.cal.pick":"Tria primer un dia",
-    "sh.e.day":"Tria el dia que vols rebre la caixa.","sh.e.slot":"Tria una franja horària.","sh.r.when":"Dia","sh.e.late":"Aquesta franja ja no té prou antelació. Tria'n una altra.",
+    "sh.e.day":"Tria el dia que vols rebre la caixa.","sh.e.slot":"Tria una franja horària.","sh.r.when":"Dia","sh.turn":"Arrossega la caixa per girar-la.","sh.turnA":"La teva caixa en 3D. Arrossega-la o fes servir les fletxes per veure-la des d'altres angles.","sh.turnR":"Tornar a la vista inicial","sh.e.late":"Aquesta franja ja no té prou antelació. Tria'n una altra.",
     "sh.f.cp":"Codi postal","sh.cpOk":"Enviament a {town}: {p}","sh.shipTo":"Enviament a {town}",
     "sh.e.cp":"Escriu un codi postal de 5 xifres.","sh.e.cpNo":"De moment no arribem a aquest codi postal. Aviat podràs recollir la caixa en punts de venda.",
     "sh.fine1":"No es pot recollir a l'estudi. Aviat també podràs recollir la caixa en punts de venda.",
@@ -1075,7 +1130,7 @@ const I18N = {
     "sh.h1":"¿Dónde te la <em>llevamos?</em>","sh.h2":"¿Qué día <em>la quieres?</em>","sh.h3":"Tus <em>datos</em>","sh.h4":"Revisa <em>y paga</em>",
     "sh.fineDay":"Necesitamos un mínimo de {h} horas de antelación. Los días tachados no hacemos envíos.",
     "sh.cal.prev":"Mes anterior","sh.cal.next":"Mes siguiente","sh.cal.slots":"Franja horaria · {d}","sh.cal.pick":"Elige primero un día",
-    "sh.e.day":"Elige el día que quieres recibir la caja.","sh.e.slot":"Elige una franja horaria.","sh.r.when":"Día","sh.e.late":"Esta franja ya no tiene suficiente antelación. Elige otra.",
+    "sh.e.day":"Elige el día que quieres recibir la caja.","sh.e.slot":"Elige una franja horaria.","sh.r.when":"Día","sh.turn":"Arrastra la caja para girarla.","sh.turnA":"Tu caja en 3D. Arrástrala o usa las flechas para verla desde otros ángulos.","sh.turnR":"Volver a la vista inicial","sh.e.late":"Esta franja ya no tiene suficiente antelación. Elige otra.",
     "sh.f.cp":"Código postal","sh.cpOk":"Envío a {town}: {p}","sh.shipTo":"Envío a {town}",
     "sh.e.cp":"Escribe un código postal de 5 cifras.","sh.e.cpNo":"De momento no llegamos a este código postal. Pronto podrás recoger la caja en puntos de venta.",
     "sh.fine1":"No se puede recoger en el estudio. Pronto también podrás recoger la caja en puntos de venta.",
@@ -1454,8 +1509,150 @@ const countOf = sku => box.sel.filter(s => s === sku).length;
 const ICON_MINUS = '<svg viewBox="0 0 11 11" aria-hidden="true"><path d="M1 5.5h9" stroke="currentColor" stroke-width="1.2"/></svg>';
 const ICON_PLUS = '<svg viewBox="0 0 11 11" aria-hidden="true"><path d="M1 5.5h9M5.5 1v9" stroke="currentColor" stroke-width="1.2"/></svg>';
 const thumb = (f, cls = "") => f.img ? `<img src="${imgSrc(f.img)}" alt="" loading="lazy" decoding="async"${cls}>` : "";
+/* ---- 3D cookies for the box in «Revisar» ----
+   Each cookie is built in the browser from a photo: the cookie is cut from a plain background (or the photo's own transparency;
+   without a top photo, a circle of the flavour photo), a height map is made from it (rounded rim, a little dome, the lumps of the photo)
+   and it is stacked in thin slices, lit from the top left. Height in cm per flavour, editable from the panel. */
+const RLF = { size: 160, slices: 26, cache: {} };
+function rlfLoad(src) {
+  return RLF.cache[src] || (RLF.cache[src] = new Promise(res => { const i = new Image(); i.decoding = "async"; i.onload = () => res(i); i.onerror = () => res(null); i.src = src; }));
+}
+function rlfMask(img, round) {
+  // returns { px, A } at RLF.size, with the cookie centred and filling the square
+  const S = RLF.size, N = S * S, c = document.createElement("canvas"); c.width = c.height = S;
+  const x = c.getContext("2d", { willReadFrequently: true });
+  const draw = (sx, sy, sw, sh) => { x.clearRect(0, 0, S, S); x.drawImage(img, sx, sy, sw, sh, 0, 0, S, S); return x.getImageData(0, 0, S, S).data; };
+  const W = img.naturalWidth, H = img.naturalHeight, m = Math.min(W, H);
+  if (round) { // no top photo: the middle of the flavour photo, as a disc
+    const px = draw((W - m) / 2, (H - m) / 2, m, m), A = new Uint8Array(N);
+    for (let p = 0; p < N; p++) { const dx = p % S - S / 2 + .5, dy = (p / S | 0) - S / 2 + .5; A[p] = dx * dx + dy * dy < (S * .47) ** 2 ? 1 : 0; }
+    return { px, A };
+  }
+  const seg = px => {
+    const A = new Uint8Array(N); let clear = 0;
+    for (let p = 0; p < N; p++) if (px[p * 4 + 3] < 200) clear++;
+    if (clear > N * .05) { for (let p = 0; p < N; p++) A[p] = px[p * 4 + 3] > 120 ? 1 : 0; return A; } // already cut out
+    // background colour from the border; the cookie is warmer or darker than it
+    const b = [[], [], []]; for (let i = 0; i < S; i++) for (const p of [i, (S - 1) * S + i, i * S, i * S + S - 1]) for (let k = 0; k < 3; k++) b[k].push(px[p * 4 + k]);
+    const bg = b.map(a => a.sort((u, v) => u - v)[a.length >> 1]), bgL = (bg[0] + bg[1] + bg[2]) / 3, bgS = Math.max(...bg) - Math.min(...bg);
+    for (let p = 0; p < N; p++) { const r = px[p * 4], g = px[p * 4 + 1], bl = px[p * 4 + 2], s = Math.max(r, g, bl) - Math.min(r, g, bl), l = (r + g + bl) / 3;
+      A[p] = s - bgS > 22 || l < bgL * .45 ? 1 : 0; }
+    // keep the biggest piece and fill its holes
+    const lab = new Int32Array(N), q = new Int32Array(N); let best = 0, bestN = 0, id = 0;
+    for (let p0 = 0; p0 < N; p0++) { if (!A[p0] || lab[p0]) continue; id++; let h = 0, t = 0; q[t++] = p0; lab[p0] = id;
+      while (h < t) { const p = q[h++], xx = p % S; for (const n of [p - 1, p + 1, p - S, p + S]) { if (n < 0 || n >= N || (n === p - 1 && xx === 0) || (n === p + 1 && xx === S - 1)) continue; if (A[n] && !lab[n]) { lab[n] = id; q[t++] = n; } } }
+      if (t > bestN) { bestN = t; best = id; } }
+    const out = new Uint8Array(N); let h = 0, t = 0;
+    for (let i = 0; i < S; i++) for (const p of [i, (S - 1) * S + i, i * S, i * S + S - 1]) if (lab[p] !== best && !out[p]) { out[p] = 1; q[t++] = p; }
+    while (h < t) { const p = q[h++], xx = p % S; for (const n of [p - 1, p + 1, p - S, p + S]) { if (n < 0 || n >= N || (n === p - 1 && xx === 0) || (n === p + 1 && xx === S - 1)) continue; if (!out[n] && lab[n] !== best) { out[n] = 1; q[t++] = n; } } }
+    for (let p = 0; p < N; p++) A[p] = out[p] ? 0 : 1;
+    return bestN > N * .02 ? A : null;
+  };
+  // first pass on the whole photo to find the cookie, second pass on a square around it
+  let px = draw(0, 0, W, H), A = seg(px);
+  if (!A) return rlfMask(img, true);
+  let x0 = S, y0 = S, x1 = 0, y1 = 0;
+  for (let p = 0; p < N; p++) if (A[p]) { const xx = p % S, yy = p / S | 0; x0 = Math.min(x0, xx); x1 = Math.max(x1, xx); y0 = Math.min(y0, yy); y1 = Math.max(y1, yy); }
+  const cx = (x0 + x1 + 1) / 2 / S * W, cy = (y0 + y1 + 1) / 2 / S * H, side = Math.max((x1 - x0 + 1) / S * W, (y1 - y0 + 1) / S * H) * 1.04;
+  px = draw(cx - side / 2, cy - side / 2, side, side); A = seg(px);
+  return A ? { px, A } : rlfMask(img, true);
+}
+function rlfHeight(px, A) {
+  const S = RLF.size, N = S * S, L = new Float32Array(N), D = new Float32Array(N);
+  for (let p = 0; p < N; p++) { L[p] = (px[p * 4] * .3 + px[p * 4 + 1] * .59 + px[p * 4 + 2] * .11) / 255; D[p] = A[p] ? 1e9 : 0; }
+  for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) { const p = y * S + x; if (!D[p]) continue; let v = D[p];
+    if (x) v = Math.min(v, D[p - 1] + 1); if (y) v = Math.min(v, D[p - S] + 1); if (x && y) v = Math.min(v, D[p - S - 1] + 1.41); if (y && x < S - 1) v = Math.min(v, D[p - S + 1] + 1.41); D[p] = v; }
+  for (let y = S - 1; y >= 0; y--) for (let x = S - 1; x >= 0; x--) { const p = y * S + x; if (!D[p]) continue; let v = D[p];
+    if (x < S - 1) v = Math.min(v, D[p + 1] + 1); if (y < S - 1) v = Math.min(v, D[p + S] + 1); if (x < S - 1 && y < S - 1) v = Math.min(v, D[p + S + 1] + 1.41); if (y < S - 1 && x) v = Math.min(v, D[p + S - 1] + 1.41); D[p] = v; }
+  const blur = (src, r) => { let a = src; for (let k = 0; k < 2; k++) { const b = new Float32Array(N), o = new Float32Array(N);
+      for (let y = 0; y < S; y++) { let s = 0; for (let x = -r; x <= r; x++) s += a[y * S + Math.min(S - 1, Math.max(0, x))];
+        for (let x = 0; x < S; x++) { b[y * S + x] = s / (2 * r + 1); s += a[y * S + Math.min(S - 1, x + r + 1)] - a[y * S + Math.max(0, x - r)]; } }
+      for (let x = 0; x < S; x++) { let s = 0; for (let y = -r; y <= r; y++) s += b[Math.min(S - 1, Math.max(0, y)) * S + x];
+        for (let y = 0; y < S; y++) { o[y * S + x] = s / (2 * r + 1); s += b[Math.min(S - 1, y + r + 1) * S + x] - b[Math.max(0, y - r) * S + x]; } }
+      a = o; } return a; };
+  const Lm = blur(L, 3), Lw = blur(L, 15), fine = blur(L.map((v, p) => Math.abs(v - Lm[p])), 1);
+  let maxD = 0; for (let p = 0; p < N; p++) maxD = Math.max(maxD, D[p]);
+  const R = maxD * .36, Hm = new Float32Array(N); let hmax = 0;
+  for (let p = 0; p < N; p++) { if (!A[p]) { Hm[p] = -1; continue; }
+    const t = Math.min(D[p] / R, 1), rim = Math.sqrt(1 - (1 - t) * (1 - t)), crown = .84 + .16 * Math.min(D[p] / maxD, 1);
+    Hm[p] = rim * crown + ((Lm[p] - Lw[p]) * .95 + fine[p] * .45) * rim; hmax = Math.max(hmax, Hm[p]); }
+  for (let p = 0; p < N; p++) if (Hm[p] > 0) Hm[p] = Math.max(.02, Hm[p] / hmax);
+  return Hm;
+}
+const RLF_MAPS = {};
+const RLF_SLICES = {};
+async function rlfCookie(el, src, round, rot) {
+  const key = src + (round ? "#r" : ""), S = RLF.size, N = S * S, n = RLF.slices;
+  if (!RLF_MAPS[key]) RLF_MAPS[key] = rlfLoad(src).then(img => { if (!img) return null; const m = rlfMask(img, round); return { px: m.px, H: rlfHeight(m.px, m.A) }; });
+  const map = await RLF_MAPS[key]; if (!map || !el.isConnected) return;
+  const sk = key + "@" + rot;
+  if (!RLF_SLICES[sk]) {
+  const { px, H } = map, a = -rot * Math.PI / 180, lx = -.6 * Math.cos(a) + .75 * Math.sin(a), ly = -.6 * Math.sin(a) - .75 * Math.cos(a), sh = new Float32Array(N);
+  for (let y = 1; y < S - 1; y++) for (let x = 1; x < S - 1; x++) { const p = y * S + x; if (H[p] < 0) continue;
+    const gx = (Math.max(H[p + 1], 0) - Math.max(H[p - 1], 0)) * 26, gy = (Math.max(H[p + S], 0) - Math.max(H[p - S], 0)) * 26;
+    sh[p] = Math.max(.7, Math.min(1.12, 1 - (gx * lx + gy * ly) * .35)); }
+  RLF_SLICES[sk] = [];
+  for (let i = 0; i < n; i++) {
+    const lo = i / n, im = new ImageData(S, S), o = im.data, side = (.56 + .46 * lo) * .95;
+    // a brighter exposure than the photo: the cookies sit in a pale box and should read warm and light
+    for (let p = 0; p < N; p++) { if (H[p] < lo) continue; const k = (H[p] < lo + 1.5 / n ? sh[p] : side) * 1.2;
+      o[p * 4] = Math.min(255, px[p * 4] * k + 12); o[p * 4 + 1] = Math.min(255, px[p * 4 + 1] * k + 10); o[p * 4 + 2] = Math.min(255, px[p * 4 + 2] * k + 6); o[p * 4 + 3] = 255; }
+    RLF_SLICES[sk].push(im);
+  }
+  }
+  const frag = document.createDocumentFragment();
+  RLF_SLICES[sk].forEach((im, i) => { const c = document.createElement("canvas"); c.width = c.height = S; c.getContext("2d").putImageData(im, 0, 0); c.style.setProperty("--z", (i / n).toFixed(3)); frag.append(c); });
+  el.querySelectorAll("canvas").forEach(c => c.remove()); el.append(frag); el.classList.add("on");
+}
+// 3D boxes: 1 cm on screen = the box width / its real width (20 cm for 4, 30 cm for 6); walls 4 cm high
+// quarter turns only, so the square of each cookie never reaches the walls
+const ROT = [0, 90, 180, 270, 90, 180];
+// the front wall in short pieces: one long plane in front of many cookie slices is sorted wrongly by some browsers
+const WALLS = `<i class="w3d t"></i><i class="w3d l"></i><i class="w3d r"></i>` + [0, 1, 2, 3, 4, 5].map(k => `<i class="w3d b" style="left:calc(${(k * 100 / 6).toFixed(3)}% - ${k ? 1 : 0}px);right:calc(${((5 - k) * 100 / 6).toFixed(3)}% - ${k < 5 ? 1 : 0}px)"></i>`).join("");
+const c3d = (f, i) => `<span class="c3d" style="--r:${ROT[i]}deg;--h:${f.h || 2.2}">${f.img || f.top ? `<span class="flat"><img src="${imgSrc(f.img || f.top)}" alt=""></span>` : `<span class="ini">${fname(f).slice(0, 2)}</span>`}</span>`;
+function box3dScale(el) { const cm = el.offsetWidth / (box.size === 4 ? 20 : 30); if (cm) { el.style.setProperty("--cm", cm + "px"); el.parentNode.style.setProperty("--cm", cm + "px"); } }
+function box3dRelief(el) { el.querySelectorAll(".c3d").forEach(ck => { const f = bySku(box.sel[+ck.dataset.i]); if (f && (f.top || f.img)) rlfCookie(ck, imgSrc(f.top || f.img), !f.top, ROT[+ck.dataset.i]); }); }
+function shBox3d() {
+  if (window.B3) { B3.review(); return; }
+  const el = $("#shBox");
+  el.innerHTML = WALLS + box.sel.map((sku, i) => c3d(bySku(sku), i).replace('class="c3d"', `class="c3d" data-i="${i}"`)).join("");
+  box3dScale(el); requestAnimationFrame(() => box3dScale(el));
+  box3dRelief(el);
+  turnSet(36, 0, true);
+}
+// turning the box in «Revisar»: drag with a finger or the mouse, or the arrow keys; tilt between 18° and 80°
+const turn = { rx: 36, rz: 0 };
+function turnSet(rx, rz, reset) {
+  turn.rx = Math.max(18, Math.min(80, rx)); turn.rz = reset ? 0 : rz;
+  const el = $("#shBox"); el.style.setProperty("--rx", turn.rx + "deg"); el.style.setProperty("--rz", turn.rz + "deg");
+  // keep the turned box inside the space it has at the starting view: shrink it when its footprint grows
+  const W = el.offsetWidth, H = el.offsetHeight, wrap = el.parentNode, cm = W / (box.size === 4 ? 20 : 30);
+  if (W) {
+    const proj = (rx, rz) => { const a = rz * Math.PI / 180, x = rx * Math.PI / 180, w = W * Math.abs(Math.cos(a)) + H * Math.abs(Math.sin(a)), h = W * Math.abs(Math.sin(a)) + H * Math.abs(Math.cos(a));
+      return [w, h * Math.cos(x) + cm * 4 * Math.sin(x) * 2]; };
+    const [, h0] = proj(36, 0), room = h0 + cm * 2, avail = wrap.offsetWidth, [w1, h1] = proj(turn.rx, turn.rz);
+    wrap.style.setProperty("--h3", room + "px"); el.style.setProperty("--bh", H + "px");
+    el.style.setProperty("--k", Math.min(1, avail / w1, room / h1) * (turn.rx === 36 && turn.rz % 360 === 0 ? 1 : .94));
+  }
+  $("#shTurnReset").hidden = turn.rx === 36 && turn.rz % 360 === 0;
+}
+(() => {
+  const wrap = $("#shBox3"), el = $("#shBox"); let drag = null;
+  wrap.addEventListener("pointerdown", e => { if (wrap.classList.contains("gl")) return; drag = { x: e.clientX, y: e.clientY, rx: turn.rx, rz: turn.rz }; wrap.setPointerCapture(e.pointerId); el.classList.add("drag"); });
+  wrap.addEventListener("pointermove", e => { if (!drag) return; turnSet(drag.rx - (e.clientY - drag.y) * .35, drag.rz - (e.clientX - drag.x) * .45); });
+  const end = () => { drag = null; el.classList.remove("drag"); };
+  wrap.addEventListener("pointerup", end); wrap.addEventListener("pointercancel", end);
+  wrap.addEventListener("keydown", e => {
+    if (wrap.classList.contains("gl")) return;
+    const d = { ArrowLeft: [0, 15], ArrowRight: [0, -15], ArrowUp: [-8, 0], ArrowDown: [8, 0] }[e.key]; if (!d) return;
+    e.preventDefault(); turnSet(turn.rx + d[0], turn.rz + d[1]); });
+  $("#shTurnReset").addEventListener("click", () => turnSet(36, 0, true));
+})();
+addEventListener("resize", () => { [$("#shBox"), $("#slots")].forEach(el => { if (el && el.offsetWidth) box3dScale(el); }); });
 const flList = $("#flavours"), slotsEl = $("#slots"), linesEl = $("#lines"), stateEl = $("#bxState");
 const reviewBtn = $("#bxReview"), sheet = $("#sheet");
+// for the real 3D box (b3.js), loaded as a module after this script
+window.LB3 = { get box() { return box; }, bySku, imgSrc, rlfLoad, rlfMask, rlfHeight, RLF };
 let note = "";
 
 function buildFlavours() {
@@ -1470,6 +1667,7 @@ function buildFlavours() {
         <button type="button" data-act="inc" aria-label="${t("bx.more")} ${fname(f)}">${ICON_PLUS}</button>
       </div>
     </li>`).join("");
+  window.B3 && B3.list();
 }
 function add(sku) {
   if (box.sel.length >= box.size) { note = t("bx.isFull"); renderBox(); return; }
@@ -1506,9 +1704,12 @@ function renderBox() {
     const sku = box.sel[i];
     if (!sku) return `<span class="slot" aria-hidden="true"></span>`;
     const f = bySku(sku);
-    const inner = f.img ? `<img src="${imgSrc(f.img)}" alt="">` : `<span class="ini">${fname(f).slice(0, 2)}</span>`;
+    const inner = c3d(f, i).replace('class="c3d"', `class="c3d" data-i="${i}"`);
     return `<button type="button" class="slot full" data-i="${i}" style="${i < prev ? "animation:none" : ""}" aria-label="${t("bx.takeOut")} ${fname(f)}">${inner}</button>`;
   }).join("");
+  // on wide screens the tray is a 3D box too; on phones it stays a row of small discs
+  if (window.B3) B3.tray();
+  else if (matchMedia("(min-width:900px)").matches) { slotsEl.insertAdjacentHTML("afterbegin", WALLS); box3dScale(slotsEl); box3dRelief(slotsEl); }
   $("#bxCount").innerHTML = `${n}<i>/${box.size}</i>`;
   $$(".size .pr").forEach(e => e.textContent = eur(BOX_PRICE[e.dataset.price]));
   $("#bxPrice").innerHTML = `${eur(BOX_PRICE[box.size])} <small>${t("bx.plusShip")}</small>`;
@@ -1520,6 +1721,7 @@ function renderBox() {
   const left = box.size - n;
   stateEl.textContent = note || (full ? t("bx.full") : n ? t(left === 1 ? "bx.left1" : "bx.leftN").replace("{n}", left) : "");
   reviewBtn.setAttribute("aria-disabled", String(!full));
+  window.bxGoUpd && bxGoUpd();
 }
 flList.addEventListener("click", e => {
   const b = e.target.closest("button[data-act]"); if (!b) return;
@@ -1704,9 +1906,11 @@ function shRender() {
   if (st === 0) {
     // the box as it will arrive, in the order the cookies went in, then what each flavour is
     $("#shBox").dataset.size = box.size;
-    $("#shBox").innerHTML = box.sel.map(sku => { const f = bySku(sku); return `<span>${f.img ? `<img src="${imgSrc(f.img)}" alt="">` : fname(f).slice(0, 2)}</span>`; }).join("");
-    $("#sum").innerHTML = o.items.map(it => { const f = bySku(it.sku); return `<li><span class="th">${thumb(f)}</span><span class="tx"><b>${fname(f)}</b><small>${fdesc(f)}</small></span><span>× ${it.qty}</span></li>`; }).join("")
+    shBox3d();
+    $("#shTurn").textContent = t("sh.turn"); $("#shTurnReset").textContent = t("sh.turnR"); $("#shBox3").setAttribute("aria-label", t("sh.turnA"));
+    $("#sum").innerHTML = o.items.map(it => { const f = bySku(it.sku); return `<li data-sku="${it.sku}"><span class="th">${thumb(f)}</span><span class="tx"><b>${fname(f)}</b><small>${fdesc(f)}</small></span><span>× ${it.qty}</span></li>`; }).join("")
       + `<li class="total"><span></span><b>${t("bx.total")}</b><span>${eur(BOX_PRICE[box.size])}</span></li>`;
+    window.B3 && B3.list();
   }
   if (st === 1) shFill();
   if (st === 2) calRender();
@@ -1735,11 +1939,22 @@ function shDone(h, p, copy) {
 }
 function showSheet() { lastFocus = document.activeElement; sheet.hidden = false; document.body.style.overflow = "hidden"; }
 function openSheet() {
+  $("#bxGo").hidden = true;
   if (box.sel.length !== box.size) { note = t(box.size - box.sel.length === 1 ? "bx.left1" : "bx.leftN").replace("{n}", box.size - box.sel.length); renderBox(); return; }
   showSheet(); shGo(0);
 }
-function closeSheet() { sheet.hidden = true; document.body.style.overflow = ""; lastFocus && lastFocus.focus(); }
+function closeSheet() { sheet.hidden = true; document.body.style.overflow = ""; window.bxGoUpd && bxGoUpd(); lastFocus && lastFocus.focus(); }
 reviewBtn.addEventListener("click", openSheet);
+// once the box is full, the way to «Revisar» stays at hand while the tray's own button is out of sight
+(() => {
+  const go = $("#bxGo"), list = flList.closest("section"); let btnSeen = true, listSeen = false;
+  const upd = () => { const show = box.sel.length === box.size && !btnSeen && listSeen && matchMedia("(min-width:900px)").matches && sheet.hidden;
+    if (show !== !go.hidden) go.hidden = !show; };
+  new IntersectionObserver(([e]) => { btnSeen = e.isIntersecting; upd(); }).observe(reviewBtn);
+  new IntersectionObserver(([e]) => { listSeen = e.isIntersecting; upd(); }).observe(list);
+  go.querySelector("button").addEventListener("click", () => reviewBtn.click());
+  window.bxGoUpd = upd; addEventListener("resize", upd);
+})();
 $("#shBack").addEventListener("click", () => shStep && !$("#shConfirm").hidden ? shGo(shStep - 1) : closeSheet());
 sheet.addEventListener("click", e => { if (e.target === sheet) closeSheet(); });
 sheet.addEventListener("keydown", e => {
@@ -2228,5 +2443,7 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(once);
 setTimeout(once, 1200);
 })();
 </script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
+<script type="module" src="b3.js"></script>
 </body>
 </html>

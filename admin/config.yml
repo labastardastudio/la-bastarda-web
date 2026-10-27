@@ -89,6 +89,8 @@ collections:
               - { label: Descripció (català), name: desc_ca, widget: string }
               - { label: Descripció (castellà), name: desc_es, widget: string, required: false }
               - { label: Foto, name: image, widget: image, required: false, choose_url: false, hint: "Vertical (4:5). Sense foto surt «Foto pendent»." }
+              - { label: "Foto per a la cookie 3D", name: foto_caixa, widget: image, required: false, choose_url: false, hint: "Una sola cookie feta des de dalt, sobre un fons llis i clar. En desar, la web la retalla i la fa 3D sola: a la llista, a la caixa i al resum. Sense aquesta foto, fa servir el centre de la foto principal." }
+              - { label: "Volum de la cookie 3D (alçada en cm)", name: alcada, widget: number, value_type: float, min: 0.5, max: 4, step: 0.1, default: 2.2, required: false, hint: "Com d'alta i plena es veu aquesta cookie en 3D. Una cookie normal fa uns 1,5 cm; una de farcida, 2 o 2,5 cm. Cada cookie té el seu." }
               - { label: Disponible, name: available, widget: boolean, default: true, hint: "Desmarca-ho per treure'l de la caixa sense esborrar-lo." }
               - { label: Codi intern, name: sku, widget: hidden, required: false }
 
