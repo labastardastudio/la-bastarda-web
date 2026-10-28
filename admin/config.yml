@@ -101,6 +101,73 @@ collections:
               - { label: Disponible, name: available, widget: boolean, default: true, hint: "Desmarca-ho per treure'l de la caixa sense esborrar-lo." }
               - { label: Codi intern, name: sku, widget: hidden, required: false }
 
+  - name: pastissos
+    label: Pastissos
+    editor: { preview: false }
+    files:
+      - name: sabors
+        label: Sabors dels pastissos
+        file: content/pastissos.json
+        description: "Les opcions del formulari «Encarrega un pastís», en aquest ordre. Els al·lèrgens que marquis surten al resum del pastís mentre el client tria. Els preus de cada mida són a «Preus»."
+        fields:
+          - label: Bescuits
+            name: bescuits
+            widget: list
+            label_singular: bescuit
+            summary: "{{fields.nom_ca}}"
+            hint: "El client en tria un."
+            fields:
+              - { label: Nom (català), name: nom_ca, widget: string }
+              - { label: Nom (castellà), name: nom_es, widget: string, required: false }
+              - { label: Color al dibuix, name: color, widget: color, required: false, allowInput: true, enableAlpha: false, hint: "El color que pren aquesta part al dibuix del pastís." }
+              - { label: "Al·lèrgens · Conté", name: alergens, widget: select, multiple: true, required: false, options: [ { label: "Gluten", value: gluten }, { label: "Crustacis", value: crustacis }, { label: "Ous", value: ous }, { label: "Peix", value: peix }, { label: "Cacauet", value: cacauet }, { label: "Soja", value: soja }, { label: "Llet", value: llet }, { label: "Fruits de closca", value: closca }, { label: "Api", value: api }, { label: "Mostassa", value: mostassa }, { label: "Sèsam", value: sesam }, { label: "Sulfits", value: sulfits }, { label: "Tramussos", value: tramussos }, { label: "Mol·luscs", value: molluscs } ] }
+              - { label: "Al·lèrgens · Pot contenir traces de", name: traces, widget: select, multiple: true, required: false, options: [ { label: "Gluten", value: gluten }, { label: "Crustacis", value: crustacis }, { label: "Ous", value: ous }, { label: "Peix", value: peix }, { label: "Cacauet", value: cacauet }, { label: "Soja", value: soja }, { label: "Llet", value: llet }, { label: "Fruits de closca", value: closca }, { label: "Api", value: api }, { label: "Mostassa", value: mostassa }, { label: "Sèsam", value: sesam }, { label: "Sulfits", value: sulfits }, { label: "Tramussos", value: tramussos }, { label: "Mol·luscs", value: molluscs } ] }
+              - { label: Disponible, name: disponible, widget: boolean, default: true, hint: "Desmarca-ho per treure'l del formulari sense esborrar-lo." }
+              - { label: Codi intern, name: id, widget: hidden, required: false }
+          - label: Farcits
+            name: farcits
+            widget: list
+            label_singular: farcit
+            summary: "{{fields.nom_ca}}"
+            hint: "El client en tria un, que va entre totes les capes."
+            fields:
+              - { label: Nom (català), name: nom_ca, widget: string }
+              - { label: Nom (castellà), name: nom_es, widget: string, required: false }
+              - { label: Color al dibuix, name: color, widget: color, required: false, allowInput: true, enableAlpha: false, hint: "El color que pren aquesta part al dibuix del pastís." }
+              - { label: "Al·lèrgens · Conté", name: alergens, widget: select, multiple: true, required: false, options: [ { label: "Gluten", value: gluten }, { label: "Crustacis", value: crustacis }, { label: "Ous", value: ous }, { label: "Peix", value: peix }, { label: "Cacauet", value: cacauet }, { label: "Soja", value: soja }, { label: "Llet", value: llet }, { label: "Fruits de closca", value: closca }, { label: "Api", value: api }, { label: "Mostassa", value: mostassa }, { label: "Sèsam", value: sesam }, { label: "Sulfits", value: sulfits }, { label: "Tramussos", value: tramussos }, { label: "Mol·luscs", value: molluscs } ] }
+              - { label: "Al·lèrgens · Pot contenir traces de", name: traces, widget: select, multiple: true, required: false, options: [ { label: "Gluten", value: gluten }, { label: "Crustacis", value: crustacis }, { label: "Ous", value: ous }, { label: "Peix", value: peix }, { label: "Cacauet", value: cacauet }, { label: "Soja", value: soja }, { label: "Llet", value: llet }, { label: "Fruits de closca", value: closca }, { label: "Api", value: api }, { label: "Mostassa", value: mostassa }, { label: "Sèsam", value: sesam }, { label: "Sulfits", value: sulfits }, { label: "Tramussos", value: tramussos }, { label: "Mol·luscs", value: molluscs } ] }
+              - { label: Disponible, name: disponible, widget: boolean, default: true, hint: "Desmarca-ho per treure'l del formulari sense esborrar-lo." }
+              - { label: Codi intern, name: id, widget: hidden, required: false }
+          - label: Cobertures
+            name: cobertures
+            widget: list
+            label_singular: cobertura
+            summary: "{{fields.nom_ca}}"
+            hint: "El client en tria una."
+            fields:
+              - { label: Nom (català), name: nom_ca, widget: string }
+              - { label: Nom (castellà), name: nom_es, widget: string, required: false }
+              - { label: Color al dibuix, name: color, widget: color, required: false, allowInput: true, enableAlpha: false, hint: "El color que pren aquesta part al dibuix del pastís." }
+              - { label: "Al·lèrgens · Conté", name: alergens, widget: select, multiple: true, required: false, options: [ { label: "Gluten", value: gluten }, { label: "Crustacis", value: crustacis }, { label: "Ous", value: ous }, { label: "Peix", value: peix }, { label: "Cacauet", value: cacauet }, { label: "Soja", value: soja }, { label: "Llet", value: llet }, { label: "Fruits de closca", value: closca }, { label: "Api", value: api }, { label: "Mostassa", value: mostassa }, { label: "Sèsam", value: sesam }, { label: "Sulfits", value: sulfits }, { label: "Tramussos", value: tramussos }, { label: "Mol·luscs", value: molluscs } ] }
+              - { label: "Al·lèrgens · Pot contenir traces de", name: traces, widget: select, multiple: true, required: false, options: [ { label: "Gluten", value: gluten }, { label: "Crustacis", value: crustacis }, { label: "Ous", value: ous }, { label: "Peix", value: peix }, { label: "Cacauet", value: cacauet }, { label: "Soja", value: soja }, { label: "Llet", value: llet }, { label: "Fruits de closca", value: closca }, { label: "Api", value: api }, { label: "Mostassa", value: mostassa }, { label: "Sèsam", value: sesam }, { label: "Sulfits", value: sulfits }, { label: "Tramussos", value: tramussos }, { label: "Mol·luscs", value: molluscs } ] }
+              - { label: Disponible, name: disponible, widget: boolean, default: true, hint: "Desmarca-ho per treure'l del formulari sense esborrar-lo." }
+              - { label: Codi intern, name: id, widget: hidden, required: false }
+          - label: Decoració
+            name: decoracio
+            widget: list
+            label_singular: decoració
+            summary: "{{fields.nom_ca}}"
+            hint: "Opcional: el client en pot triar més d'una."
+            fields:
+              - { label: Nom (català), name: nom_ca, widget: string }
+              - { label: Nom (castellà), name: nom_es, widget: string, required: false }
+              - { label: Color al dibuix, name: color, widget: color, required: false, allowInput: true, enableAlpha: false, hint: "El color que pren aquesta part al dibuix del pastís." }
+              - { label: "Al·lèrgens · Conté", name: alergens, widget: select, multiple: true, required: false, options: [ { label: "Gluten", value: gluten }, { label: "Crustacis", value: crustacis }, { label: "Ous", value: ous }, { label: "Peix", value: peix }, { label: "Cacauet", value: cacauet }, { label: "Soja", value: soja }, { label: "Llet", value: llet }, { label: "Fruits de closca", value: closca }, { label: "Api", value: api }, { label: "Mostassa", value: mostassa }, { label: "Sèsam", value: sesam }, { label: "Sulfits", value: sulfits }, { label: "Tramussos", value: tramussos }, { label: "Mol·luscs", value: molluscs } ] }
+              - { label: "Al·lèrgens · Pot contenir traces de", name: traces, widget: select, multiple: true, required: false, options: [ { label: "Gluten", value: gluten }, { label: "Crustacis", value: crustacis }, { label: "Ous", value: ous }, { label: "Peix", value: peix }, { label: "Cacauet", value: cacauet }, { label: "Soja", value: soja }, { label: "Llet", value: llet }, { label: "Fruits de closca", value: closca }, { label: "Api", value: api }, { label: "Mostassa", value: mostassa }, { label: "Sèsam", value: sesam }, { label: "Sulfits", value: sulfits }, { label: "Tramussos", value: tramussos }, { label: "Mol·luscs", value: molluscs } ] }
+              - { label: "Es fa amb la cobertura", name: amb_cobertura, widget: boolean, default: false, required: false, hint: "Marca-ho si es fa amb la cobertura triada (com la mànega): llavors hi suma els al·lèrgens de la cobertura." }
+              - { label: Disponible, name: disponible, widget: boolean, default: true, hint: "Desmarca-ho per treure'l del formulari sense esborrar-lo." }
+              - { label: Codi intern, name: id, widget: hidden, required: false }
+
   - name: preus
     label: Preus
     editor: { preview: false }
@@ -112,10 +179,10 @@ collections:
         fields:
           - { label: Caixa de 4 cookies, name: caixa_4, widget: number, value_type: float, min: 0 }
           - { label: Caixa de 6 cookies, name: caixa_6, widget: number, value_type: float, min: 0 }
-          - { label: Pastís de 6–8 racions (des de), name: pastis_6_8, widget: number, value_type: float, min: 0 }
-          - { label: Pastís de 10–12 racions (des de), name: pastis_10_12, widget: number, value_type: float, min: 0 }
-          - { label: Pastís de 16–20 racions (des de), name: pastis_16_20, widget: number, value_type: float, min: 0 }
-          - { label: Pastís de més de 20 racions (des de), name: pastis_mes_20, widget: number, value_type: float, min: 0 }
+          - { label: Pastís de 6–8 persones · 15 cm (des de), name: pastis_6_8, widget: number, value_type: float, min: 0 }
+          - { label: Pastís de 10–12 persones · 18 cm, 3 capes (des de), name: pastis_10_12, widget: number, value_type: float, min: 0 }
+          - { label: Pastís de 14–16 persones · 18 cm, 4 capes (des de), name: pastis_16_20, widget: number, value_type: float, min: 0 }
+          - { label: Pastís de més de 20 persones · 22 cm (des de), name: pastis_mes_20, widget: number, value_type: float, min: 0 }
 
   - name: fotos
     label: Fotos de la portada

@@ -149,6 +149,10 @@ a{color:inherit}
 .or-direct p b{font-weight:500;color:var(--ink)}
 .or-direct .row{display:flex;flex-wrap:wrap;gap:12px 26px;align-items:center}
 .or-direct .btn svg{width:15px;height:15px}
+.box-head .or-direct{grid-column:9/13;grid-row:2;align-self:start;padding:0;margin:clamp(40px,7vh,72px) 0 0;max-width:34ch}
+/* the box sizes make room for it on the same row */
+.box-head:has(#bxDirect:not([hidden])) .sizes{grid-column:3/9;grid-row:2;align-self:start}
+.box-head .or-direct p{grid-column:auto;max-width:none;font-size:13.5px}
 /* ---------- encàrrecs: one place, two ways in ---------- */
 .hub{border-top:1px solid var(--hair);padding-top:clamp(70px,12vh,130px)}
 .hub-head{row-gap:22px}
@@ -317,7 +321,8 @@ a{color:inherit}
 .sheet .done p{margin:0;color:var(--ink-2);font-size:14px;max-width:44ch}
 
 @media (max-width:899px){
-  .box-head .lbl,.box-head h2,.box-head p,.sizes{grid-column:1/-1}
+  .box-head .lbl,.box-head h2,.box-head p,.sizes,.box-head .or-direct,.box-head:has(#bxDirect:not([hidden])) .sizes{grid-column:1/-1;grid-row:auto}
+  .box-head .or-direct{margin-top:0}
   .sizes legend{display:none}
   .flavours{grid-column:1/-1}
   .fl{grid-template-columns:clamp(64px,20vw,84px) minmax(0,1fr);grid-template-rows:auto auto;row-gap:12px}
@@ -507,6 +512,8 @@ a{color:inherit}
 .fld small{font-size:11px;color:var(--ink-2)}
 
 .ck-aside{grid-column:10/13;position:sticky;top:calc(var(--head) + env(safe-area-inset-top,0px) + 28px);display:grid;gap:18px}
+/* on short screens the tray scrolls on its own, so the review button can always be reached */
+@media (min-width:900px){.ck-aside{max-height:calc(100vh - var(--head) - env(safe-area-inset-top,0px) - 44px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:0 4px 4px 0;margin-right:-4px}}
 .ck-aside .tray-top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--ink);padding-bottom:10px}
 .ck-aside .tray-top .n{font-size:11px;color:var(--ink-2);font-variant-numeric:tabular-nums}
 .ck-fig{background:var(--plate);padding:18px 12px 10px}
@@ -517,6 +524,17 @@ a{color:inherit}
 .ck-sum li span:first-child{color:var(--ink-2);font-size:11px;padding-top:2px}
 .ck-sum li span:last-child{min-width:0;overflow-wrap:anywhere}
 .ck-sum .tbd{color:var(--ink-2)}
+/* allergens of the cake being built: small tags that appear as the flavours are chosen */
+.ck-al{font-size:12px;line-height:1.45;color:var(--ink-2)}
+.ck-al .caps{color:var(--ink);margin-bottom:8px}
+.ck-al .al-k{margin:7px 0 0;font-size:11px;display:flex;align-items:center;gap:6px}
+.al-dash{flex:none;width:14px;height:9px;border:1px dashed var(--ink-2);border-radius:99px}
+.al-chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:5px}
+.al-chips li{padding:3px 9px 3px;border:1px solid var(--ink);border-radius:99px;font-size:11px;line-height:1.3;color:var(--ink);animation:alIn .45s var(--ease) both}
+.al-chips li.tr{border:1px dashed var(--ink-2);color:var(--ink-2)}
+.ck-al .al-wait{margin:0}
+@keyframes alIn{from{opacity:0;transform:translateY(3px)}}
+@media (prefers-reduced-motion:reduce){.al-chips li{animation:none}}
 
 .sum2{list-style:none;margin:0;padding:0;border-top:1px solid var(--ink);font-size:14px}
 .sum2 li{display:grid;grid-template-columns:130px minmax(0,1fr);gap:16px;padding:10px 0;border-bottom:1px solid var(--hair)}
@@ -538,7 +556,7 @@ a{color:inherit}
   .ck-aside .tray-top .n{font-size:12px;color:var(--ink)}
   .ck-fig{padding:0;background:none;width:64px}
   .ck-fig text,.ck-fig .lead{display:none}
-  .ck-sum,.ck-aside .fine,.ck-aside .link{display:none}
+  .ck-sum,.ck-al,.ck-aside .fine,.ck-aside .link{display:none}
   .ck-aside .tray-acts{gap:0;justify-content:flex-end}
   .sum2 li{grid-template-columns:96px minmax(0,1fr)}
 }
@@ -772,6 +790,7 @@ a{color:inherit}
         <div class="lbl caps">Cookies</div>
         <h2 id="bx-h" data-i18n="bx.h">La teva caixa <em>de cookies.</em></h2>
         <p data-i18n="bx.p">Tria una caixa de 4 o 6 i omple-la amb els sabors que vulguis. Pots repetir-ne o barrejar-los.</p>
+        <div class="or-direct" id="bxDirect" hidden></div>
         <fieldset class="sizes" role="radiogroup" aria-labelledby="bx-size-l">
           <legend class="caps" id="bx-size-l" data-i18n="bx.size">Mida</legend>
           <button type="button" class="size" role="radio" data-size="4" aria-checked="false"><b>4</b><span data-i18n="bx.s4">cookies<br>caixa petita</span><em class="pr" data-price="4"></em></button>
@@ -855,11 +874,12 @@ a{color:inherit}
           <div class="tray-top"><span class="caps" id="ck-l" data-i18n="ck.yours">El teu pastís</span><span class="n" id="ckProg"></span></div>
           <div class="ck-fig" aria-hidden="true"><svg id="ckSvg" viewBox="0 0 320 210"></svg></div>
           <ul class="ck-sum" id="ckSum"></ul>
+          <div class="ck-al" id="ckAl" aria-live="polite"></div>
           <div class="tray-acts">
             <button type="submit" class="btn-solid" id="ckReview" data-i18n="ck.review">Revisar l'encàrrec</button>
             <button type="button" class="link" id="ckClear" data-i18n="ck.clear">Començar de nou</button>
           </div>
-          <p class="fine" data-i18n="ck.fine">Preu orientatiu. El preu final, amb els extres, el confirmem amb la proposta.</p>
+          <p class="fine" data-i18n="ck.fine">Preu orientatiu. El preu final el confirmem amb la proposta.</p>
         </aside>
       </form>
     </section>
@@ -868,6 +888,7 @@ a{color:inherit}
         <div class="caps" data-i18n="or.lbl">Encàrrecs de pastissos</div>
         <h3 id="ck-sh-h" data-i18n="ck.shH">Resum del <em>teu encàrrec</em></h3>
         <ul class="sum2" id="ckSum2"></ul>
+        <p class="fine ck-al-note" id="ckAlNote"></p>
         <p class="fine" id="ckPriv" hidden></p>
         <div class="done" id="ckDone" hidden><h3 data-i18n="ck.doneH">Sol·licitud <em>preparada.</em></h3><p data-i18n="ck.doneP">Encara no rebem encàrrecs des de la web. L'hem guardada en aquest dispositiu. Si vols, copia'n el resum i envia-ns-el.</p></div>
         <p class="fine" id="ckCopied" role="status" aria-live="polite"></p>
@@ -993,42 +1014,46 @@ const SHOP = {
       .catch(() => ({ ok: false, reason: "error", order }));
   }
 };
-/* Cake order options. `from` = starting price in € for a size; `extra: true` = costs more (amount set in the proposal). All provisional: edit names, colours (for the drawing) and limits here.
-   ORDERS.submit() is the one place to connect a real order inbox later. */
+/* Cake order options, from the Obrador app: formats (mould and layers) and the flavours with their allergens.
+   `from` = starting price in € for a size (the panel's Preus wins); `c` = colour in the drawing; `al` = contains, `tr` = may contain traces.
+   The flavours can be edited in the panel (Pastissos); these are the defaults. ORDERS.submit() is the one place to connect a real order inbox later. */
 const CAKE = {
   notice: 7, // provisional minimum days of notice
   size:     { type: "radio", req: true, opts: [
-    { id: "s6",  ca: "6–8 racions",   es: "6–8 raciones",  w: 150, layers: 3, from: 25 },
-    { id: "s10", ca: "10–12 racions", es: "10–12 raciones", w: 158, layers: 4, from: 35 },
-    { id: "s16", ca: "16–20 racions", es: "16–20 raciones", w: 206, layers: 4, from: 50 },
-    { id: "s20", ca: "Més de 20, en parlem", es: "Más de 20, lo hablamos", w: 228, layers: 4, from: 55 } ] },
+    { id: "s6",  ca: "6–8 persones · Ø 15 cm",   es: "6–8 personas · Ø 15 cm",   w: 142, layers: 3, from: 25 },
+    { id: "s10", ca: "10–12 persones · Ø 18 cm", es: "10–12 personas · Ø 18 cm", w: 172, layers: 3, from: 35 },
+    { id: "s16", ca: "14–16 persones · Ø 18 cm", es: "14–16 personas · Ø 18 cm", w: 172, layers: 4, from: 50 },
+    { id: "s20", ca: "Més de 20 persones · Ø 22 cm", es: "Más de 20 personas · Ø 22 cm", w: 212, layers: 4, from: 55 } ] },
   sponge:   { type: "radio", req: true, opts: [
-    { id: "vainilla",  ca: "Vainilla",    es: "Vainilla",    c: "#E9D6A4" },
-    { id: "xocolata",  ca: "Xocolata",    es: "Chocolate",   c: "#5B3A2B" },
-    { id: "redvelvet", ca: "Red Velvet",  es: "Red Velvet",  c: "#8C2B2E" },
-    { id: "pistatxo",  ca: "Pistatxo",    es: "Pistacho",    c: "#B5BC80", extra: true },
-    { id: "llimona",   ca: "Llimona",     es: "Limón",       c: "#EED987" },
-    { id: "carrot",    ca: "Pastanaga i espècies", es: "Zanahoria y especias", c: "#C68A4C" } ] },
-  filling:  { type: "check", req: true, max: 2, /* one filling between each pair of layers: layers - 1 */ opts: [
-    { id: "mascarpone", ca: "Crema de mascarpone", es: "Crema de mascarpone", c: "#F3EDDD" },
-    { id: "ganache",    ca: "Ganache de xocolata", es: "Ganache de chocolate", c: "#3A2419" },
-    { id: "gerds",      ca: "Melmelada de gerds",  es: "Mermelada de frambuesa", c: "#B23A48" },
-    { id: "curd",       ca: "Crema de llimona",    es: "Crema de limón",      c: "#EFCB52" },
-    { id: "pralin",     ca: "Praliné d'avellana",  es: "Praliné de avellana", c: "#A6733F", extra: true },
-    { id: "caramel",    ca: "Caramel salat",       es: "Caramelo salado",     c: "#C4843A" },
-    { id: "fruita",     ca: "Fruita fresca",       es: "Fruta fresca",        c: "#D45A63" } ] },
+    { id: "xocolata",  ca: "Xocolata humit", es: "Chocolate húmedo", c: "#5B3A2B", al: ["gluten", "ous", "llet"] },
+    { id: "oreo",      ca: "Galetes Oreo", es: "Galletas Oreo", c: "#6E655C", al: ["gluten", "ous", "soja", "llet"] },
+    { id: "iogurt",    ca: "Iogurt", es: "Yogur", c: "#EADBB0", al: ["gluten", "ous", "llet"] },
+    { id: "redvelvet", ca: "Red velvet", es: "Red velvet", c: "#8C2B2E", al: ["gluten", "ous", "llet", "sulfits"] },
+    { id: "carrot",    ca: "Pastanaga (carrot cake)", es: "Zanahoria (carrot cake)", c: "#C68A4C", al: ["gluten", "ous"] },
+    { id: "llimona",   ca: "Llimona", es: "Limón", c: "#EED987", al: ["gluten", "ous", "llet"] } ] },
+  filling:  { type: "radio", req: true, /* one filling, the same between every pair of layers */ opts: [
+    { id: "curd",     ca: "Lemon curd", es: "Lemon curd", c: "#EFCB52", al: ["ous", "llet"] },
+    { id: "taronja",  ca: "Taronja confitada", es: "Naranja confitada", c: "#E08A2E", al: [] },
+    { id: "gerds",    ca: "Melmelada de gerds", es: "Mermelada de frambuesa", c: "#B23A48", al: [] },
+    { id: "dulce",    ca: "Dulce de leche", es: "Dulce de leche", c: "#B87A3D", al: ["llet"] },
+    { id: "lotusF",   ca: "Crema Lotus cruixent", es: "Crema Lotus crujiente", c: "#B0743C", al: ["gluten", "soja"] },
+    { id: "avellanaF", ca: "Crema d'avellana", es: "Crema de avellana", c: "#A6733F", al: ["soja", "llet", "closca"] },
+    { id: "fruita",   ca: "Fruita fresca", es: "Fruta fresca", c: "#D45A63", al: [] } ] },
   frosting: { type: "radio", req: true, opts: [
-    { id: "buttercream", ca: "Buttercream de vainilla", es: "Buttercream de vainilla", c: "#F2E8D2" },
-    { id: "formatge",    ca: "Crema de formatge",       es: "Crema de queso",          c: "#F7F2E7" },
-    { id: "ganacheC",    ca: "Ganache",                  es: "Ganache",                 c: "#3A2419" },
-    { id: "pistatxoC",   ca: "Buttercream de pistatxo",  es: "Buttercream de pistacho", c: "#C7CD9C", extra: true },
-    { id: "merenga",     ca: "Merenga torrada",          es: "Merengue tostado",        c: "#F1E2C4" } ] },
+    { id: "avellana",    ca: "Crema d'avellana", es: "Crema de avellana", c: "#B58A62", al: ["soja", "llet", "closca"] },
+    { id: "oreoC",       ca: "Oreo", es: "Oreo", c: "#DCD6CC", al: ["gluten", "soja", "llet"] },
+    { id: "formatge",    ca: "Formatge crema", es: "Queso crema", c: "#F7F2E7", al: ["llet"] },
+    { id: "nutella",     ca: "Crema de xocolata i avellanes", es: "Crema de chocolate y avellanas", c: "#6B4430", al: ["soja", "llet", "closca"] },
+    { id: "lotus",       ca: "Crema Lotus", es: "Crema Lotus", c: "#C98E55", al: ["gluten", "soja", "llet"] },
+    { id: "cacauet",     ca: "Crema de cacauet", es: "Crema de cacahuete", c: "#C9A06A", al: ["cacauet", "llet"] },
+    { id: "buttercream", ca: "Buttercream de mantega", es: "Buttercream de mantequilla", c: "#F2E8D2", al: ["llet"] },
+    { id: "merenga",     ca: "Merenga italiana cremada", es: "Merengue italiano tostado", c: "#F1E2C4", al: ["ous"] } ] },
+  // `cob`: piped with the chosen frosting, so it carries the frosting's allergens
   deco:     { type: "check", req: false, opts: [
-    { id: "flors",    ca: "Flors",            es: "Flores",           c: "#C9A2C8", extra: true },
-    { id: "fruitaD",  ca: "Fruita",           es: "Fruta",            c: "#9C1621" },
-    { id: "pipat",    ca: "Pipat vintage",    es: "Manga vintage",    c: "#F3EBDA" },
-    { id: "escult",   ca: "Formes escultòriques", es: "Formas escultóricas", c: "#B8BEA3" },
-    { id: "minimal",  ca: "Molt minimal",     es: "Muy minimal",      c: "#E7E2D7" } ] }
+    { id: "filipinos", ca: "Filipinos blancs", es: "Filipinos blancos", c: "#F6F1E6", al: ["gluten", "soja", "llet"], tr: ["ous", "mostassa"] },
+    { id: "oreoD",     ca: "Galetes Oreo", es: "Galletas Oreo", c: "#2E2724", al: ["gluten", "soja"], tr: ["llet"] },
+    { id: "flors",     ca: "Flors fresques (no comestibles)", es: "Flores frescas (no comestibles)", c: "#C9A2C8", al: [] },
+    { id: "manega",    ca: "Decoració amb mànega", es: "Decoración con manga", c: "", al: [], cob: true } ] }
 };
 const ORDERS = {
   connected: false,
@@ -1134,11 +1159,11 @@ const I18N = {
     "st.q":"La Bastarda és un estudi de pastisseria. Ens interessen les formes, els colors i les textures <em>tant com el gust.</em>",
     "st.s":"Treballem per encàrrec i en petites sèries.",
     "or.h":"Tens una ocasió?<br>Fem-li un pastís.","or.1":"Ens expliques la idea i la data.","or.2":"Et proposem forma, sabors i preu.","or.3":"El fem i el véns a recollir.",
-    "ck.yours":"El teu pastís","ck.review":"Revisar l'encàrrec","ck.clear":"Començar de nou","ck.fine":"Preu orientatiu. El preu final, amb els extres, el confirmem amb la proposta.",
+    "ck.yours":"El teu pastís","ck.review":"Revisar l'encàrrec","ck.clear":"Començar de nou","ck.fine":"Preu orientatiu. El preu final el confirmem amb la proposta.",
     "ck.prog":"{n}/5 obligatoris","ck.tbd":"—",
-    "ck.t.size":"Racions","ck.h.size":"Per a quantes persones",
-    "ck.t.sponge":"Pa de pessic","ck.h.sponge":"Tria'n un",
-    "ck.t.filling":"Farcit","ck.h.filling":"Un per capa: fins a {m}",
+    "ck.t.size":"Mida","ck.h.size":"Per a quantes persones · més de 25, en parlem",
+    "ck.t.sponge":"Bescuit","ck.h.sponge":"Tria'n un",
+    "ck.t.filling":"Farcit","ck.h.filling":"Tria'n un · va entre totes les capes",
     "ck.t.frosting":"Cobertura","ck.h.frosting":"Tria'n una",
     "ck.t.deco":"Decoració","ck.h.deco":"Opcional · a especificar a baix",
     "ck.t.when":"Data i contacte","ck.h.when":"Mínim {n} dies d'antelació",
@@ -1147,14 +1172,15 @@ const I18N = {
     "ck.f.idea":"Explica'ns la idea","ck.f.idea.p":"Quines flors o quina fruita, l'ocasió, l'estil, el que t'imagines…",
     "ck.f.ref":"Enllaç de referència","ck.f.ref.h":"Una imatge de Pinterest, Instagram… Opcional.","ck.f.ref.p":"https://",
     "ck.f.allergy":"Al·lèrgies o intoleràncies","ck.f.allergy.h":"Si no n'hi ha cap, escriu «cap».","ck.f.allergy.p":"Ex.: fruits secs, gluten, lactosa…","ck.e.allergy":"Digues-nos si hi ha al·lèrgies, o escriu «cap».","ck.s.allergy":"Al·lèrgies","ck.f.date":"Quan el necessites","ck.f.cname":"Nom","ck.f.email":"Correu electrònic","ck.f.phone":"Telèfon","ck.f.phone.h":"Correu o telèfon, com a mínim un.",
-    "ck.e.size":"Tria les racions.","ck.e.sponge":"Tria un pa de pessic.","ck.e.filling":"Tria com a mínim un farcit.","ck.layers":"{n} capes","ck.trim":"Amb {n} capes hi caben {m} farcits: hem tret l'últim.","ck.e.frosting":"Tria una cobertura.",
+    "ck.e.size":"Tria les racions.","ck.e.sponge":"Tria un pa de pessic.","ck.e.filling":"Tria un farcit.","ck.layers":"{n} capes","ck.e.frosting":"Tria una cobertura.",
     "ck.e.date":"Indica una data.","ck.e.soon":"Necessitem com a mínim {n} dies.","ck.e.name":"Escriu el teu nom.","ck.e.contact":"Deixa'ns un correu o un telèfon.","ck.e.email":"Revisa el correu.",
-    "ck.s.size":"Racions","ck.s.sponge":"Pa de pessic","ck.s.filling":"Farcit","ck.s.frosting":"Cobertura","ck.s.deco":"Decoració","ck.s.date":"Data",
-    "ck.s.palette":"Colors","ck.s.idea":"Idea","ck.s.ref":"Referència","ck.s.contact":"Contacte","ck.s.price":"Preu","ck.from":"des de {p}","ck.extra":"extra","ck.plusEx":"+ extres",
+    "ck.s.size":"Mida","ck.s.sponge":"Bescuit","ck.s.filling":"Farcit","ck.s.frosting":"Cobertura","ck.s.deco":"Decoració","ck.s.date":"Data",
+    "ck.s.palette":"Colors","ck.s.idea":"Idea","ck.s.ref":"Referència","ck.s.contact":"Contacte","ck.s.price":"Preu","ck.from":"des de {p}","ck.s.al":"Al·lèrgens","al.cake":"Al·lèrgens del teu pastís","al.cakeWait":"Apareixen aquí a mesura que tries els sabors.","al.cakeNone":"De moment, cap al·lèrgen declarat.","al.cakeNote":"Elaborem tots els pastissos en un obrador que manipula cacauet i fruits de closca.",
     "ck.shH":"Resum del <em>teu encàrrec</em>","ck.save":"Preparar la sol·licitud","ck.copy":"Copiar el resum","ck.back":"Modificar",
     "ck.doneH":"Sol·licitud <em>preparada.</em>","ck.doneP":"Encara no rebem encàrrecs des de la web. L'hem guardada en aquest dispositiu. Si vols, copia'n el resum i envia-ns-el.",
     "ck.sentH":"Sol·licitud <em>enviada.</em>","ck.sentP":"Te la responem amb una proposta de forma, sabors i preu.",
     "or.direct":"<b>Prefereixes parlar-ho directament?</b> Escriu-nos per WhatsApp o per correu i ho pensem junts.","or.waHello":"Hola! Voldria encarregar un pastís.",
+    "bx.direct":"<b>Prefereixes encarregar-les directament?</b> Escriu-nos per WhatsApp o per correu.","bx.waHello":"Hola! Voldria encarregar una caixa de cookies.","bx.mailSubj":"Encàrrec de cookies",
     "ck.wa":"Enviar per WhatsApp","ck.mail":"Enviar per correu","ck.mailSubj":"Encàrrec de pastís",
     "ck.goneH":"Gairebé <em>fet.</em>","ck.goneP":"Envia el missatge que s'ha obert i et respondrem amb una proposta. Si no s'ha obert, copia el resum i envia'ns-el{c}.","ck.goneTo":" a {x}",
     "ck.copied":"Resum copiat.","ck.copyFail":"No s'ha pogut copiar. Selecciona el text del resum.","ck.copyHead":"Encàrrec de pastís · La Bastarda Studio",
@@ -1212,11 +1238,11 @@ const I18N = {
     "st.q":"La Bastarda es un estudio de pastelería. Nos interesan las formas, los colores y las texturas <em>tanto como el sabor.</em>",
     "st.s":"Trabajamos por encargo y en pequeñas series.",
     "or.h":"¿Tienes una ocasión?<br>Hagámosle un pastel.","or.1":"Nos cuentas la idea y la fecha.","or.2":"Te proponemos forma, sabores y precio.","or.3":"Lo hacemos y vienes a recogerlo.",
-    "ck.yours":"Tu pastel","ck.review":"Revisar el encargo","ck.clear":"Empezar de nuevo","ck.fine":"Precio orientativo. El precio final, con los extras, lo confirmamos con la propuesta.",
+    "ck.yours":"Tu pastel","ck.review":"Revisar el encargo","ck.clear":"Empezar de nuevo","ck.fine":"Precio orientativo. El precio final lo confirmamos con la propuesta.",
     "ck.prog":"{n}/5 obligatorios","ck.tbd":"—",
-    "ck.t.size":"Raciones","ck.h.size":"Para cuántas personas",
+    "ck.t.size":"Tamaño","ck.h.size":"Para cuántas personas · más de 25, lo hablamos",
     "ck.t.sponge":"Bizcocho","ck.h.sponge":"Elige uno",
-    "ck.t.filling":"Relleno","ck.h.filling":"Uno por capa: hasta {m}",
+    "ck.t.filling":"Relleno","ck.h.filling":"Elige uno · va entre todas las capas",
     "ck.t.frosting":"Cobertura","ck.h.frosting":"Elige una",
     "ck.t.deco":"Decoración","ck.h.deco":"Opcional · a especificar abajo",
     "ck.t.when":"Fecha y contacto","ck.h.when":"Mínimo {n} días de antelación",
@@ -1225,14 +1251,15 @@ const I18N = {
     "ck.f.idea":"Cuéntanos la idea","ck.f.idea.p":"Qué flores o qué fruta, la ocasión, el estilo, lo que imaginas…",
     "ck.f.ref":"Enlace de referencia","ck.f.ref.h":"Una imagen de Pinterest, Instagram… Opcional.","ck.f.ref.p":"https://",
     "ck.f.allergy":"Alergias o intolerancias","ck.f.allergy.h":"Si no hay ninguna, escribe «ninguna».","ck.f.allergy.p":"Ej.: frutos secos, gluten, lactosa…","ck.e.allergy":"Dinos si hay alergias, o escribe «ninguna».","ck.s.allergy":"Alergias","ck.f.date":"Cuándo lo necesitas","ck.f.cname":"Nombre","ck.f.email":"Correo electrónico","ck.f.phone":"Teléfono","ck.f.phone.h":"Correo o teléfono, al menos uno.",
-    "ck.e.size":"Elige las raciones.","ck.e.sponge":"Elige un bizcocho.","ck.e.filling":"Elige al menos un relleno.","ck.layers":"{n} capas","ck.trim":"Con {n} capas caben {m} rellenos: hemos quitado el último.","ck.e.frosting":"Elige una cobertura.",
+    "ck.e.size":"Elige las raciones.","ck.e.sponge":"Elige un bizcocho.","ck.e.filling":"Elige un relleno.","ck.layers":"{n} capas","ck.e.frosting":"Elige una cobertura.",
     "ck.e.date":"Indica una fecha.","ck.e.soon":"Necesitamos al menos {n} días.","ck.e.name":"Escribe tu nombre.","ck.e.contact":"Déjanos un correo o un teléfono.","ck.e.email":"Revisa el correo.",
-    "ck.s.size":"Raciones","ck.s.sponge":"Bizcocho","ck.s.filling":"Relleno","ck.s.frosting":"Cobertura","ck.s.deco":"Decoración","ck.s.date":"Fecha",
-    "ck.s.palette":"Colores","ck.s.idea":"Idea","ck.s.ref":"Referencia","ck.s.contact":"Contacto","ck.s.price":"Precio","ck.from":"desde {p}","ck.extra":"extra","ck.plusEx":"+ extras",
+    "ck.s.size":"Tamaño","ck.s.sponge":"Bizcocho","ck.s.filling":"Relleno","ck.s.frosting":"Cobertura","ck.s.deco":"Decoración","ck.s.date":"Fecha",
+    "ck.s.palette":"Colores","ck.s.idea":"Idea","ck.s.ref":"Referencia","ck.s.contact":"Contacto","ck.s.price":"Precio","ck.from":"desde {p}","ck.s.al":"Alérgenos","al.cake":"Alérgenos de tu pastel","al.cakeWait":"Aparecen aquí a medida que eliges los sabores.","al.cakeNone":"De momento, ningún alérgeno declarado.","al.cakeNote":"Elaboramos todos los pasteles en un obrador que manipula cacahuete y frutos de cáscara.",
     "ck.shH":"Resumen de <em>tu encargo</em>","ck.save":"Preparar la solicitud","ck.copy":"Copiar el resumen","ck.back":"Modificar",
     "ck.doneH":"Solicitud <em>preparada.</em>","ck.doneP":"Todavía no recibimos encargos desde la web. La hemos guardado en este dispositivo. Si quieres, copia el resumen y envíanoslo.",
     "ck.sentH":"Solicitud <em>enviada.</em>","ck.sentP":"Te respondemos con una propuesta de forma, sabores y precio.",
     "or.direct":"<b>¿Prefieres hablarlo directamente?</b> Escríbenos por WhatsApp o por correo y lo pensamos juntos.","or.waHello":"¡Hola! Quería encargar un pastel.",
+    "bx.direct":"<b>¿Prefieres encargarlas directamente?</b> Escríbenos por WhatsApp o por correo.","bx.waHello":"¡Hola! Quería encargar una caja de cookies.","bx.mailSubj":"Encargo de cookies",
     "ck.wa":"Enviar por WhatsApp","ck.mail":"Enviar por correo","ck.mailSubj":"Encargo de pastel",
     "ck.goneH":"Casi <em>hecho.</em>","ck.goneP":"Envía el mensaje que se ha abierto y te responderemos con una propuesta. Si no se ha abierto, copia el resumen y envíanoslo{c}.","ck.goneTo":" a {x}",
     "ck.copied":"Resumen copiado.","ck.copyFail":"No se ha podido copiar. Selecciona el texto del resumen.","ck.copyHead":"Encargo de pastel · La Bastarda Studio",
@@ -1254,6 +1281,8 @@ const I18N = {
     Object.keys(C.prices.box || {}).forEach(k => { if (C.prices.box[k] != null) BOX_PRICE[k] = C.prices.box[k]; });
     CAKE.size.opts.forEach(o => { const v = (C.prices.cake || {})[o.id]; if (v != null) o.from = v; });
   }
+  // cake flavours from the panel (Pastissos); a list left empty keeps the defaults above
+  if (C.cake) ["sponge", "filling", "frosting", "deco"].forEach(g => { if (C.cake[g] && C.cake[g].length) CAKE[g].opts = C.cake[g]; });
   // photos of the home spreads: a new photo fills the same frame (cropped), so the layout stays as it is
   if (C.photos) PRINTS.forEach(p => { if (C.photos[p.id]) p.src = C.photos[p.id]; });
   if (C.shipping && C.shipping.zones && C.shipping.zones.length) SHIPPING.zones = C.shipping.zones;
@@ -2107,12 +2136,11 @@ buildFlavours();
 const ckForm = $("#ckForm"), ckStepsEl = $("#ckSteps"), ckSheet = $("#ckSheet"), ckSvg = $("#ckSvg");
 const CK_GROUPS = ["size", "sponge", "filling", "frosting", "deco"];
 const CK_FIELDS = ["msg", "palette", "idea", "ref", "allergy", "date", "cname", "email", "phone"];
-const CK_EMPTY = () => ({ size: "", sponge: "", filling: [], frosting: "", deco: [], msg: "", palette: "", idea: "", ref: "", allergy: "", date: "", cname: "", email: "", phone: "" });
+const CK_EMPTY = () => ({ size: "", sponge: "", filling: "", frosting: "", deco: [], msg: "", palette: "", idea: "", ref: "", allergy: "", date: "", cname: "", email: "", phone: "" });
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const ckName = o => o ? (o[lang] || o.ca) : "";
 const ckOpt = (g, id) => CAKE[g].opts.find(o => o.id === id);
 const ckLayers = () => { const z = ckOpt("size", ck.size); return z ? z.layers : 3; };
-const ckMaxFill = () => ckLayers() - 1;
 const isoDay = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 const ckMin = () => { const d = new Date(); d.setDate(d.getDate() + CAKE.notice); return isoDay(d); };
 let ck = CK_EMPTY(), ckTried = false;
@@ -2131,13 +2159,13 @@ function ckField(id, type, attrs = "", wide = false) {
 function ckStep(no, g, body) {
   return `<div class="ck-step" id="ck-g-${g}" role="${CAKE[g] && CAKE[g].type === "radio" ? "radiogroup" : "group"}" aria-labelledby="ck-t-${g}" aria-describedby="ck-e-${g}">`
     + `<span class="no">${String(no).padStart(2, "0")}</span>`
-    + `<div class="ttl" id="ck-t-${g}"><b>${t(`ck.t.${g}`)}</b><span>${t(`ck.h.${g}`).replace("{n}", CAKE.notice).replace("{m}", ckMaxFill())}</span></div>`
+    + `<div class="ttl" id="ck-t-${g}"><b>${t(`ck.t.${g}`)}</b><span>${t(`ck.h.${g}`).replace("{n}", CAKE.notice)}</span></div>`
     + body + `<p class="err" id="ck-e-${g}"></p></div>`;
 }
 function ckOpts(g) {
   const G = CAKE[g], type = G.type === "radio" ? "radio" : "checkbox";
   return `<div class="opts">` + G.opts.map(o =>
-    `<label class="opt${type === "checkbox" ? " sq" : ""}"${o.c ? ` style="--sw:${o.c}"` : ""}><input type="${type}" name="${g}" value="${o.id}"><i></i><span>${esc(ckName(o))}</span>${o.from ? `<small class="pr">${t("ck.from").replace("{p}", eur(o.from))}</small>` : o.extra ? `<small class="pr">${t("ck.extra")}</small>` : ""}</label>`
+    `<label class="opt${type === "checkbox" ? " sq" : ""}"${o.c ? ` style="--sw:${o.c}"` : ""}><input type="${type}" name="${g}" value="${o.id}"><i></i><span>${esc(ckName(o))}</span>${o.from ? `<small class="pr">${t("ck.from").replace("{p}", eur(o.from))}</small>` : ""}</label>`
   ).join("") + `</div>`;
 }
 function buildCake() {
@@ -2172,7 +2200,7 @@ function ckErrors() {
   const e = {}, when = [];
   if (!ck.size) e.size = t("ck.e.size");
   if (!ck.sponge) e.sponge = t("ck.e.sponge");
-  if (!ck.filling.length) e.filling = t("ck.e.filling");
+  if (!ck.filling) e.filling = t("ck.e.filling");
   if (!ck.frosting) e.frosting = t("ck.e.frosting");
   if (!ck.allergy.trim()) when.push(["allergy", t("ck.e.allergy")]);
   if (!ck.date) when.push(["date", t("ck.e.date")]);
@@ -2187,14 +2215,28 @@ function ckDone() {
   const e = ckErrors();
   return ["size", "sponge", "filling", "frosting", "when"].filter(g => !e[g]).length;
 }
-function ckExtras() {
-  return ["sponge", "filling", "frosting", "deco"].flatMap(g => [].concat(ck[g]).map(id => ckOpt(g, id)).filter(o => o && o.extra));
-}
 function ckPrice() {
   const z = ckOpt("size", ck.size); if (!z) return "";
-  const ex = ckExtras();
-  return t("ck.from").replace("{p}", eur(z.from)) + (ex.length ? ` ${t("ck.plusEx")} (${ex.map(ckName).join(", ")})` : "");
+  return t("ck.from").replace("{p}", eur(z.from));
 }
+// allergens of what is chosen so far: piped decoration carries the frosting's; a trace already contained is not repeated
+function ckAllergens() {
+  const has = new Set(), may = new Set(), fr = ckOpt("frosting", ck.frosting);
+  const add = o => { if (!o) return; (o.al || []).forEach(k => has.add(k)); (o.tr || []).forEach(k => may.add(k)); };
+  ["sponge", "filling", "frosting", "deco"].forEach(g => [].concat(ck[g]).forEach(id => { const o = ckOpt(g, id); add(o); if (o && o.cob) add(fr); }));
+  const keys = Object.keys(ALLERGENS), ord = set => keys.filter(k => set.has(k)).concat([...set].filter(k => !ALLERGENS[k]));
+  return { has: ord(has), may: ord(may).filter(k => !has.has(k)), any: !!(ck.sponge || ck.filling || ck.frosting || ck.deco.length) };
+}
+function ckAlHtml() {
+  const a = ckAllergens();
+  if (!a.any) return `<div class="caps">${t("al.cake")}</div><p class="al-wait">${t("al.cakeWait")}</p>`;
+  const chip = (k, tr) => `<li${tr ? ` class="tr"` : ""}>${esc(alName(k))}</li>`;
+  // solid tags: contains; dashed: may contain traces. The note on the workshop goes in the review sheet
+  return `<div class="caps">${t("al.cake")}</div>`
+    + `<ul class="al-chips">${a.has.map(k => chip(k)).join("") + a.may.map(k => chip(k, 1)).join("")}</ul>`
+    + (a.may.length ? `<p class="al-k"><i class="al-dash"></i>${t("al.may")} ${alList(a.may)}</p>` : (a.has.length ? "" : `<p class="al-k">${t("al.cakeNone")}</p>`));
+}
+const ckAlText = () => { const a = ckAllergens(); return [a.has.length ? `${t("al.has")} ${alList(a.has)}` : "", a.may.length ? `${t("al.may")} ${alList(a.may)}` : ""].filter(Boolean).join(". "); };
 function ckRows(full) {
   const list = (g) => [].concat(ck[g]).map(id => ckName(ckOpt(g, id))).filter(Boolean).join(", ");
   const tbd = `<span class="tbd">${t("ck.tbd")}</span>`;
@@ -2204,6 +2246,7 @@ function ckRows(full) {
     ["size", ck.size ? `${list("size")} · ${t("ck.layers").replace("{n}", ckLayers())}` : ""], ["sponge", list("sponge")], ["filling", list("filling")], ["frosting", list("frosting")],
     ["deco", deco], ["allergy", ck.allergy.trim()], ["date", d], ["price", ckPrice()]
   ];
+  if (full) rows.splice(5, 0, ["al", ckAlText()]);
   if (full) rows.push(["palette", ck.palette.trim()], ["idea", ck.idea.trim()], ["ref", ck.ref.trim()],
     ["contact", [ck.cname.trim(), ck.email.trim(), ck.phone.trim()].filter(Boolean).join("\n")]);
   return full ? rows.filter(r => r[1] || ["size", "sponge", "filling", "frosting", "allergy", "date", "contact", "price"].includes(r[0])) .map(r => [t(`ck.s.${r[0]}`), r[1]])
@@ -2214,7 +2257,7 @@ function ckRows(full) {
 function ckDraw() {
   const ink = "rgba(26,25,22,.55)", paper = "#F3F0E9", L = "rgba(26,25,22,.4)";
   const sz = ckOpt("size", ck.size), sp = ckOpt("sponge", ck.sponge), fr = ckOpt("frosting", ck.frosting);
-  const fl = ck.filling.map(id => ckOpt("filling", id)).filter(Boolean);
+  const fl = ckOpt("filling", ck.filling);
   const w = sz ? sz.w : 170, cx = 122, x0 = cx - w / 2, x1 = cx + w / 2, base = 188;
   const nL = ckLayers(), SP = nL === 3 ? 28 : 24, FL = 8, coat = 6, top = base - (SP * nL + FL * (nL - 1)) - 8;
   const st = `stroke="${ink}" stroke-width=".7" vector-effect="non-scaling-stroke"`;
@@ -2225,56 +2268,44 @@ function ckDraw() {
   const layers = [];
   for (let i = 0; i < nL; i++) {
     y -= SP; layers.push(`<rect x="${x0}" y="${y}" width="${w}" height="${SP}" fill="${sp ? sp.c : paper}" ${st}/>`);
-    if (i < nL - 1) { y -= FL; const f = fl[i % Math.max(1, fl.length)]; layers.push(`<rect x="${x0}" y="${y}" width="${w}" height="${FL}" fill="${f ? f.c : paper}" ${st}/>`); }
+    if (i < nL - 1) { y -= FL; const f = fl; layers.push(`<rect x="${x0}" y="${y}" width="${w}" height="${FL}" fill="${f ? f.c : paper}" ${st}/>`); }
   }
   s += layers.join("");
   // decoration on top
   const dz = ck.deco, tp = top;
-  if (dz.includes("pipat")) { const n = Math.round(w / 12); for (let i = 0; i <= n; i++) s += `<circle cx="${x0 - coat + 3 + i * ((w + coat * 2 - 6) / n)}" cy="${tp}" r="3.2" fill="${ckOpt("deco", "pipat").c}" ${st}/>`; }
-  if (dz.includes("escult")) s += `<path d="M${cx + w * .12} ${tp}L${cx + w * .2} ${tp - 34}L${cx + w * .3} ${tp}Z" fill="${ckOpt("deco", "escult").c}" ${st}/><circle cx="${cx + w * .06}" cy="${tp - 9}" r="9" fill="${ckOpt("deco", "escult").c}" ${st}/>`;
+  const dc = id => (ckOpt("deco", id) || {}).c;
+  // piped rosettes in the frosting's colour, all round the top edge
+  if (dz.includes("manega")) { const n = Math.round(w / 12); for (let i = 0; i <= n; i++) s += `<circle cx="${x0 - coat + 3 + i * ((w + coat * 2 - 6) / n)}" cy="${tp}" r="3.2" fill="${fr ? fr.c : paper}" ${st}/>`; }
+  if (dz.includes("filipinos")) [[.08, 0], [.17, 1], [.26, 0]].forEach(([k, up]) => s += `<circle cx="${cx + w * k}" cy="${tp - 6 - up * 4}" r="6" fill="${dc("filipinos")}" ${st}/><circle cx="${cx + w * k}" cy="${tp - 6 - up * 4}" r="2.2" fill="${paper}" ${st}/>`);
+  if (dz.includes("oreoD")) [[-.04, -11, 0], [.03, -9, 1]].forEach(([k, dy, r]) => s += `<rect x="${cx + w * k - 9}" y="${tp + dy}" width="18" height="7" rx="3.5" fill="${dc("oreoD")}" transform="rotate(${r ? 14 : -8} ${cx + w * k} ${tp + dy + 3.5})" ${st}/>`);
   if (dz.includes("flors")) [[-.28, -10, 6], [-.2, -6, 4.5], [-.33, -4, 4]].forEach(([k, dy, r]) => {
     const fx = cx + w * k, fy = tp + dy;
-    for (let p = 0; p < 5; p++) { const a = p * 1.2566; s += `<circle cx="${(fx + Math.cos(a) * r * .8).toFixed(1)}" cy="${(fy + Math.sin(a) * r * .8).toFixed(1)}" r="${r * .55}" fill="${ckOpt("deco", "flors").c}" ${st}/>`; }
+    for (let p = 0; p < 5; p++) { const a = p * 1.2566; s += `<circle cx="${(fx + Math.cos(a) * r * .8).toFixed(1)}" cy="${(fy + Math.sin(a) * r * .8).toFixed(1)}" r="${r * .55}" fill="${dc("flors")}" ${st}/>`; }
     s += `<circle cx="${fx}" cy="${fy}" r="${r * .35}" fill="#E7C46A"/>`;
   });
-  if (dz.includes("fruitaD")) [[-.05, 5], [.02, 4], [-.11, 4.2]].forEach(([k, r]) => s += `<circle cx="${cx + w * k}" cy="${tp - r}" r="${r}" fill="${ckOpt("deco", "fruitaD").c}" ${st}/>`);
-  if (dz.includes("minimal") && dz.length === 1) s += `<line x1="${cx - 10}" y1="${tp - 5}" x2="${cx + 10}" y2="${tp - 5}" ${st}/>`;
   // labels
   const lab = (yy, key, on) => `<g class="lead"><line x1="${x1 + coat + 4}" y1="${yy}" x2="262" y2="${yy}" stroke="${L}" stroke-width=".5" vector-effect="non-scaling-stroke"/>`
     + `<text x="266" y="${yy + 3}" font-size="8.5" font-family="Hanken Grotesk, sans-serif" fill="${on ? "#1A1916" : L}">${esc(t(`ck.t.${key}`))}</text></g>`;
-  s += lab(tp + 3, "frosting", !!fr) + lab(base - SP - FL / 2, "filling", fl.length > 0) + lab(base - SP * 2 - FL - SP / 2, "sponge", !!sp);
+  s += lab(tp + 3, "frosting", !!fr) + lab(base - SP - FL / 2, "filling", !!fl) + lab(base - SP * 2 - FL - SP / 2, "sponge", !!sp);
   if (dz.length) s += lab(tp - 16, "deco", true);
   ckSvg.innerHTML = s;
 }
 function renderCake() {
-  // two fillings at most: lock the rest until one is taken out
-  const max = ckMaxFill(), nf = ck.filling.length;
-  const fh = $("#ck-t-filling span"); if (fh) fh.textContent = t("ck.h.filling").replace("{m}", max);
-  $$(`input[name="filling"]`, ckForm).forEach(i => { i.disabled = !i.checked && nf >= max; });
   $("#ckProg").textContent = t("ck.prog").replace("{n}", ckDone());
   $("#ckSum").innerHTML = ckRows(false).map(([k, v, tbd]) => `<li><span>${k}</span><span>${v ? esc(v) : tbd}</span></li>`).join("");
+  $("#ckAl").innerHTML = ckAlHtml();
   ckDraw();
   const e = ckTried ? ckErrors() : {};
   ["size", "sponge", "filling", "frosting", "when"].forEach(g => {
     const p = $(`#ck-e-${g}`); if (!p) return;
-    p.textContent = g === "when" ? (e.when || []).map(x => x[1]).join(" ") : (e[g] || p.dataset.note || "");
+    p.textContent = g === "when" ? (e.when || []).map(x => x[1]).join(" ") : (e[g] || "");
   });
   CK_FIELDS.forEach(f => { const el = ckForm.elements[f]; if (el) el.toggleAttribute("aria-invalid", !!(e.when || []).find(x => x[0] === f)); });
   $$("[aria-invalid]", ckForm).forEach(el => el.setAttribute("aria-invalid", "true"));
 }
 function ckSaveDraft() { try { localStorage.setItem("lb-cake-draft", JSON.stringify(ck)); } catch (e) {} }
 ckForm.addEventListener("input", () => { ckRead(); renderCake(); ckSaveDraft(); });
-ckForm.addEventListener("change", e => {
-  ckRead();
-  // fewer layers, fewer fillings: drop the last ones chosen
-  const max = ckMaxFill();
-  if (e.target.name === "size" && ck.filling.length > max) {
-    const drop = ck.filling.length - max;
-    ck.filling.slice(-drop).forEach(v => { const i = $(`input[name="filling"][value="${v}"]`, ckForm); if (i) i.checked = false; });
-    ckRead(); $("#ck-e-filling").dataset.note = t("ck.trim").replace("{n}", ckLayers()).replace("{m}", max);
-  } else if (e.target.name === "filling") delete $("#ck-e-filling").dataset.note;
-  renderCake(); ckSaveDraft();
-});
+ckForm.addEventListener("change", () => { ckRead(); renderCake(); ckSaveDraft(); });
 $("#ckClear").addEventListener("click", () => {
   ck = CK_EMPTY(); ckTried = false;
   try { localStorage.removeItem("lb-cake-draft"); } catch (e) {}
@@ -2284,8 +2315,8 @@ $("#ckClear").addEventListener("click", () => {
 /* review */
 function cakeOrder() {
   const c = s => s.trim();
-  return { type: "cake", lang, size: ck.size, sponge: ck.sponge, filling: ck.filling.slice(), frosting: ck.frosting, decoration: ck.deco.slice(),
-    priceFrom: (ckOpt("size", ck.size) || {}).from || null, extras: ckExtras().map(o => o.id), currency: "EUR",
+  return { type: "cake", lang, size: ck.size, sponge: ck.sponge, filling: ck.filling, frosting: ck.frosting, decoration: ck.deco.slice(),
+    priceFrom: (ckOpt("size", ck.size) || {}).from || null, allergens: ckAllergens().has, traces: ckAllergens().may, currency: "EUR",
     allergies: c(ck.allergy), message: c(ck.msg), palette: c(ck.palette), idea: c(ck.idea), reference: c(ck.ref), date: ck.date,
     contact: { name: c(ck.cname), email: c(ck.email), phone: c(ck.phone) }, createdAt: new Date().toISOString() };
 }
@@ -2299,12 +2330,15 @@ const waHref = txt => "https://wa.me/" + waNum() + "?text=" + encodeURIComponent
 const mailHref = (subj, body) => "mailto:" + String(CONTACT.email || "").trim() + "?subject=" + encodeURIComponent(subj) + (body ? "&body=" + encodeURIComponent(body) : "");
 const WA_ICON = `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5a6.5 6.5 0 0 0-5.6 9.8L1.5 14.5l3.3-.9A6.5 6.5 0 1 0 8 1.5Z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>`;
 const MAIL_ICON = `<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="3.5" width="13" height="9" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="m2 4 6 5 6-5" fill="none" stroke="currentColor" stroke-width="1.1"/></svg>`;
+// the same two buttons in the cake tab and in the cookie box tab, each with its own first message
 function buildDirect() {
-  const el = $("#orDirect"), wa = waNum().length >= 9, mail = /@/.test(CONTACT.email || "");
-  el.hidden = !wa && !mail;
-  el.innerHTML = el.hidden ? "" : `<p>${t("or.direct")}</p><div class="row">`
-    + (wa ? `<a class="btn" href="${waHref(t("or.waHello"))}" target="_blank" rel="noopener">${WA_ICON}<span>WhatsApp · ${esc(waShow())}</span></a>` : "")
-    + (mail ? `<a class="btn" href="${mailHref(t("ck.mailSubj"))}">${MAIL_ICON}<span>${esc(CONTACT.email.trim())}</span></a>` : "") + `</div>`;
+  const wa = waNum().length >= 9, mail = /@/.test(CONTACT.email || "");
+  [["#orDirect", "or.direct", "or.waHello", "ck.mailSubj"], ["#bxDirect", "bx.direct", "bx.waHello", "bx.mailSubj"]].forEach(([id, intro, hello, subj]) => {
+    const el = $(id); el.hidden = !wa && !mail;
+    el.innerHTML = el.hidden ? "" : `<p>${t(intro)}</p><div class="row">`
+      + (wa ? `<a class="btn" href="${waHref(t(hello))}" target="_blank" rel="noopener">${WA_ICON}<span>WhatsApp · ${esc(waShow())}</span></a>` : "")
+      + (mail ? `<a class="btn" href="${mailHref(t(subj))}">${MAIL_ICON}<span>${esc(CONTACT.email.trim())}</span></a>` : "") + `</div>`;
+  });
 }
 // in the summary: send it ready-written by WhatsApp or e-mail, when there is a number or an address
 function ckSendLinks() {
@@ -2320,7 +2354,7 @@ function ckGone() {
   const to = [waNum().length >= 9 ? "WhatsApp " + waShow() : "", /@/.test(CONTACT.email || "") ? CONTACT.email.trim() : ""].filter(Boolean).join(" · ");
   $("#ckDone").querySelector("h3").innerHTML = t("ck.goneH");
   $("#ckDone").querySelector("p").innerHTML = t("ck.goneP").replace("{c}", to ? t("ck.goneTo").replace("{x}", esc(to)) : "");
-  $("#ck-sh-h").hidden = true; $("#ckSum2").hidden = true; $("#ckDone").hidden = false;
+  $("#ck-sh-h").hidden = true; $("#ckSum2").hidden = true; $("#ckAlNote").hidden = true; $("#ckDone").hidden = false;
   $("#ckWa").hidden = $("#ckMail").hidden = true; $("#ckBack").innerHTML = t("close");
 }
 $("#ckWa").addEventListener("click", () => setTimeout(ckGone, 300));
@@ -2328,8 +2362,9 @@ $("#ckMail").addEventListener("click", () => setTimeout(ckGone, 300));
 let ckLast = null;
 function openCk() {
   ckLast = document.activeElement;
+  $("#ckAlNote").textContent = t("al.cakeNote") + " " + t("al.ask").replace(/<[^>]+>/g, "");
   $("#ckSum2").innerHTML = ckRows(true).map(([k, v]) => `<li><span>${k}</span><span>${esc(v)}</span></li>`).join("");
-  $("#ck-sh-h").hidden = false; $("#ckSum2").hidden = false; $("#ckDone").hidden = true;
+  $("#ck-sh-h").hidden = false; $("#ckSum2").hidden = false; $("#ckAlNote").hidden = false; $("#ckDone").hidden = true;
   $("#ckSave").hidden = false; $("#ckBack").innerHTML = t("ck.back"); $("#ckCopied").textContent = "";
   ckSendLinks();
   ckSheet.hidden = false; document.body.style.overflow = "hidden"; $("#ckSheetIn").focus();
@@ -2362,7 +2397,7 @@ $("#ckSave").addEventListener("click", () => {
     // until an inbox is connected, say so plainly and keep everything as it is
     $("#ckDone").querySelector("h3").innerHTML = t(r && r.ok ? "ck.sentH" : "ck.doneH");
     $("#ckDone").querySelector("p").innerHTML = t(r && r.ok ? "ck.sentP" : "ck.doneP");
-    $("#ck-sh-h").hidden = true; $("#ckSum2").hidden = true; $("#ckDone").hidden = false;
+    $("#ck-sh-h").hidden = true; $("#ckSum2").hidden = true; $("#ckAlNote").hidden = true; $("#ckDone").hidden = false;
     $("#ckSave").hidden = true; $("#ckBack").innerHTML = t("close"); $("#ckCopy").focus();
   });
 });

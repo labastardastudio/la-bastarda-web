@@ -1,0 +1,312 @@
+{
+  "bescuits": [
+    {
+      "nom_ca": "Xocolata humit",
+      "nom_es": "Chocolate húmedo",
+      "color": "#5B3A2B",
+      "alergens": [
+        "gluten",
+        "ous",
+        "llet"
+      ],
+      "traces": [],
+      "disponible": true,
+      "id": "xocolata"
+    },
+    {
+      "nom_ca": "Galetes Oreo",
+      "nom_es": "Galletas Oreo",
+      "color": "#6E655C",
+      "alergens": [
+        "gluten",
+        "ous",
+        "soja",
+        "llet"
+      ],
+      "traces": [],
+      "disponible": true,
+      "id": "oreo"
+    },
+    {
+      "nom_ca": "Iogurt",
+      "nom_es": "Yogur",
+      "color": "#EADBB0",
+      "alergens": [
+        "gluten",
+        "ous",
+        "llet"
+      ],
+      "traces": [],
+      "disponible": true,
+      "id": "iogurt"
+    },
+    {
+      "nom_ca": "Red velvet",
+      "nom_es": "Red velvet",
+      "color": "#8C2B2E",
+      "alergens": [
+        "gluten",
+        "ous",
+        "llet",
+        "sulfits"
+      ],
+      "traces": [],
+      "disponible": true,
+      "id": "redvelvet"
+    },
+    {
+      "nom_ca": "Pastanaga (carrot cake)",
+      "nom_es": "Zanahoria (carrot cake)",
+      "color": "#C68A4C",
+      "alergens": [
+        "gluten",
+        "ous"
+      ],
+      "traces": [],
+      "disponible": true,
+      "id": "carrot"
+    },
+    {
+      "nom_ca": "Llimona",
+      "nom_es": "Limón",
+      "color": "#EED987",
+      "alergens": [
+        "gluten",
+        "ous",
+        "llet"
+      ],
+      "traces": [],
+      "disponible": true,
+      "id": "llimona"
+    }
+  ],
+  "farcits": [
+    {
+      "nom_ca": "Lemon curd",
+      "nom_es": "Lemon curd",
+      "color": "#EFCB52",
+      "alergens": [
+        "ous",
+        "llet"
+      ],
+      "traces": [],
+      "disponible": true,
+      "id": "curd"
+    },
+    {
+      "nom_ca": "Taronja confitada",
+      "nom_es": "Naranja confitada",
+      "color": "#E08A2E",
+      "alergens": [],
+      "traces": [],
+      "disponible": true,
+      "id": "taronja"
+    },
+    {
+      "nom_ca": "Melmelada de gerds",
+      "nom_es": "Mermelada de frambuesa",
+      "color": "#B23A48",
+      "alergens": [],
+      "traces": [],
+      "disponible": true,
+      "id": "gerds"
+    },
+    {
+      "nom_ca": "Dulce de leche",
+      "nom_es": "Dulce de leche",
+      "color": "#B87A3D",
+      "alergens": [
+        "llet"
+      ],
+      "traces": [],
+      "disponible": true,
+      "id": "dulce"
+    },
+    {
+      "nom_ca": "Crema Lotus cruixent",
+      "nom_es": "Crema Lotus crujiente",
+      "color": "#B0743C",
+      "alergens": [
+        "gluten",
+        "soja"
+      ],
+      "traces": [],
+      "disponible": true,
+      "id": "lotusF"
+    },
+    {
+      "nom_ca": "Crema d'avellana",
+      "nom_es": "Crema de avellana",
+      "color": "#A6733F",
+      "alergens": [
+        "soja",
+        "llet",
+        "closca"
+      ],
+      "traces": [],
+      "disponible": true,
+      "id": "avellanaF"
+    },
+    {
+      "nom_ca": "Fruita fresca",
+      "nom_es": "Fruta fresca",
+      "color": "#D45A63",
+      "alergens": [],
+      "traces": [],
+      "disponible": true,
+      "id": "fruita"
+    }
+  ],
+  "cobertures": [
+    {
+      "nom_ca": "Crema d'avellana",
+      "nom_es": "Crema de avellana",
+      "color": "#B58A62",
+      "alergens": [
+        "soja",
+        "llet",
+        "closca"
+      ],
+      "traces": [],
+      "disponible": true,
+      "id": "avellana"
+    },
+    {
+      "nom_ca": "Oreo",
+      "nom_es": "Oreo",
+      "color": "#DCD6CC",
+      "alergens": [
+        "gluten",
+        "soja",
+        "llet"
+      ],
+      "traces": [],
+      "disponible": true,
+      "id": "oreoC"
+    },
+    {
+      "nom_ca": "Formatge crema",
+      "nom_es": "Queso crema",
+      "color": "#F7F2E7",
+      "alergens": [
+        "llet"
+      ],
+      "traces": [],
+      "disponible": true,
+      "id": "formatge"
+    },
+    {
+      "nom_ca": "Crema de xocolata i avellanes",
+      "nom_es": "Crema de chocolate y avellanas",
+      "color": "#6B4430",
+      "alergens": [
+        "soja",
+        "llet",
+        "closca"
+      ],
+      "traces": [],
+      "disponible": true,
+      "id": "nutella"
+    },
+    {
+      "nom_ca": "Crema Lotus",
+      "nom_es": "Crema Lotus",
+      "color": "#C98E55",
+      "alergens": [
+        "gluten",
+        "soja",
+        "llet"
+      ],
+      "traces": [],
+      "disponible": true,
+      "id": "lotus"
+    },
+    {
+      "nom_ca": "Crema de cacauet",
+      "nom_es": "Crema de cacahuete",
+      "color": "#C9A06A",
+      "alergens": [
+        "cacauet",
+        "llet"
+      ],
+      "traces": [],
+      "disponible": true,
+      "id": "cacauet"
+    },
+    {
+      "nom_ca": "Buttercream de mantega",
+      "nom_es": "Buttercream de mantequilla",
+      "color": "#F2E8D2",
+      "alergens": [
+        "llet"
+      ],
+      "traces": [],
+      "disponible": true,
+      "id": "buttercream"
+    },
+    {
+      "nom_ca": "Merenga italiana cremada",
+      "nom_es": "Merengue italiano tostado",
+      "color": "#F1E2C4",
+      "alergens": [
+        "ous"
+      ],
+      "traces": [],
+      "disponible": true,
+      "id": "merenga"
+    }
+  ],
+  "decoracio": [
+    {
+      "nom_ca": "Filipinos blancs",
+      "nom_es": "Filipinos blancos",
+      "color": "#F6F1E6",
+      "alergens": [
+        "gluten",
+        "soja",
+        "llet"
+      ],
+      "traces": [
+        "ous",
+        "mostassa"
+      ],
+      "amb_cobertura": false,
+      "disponible": true,
+      "id": "filipinos"
+    },
+    {
+      "nom_ca": "Galetes Oreo",
+      "nom_es": "Galletas Oreo",
+      "color": "#2E2724",
+      "alergens": [
+        "gluten",
+        "soja"
+      ],
+      "traces": [
+        "llet"
+      ],
+      "amb_cobertura": false,
+      "disponible": true,
+      "id": "oreoD"
+    },
+    {
+      "nom_ca": "Flors fresques (no comestibles)",
+      "nom_es": "Flores frescas (no comestibles)",
+      "color": "#C9A2C8",
+      "alergens": [],
+      "traces": [],
+      "amb_cobertura": false,
+      "disponible": true,
+      "id": "flors"
+    },
+    {
+      "nom_ca": "Decoració amb mànega",
+      "nom_es": "Decoración con manga",
+      "alergens": [],
+      "traces": [],
+      "amb_cobertura": true,
+      "disponible": true,
+      "id": "manega"
+    }
+  ]
+}
