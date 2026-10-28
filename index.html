@@ -142,6 +142,13 @@ a{color:inherit}
 .order .steps li:first-child{border-top:0}
 .order .steps b{font-weight:500;font-variant-numeric:tabular-nums;color:var(--ink-2)}
 .order .acts{grid-column:3/13;margin-top:40px;display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+/* ask by WhatsApp or e-mail instead of the form */
+.or-direct{grid-column:1/9;grid-row:4;padding-left:var(--ckin);margin-top:30px;display:grid;gap:12px;max-width:calc(52ch + var(--ckin))}
+.or-direct[hidden]{display:none}
+.or-direct p{margin:0;font-size:13.5px;color:var(--ink-2);line-height:1.5}
+.or-direct p b{font-weight:500;color:var(--ink)}
+.or-direct .row{display:flex;flex-wrap:wrap;gap:12px 26px;align-items:center}
+.or-direct .btn svg{width:15px;height:15px}
 /* ---------- encàrrecs: one place, two ways in ---------- */
 .hub{border-top:1px solid var(--hair);padding-top:clamp(70px,12vh,130px)}
 .hub-head{row-gap:22px}
@@ -160,6 +167,11 @@ a{color:inherit}
 .colo .a{grid-column:1/4}.colo .b{grid-column:4/10}.colo .c{grid-column:10/13;text-align:right}
 .colo button{all:unset;cursor:pointer;color:var(--ink);border-bottom:1px solid currentColor}
 .colo button:focus-visible{outline:1.5px solid var(--pencil);outline-offset:3px}
+/* legal pages: links at the foot of the page */
+.colo .d{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:16px}
+.colo .d[hidden]{display:none}
+.colo .d a,.lg-more a,.fine a.lg{color:var(--ink);text-decoration:none;border-bottom:1px solid currentColor}
+.colo .d a:focus-visible,.lg-more a:focus-visible,.fine a.lg:focus-visible{outline:1.5px solid var(--pencil);outline-offset:3px}
 
 /* ---------- fes la teva caixa ---------- */
 .box{padding-block:clamp(90px,15vh,170px) clamp(80px,12vh,140px);border-top:1px solid var(--hair)}
@@ -554,6 +566,7 @@ a{color:inherit}
   .order .lead{grid-column:1/-1}
   .order .steps{grid-row:auto}
   .order .acts{grid-column:1/-1}
+  .or-direct{grid-column:1/-1;grid-row:auto}
   .colo .a,.colo .b,.colo .c{grid-column:1/-1;text-align:left;margin-bottom:6px}
   .print figcaption{font-size:9.5px;margin-top:6px}
 }
@@ -616,6 +629,10 @@ a{color:inherit}
 .p-lede{margin:0;font-family:var(--serif);font-weight:300;font-size:clamp(19px,1.7vw,23px);line-height:1.38;max-width:46ch;text-wrap:pretty}
 .p-text{display:grid;gap:14px;max-width:62ch}
 .p-text p{margin:0;font-size:15.5px;line-height:1.65;text-wrap:pretty}
+.p-text h4{margin:18px 0 0;font-family:var(--serif);font-weight:300;font-variation-settings:"opsz" 36;font-size:clamp(21px,1.9vw,25px);line-height:1.2;letter-spacing:-.01em}
+.p-text h4:first-child{margin-top:0}
+.lg-upd{margin:0;font-size:11px;color:var(--ink-2)}
+.lg-more{display:flex;flex-wrap:wrap;gap:8px 22px;border-top:1px solid var(--ink);padding-top:14px;margin-top:12px;font-size:12px;font-weight:500}
 .p-pic{display:block;background:var(--plate);overflow:hidden}
 .p-pic img{display:block;width:100%;aspect-ratio:var(--ar);max-height:min(64svh,560px);object-fit:cover}
 .p-pic.pend{aspect-ratio:16/9;position:relative}
@@ -831,6 +848,7 @@ a{color:inherit}
         <li><b>2</b><span data-i18n="or.2">Et proposem forma, sabors i preu.</span></li>
         <li><b>3</b><span data-i18n="or.3">El fem i el véns a recollir.</span></li>
       </ol>
+      <div class="or-direct" id="orDirect" hidden></div>
       <form class="ck grid" id="ckForm" novalidate aria-label="Encarregar un pastís">
         <div class="ck-steps" id="ckSteps"></div>
         <aside class="ck-aside" aria-labelledby="ck-l">
@@ -850,9 +868,12 @@ a{color:inherit}
         <div class="caps" data-i18n="or.lbl">Encàrrecs de pastissos</div>
         <h3 id="ck-sh-h" data-i18n="ck.shH">Resum del <em>teu encàrrec</em></h3>
         <ul class="sum2" id="ckSum2"></ul>
+        <p class="fine" id="ckPriv" hidden></p>
         <div class="done" id="ckDone" hidden><h3 data-i18n="ck.doneH">Sol·licitud <em>preparada.</em></h3><p data-i18n="ck.doneP">Encara no rebem encàrrecs des de la web. L'hem guardada en aquest dispositiu. Si vols, copia'n el resum i envia-ns-el.</p></div>
         <p class="fine" id="ckCopied" role="status" aria-live="polite"></p>
         <div class="tray-acts">
+          <a class="btn-solid" id="ckWa" target="_blank" rel="noopener" hidden></a>
+          <a class="link" id="ckMail" hidden></a>
           <button type="button" class="btn-solid" id="ckSave" data-i18n="ck.save">Preparar la sol·licitud</button>
           <button type="button" class="link" id="ckCopy" data-i18n="ck.copy">Copiar el resum</button>
           <button type="button" class="link" id="ckBack" data-i18n="ck.back">Modificar</button>
@@ -883,6 +904,7 @@ a{color:inherit}
       <span class="a">La Bastarda Studio</span>
       <span class="b" data-i18n="colo">Prototip de la portada. Les imatges són provisionals.</span>
       <span class="c"><button type="button" id="toTop" data-i18n="top">Tornar a l'inici</button></span>
+      <nav class="d" id="lgNav" hidden aria-label="Informació legal"></nav>
     </footer>
   </div>
 </main>
@@ -952,6 +974,11 @@ const SHIPPING = {
   // delivery calendar: hours of notice, how many days ahead, weekdays with delivery (0 Sunday … 6 Saturday), time slots, closed days
   cal: { lead: 48, ahead: 60, days: [0, 1, 2, 3, 4, 5, 6], slots: ["10:00 – 13:00", "17:00 – 20:00"], closed: [] },
   zones: [{"price": 2.99, "codes": [["08338", "Premià de Dalt"], ["08330", "Premià de Mar"], ["08339", "Vilassar de Dalt"], ["08340", "Vilassar de Mar"], ["08348", "Cabrils"], ["08349", "Cabrera de Mar"], ["08329", "Teià"], ["08328", "Alella"], ["08320", "el Masnou"], ["08390", "Montgat"], ["08391", "Tiana"], ["08317", "Òrrius"], ["08310", "Argentona"], ["08319", "Dosrius"], ["0830", "Mataró"], ["08392", "Sant Andreu de Llavaneres"], ["08394", "Sant Vicenç de Montalt"], ["0891", "Badalona"]]}, {"price": 4.99, "codes": [["080", "Barcelona"], ["08930", "Sant Adrià de Besòs"], ["08393", "Caldes d'Estrac"], ["08350", "Arenys de Mar"], ["08358", "Arenys de Munt"], ["08359", "Sant Iscle de Vallalta"], ["08360", "Canet de Mar"], ["08395", "Sant Pol de Mar"], ["08396", "Sant Cebrià de Vallalta"], ["08370", "Calella"], ["08397", "Pineda de Mar"], ["08398", "Santa Susanna"], ["08380", "Malgrat de Mar"], ["08389", "Palafolls"], ["08490", "Tordera"]]}] };
+/* Legal pages (avís legal, privacitat, cookies, condicions de venda), from the panel. They only show once the business details are filled in. */
+let LEGAL = null;
+/* WhatsApp and e-mail for orders, from the panel (Contacte). Empty: the buttons do not show. */
+const CONTACT = { whatsapp: "", email: "" };
+const LEGAL_KEYS = ["avis", "privacitat", "cookies", "condicions"];
 /* Shop adapter: the only place to touch when the store changes.
    checkout() sends the order to the Netlify function, which asks Stripe for a payment page and returns its url.
    Without a Stripe key (or outside Netlify) it answers { ok:false, reason:"not-connected" }. */
@@ -1072,6 +1099,9 @@ const I18N = {
     "bx.cut1":"Hem tret 1 cookie perquè la caixa de {s} hi càpiga.","bx.cutN":"Hem tret {n} cookies perquè la caixa de {s} hi càpiga.",
     "sh.kick":"Caixa de {s}","sh.h":"Resum de <em>la teva caixa</em>","sh.confirm":"Confirmar la caixa","sh.back":"Modificar","sh.close":"Tancar",
     "sh.fine":"Pagament segur amb Stripe.",
+    "lg.avis":"Avís legal","lg.privacitat":"Política de privacitat","lg.cookies":"Política de cookies","lg.condicions":"Condicions de venda",
+    "lg.kick":"Informació legal","lg.upd":"Última actualització: {d}","lg.accept":"En pagar acceptes les {c}.","lg.cond":"condicions de venda",
+    "lg.ckPriv":"Fem servir aquestes dades només per respondre el teu encàrrec. {p}.",
     "sh.doneH":"Comanda <em>preparada.</em>","sh.doneP":"El pagament en línia encara no està actiu, així que no s'ha cobrat res. Hem guardat la comanda en aquest dispositiu. Si vols, copia'n el resum i envia-ns-el.",
     "sh.next":"Continuar","sh.prev":"Enrere","sh.pay":"Pagar {t}","sh.wait":"Un moment…","sh.again":"Tornar a la caixa",
     "sh.st0":"Caixa","sh.st1":"Lliurament","sh.st2":"Dia","sh.st3":"Dades","sh.st4":"Pagament","sh.stepOf":"Pas {n} de 5",
@@ -1124,6 +1154,9 @@ const I18N = {
     "ck.shH":"Resum del <em>teu encàrrec</em>","ck.save":"Preparar la sol·licitud","ck.copy":"Copiar el resum","ck.back":"Modificar",
     "ck.doneH":"Sol·licitud <em>preparada.</em>","ck.doneP":"Encara no rebem encàrrecs des de la web. L'hem guardada en aquest dispositiu. Si vols, copia'n el resum i envia-ns-el.",
     "ck.sentH":"Sol·licitud <em>enviada.</em>","ck.sentP":"Te la responem amb una proposta de forma, sabors i preu.",
+    "or.direct":"<b>Prefereixes parlar-ho directament?</b> Escriu-nos per WhatsApp o per correu i ho pensem junts.","or.waHello":"Hola! Voldria encarregar un pastís.",
+    "ck.wa":"Enviar per WhatsApp","ck.mail":"Enviar per correu","ck.mailSubj":"Encàrrec de pastís",
+    "ck.goneH":"Gairebé <em>fet.</em>","ck.goneP":"Envia el missatge que s'ha obert i et respondrem amb una proposta. Si no s'ha obert, copia el resum i envia'ns-el{c}.","ck.goneTo":" a {x}",
     "ck.copied":"Resum copiat.","ck.copyFail":"No s'ha pogut copiar. Selecciona el text del resum.","ck.copyHead":"Encàrrec de pastís · La Bastarda Studio",
     "or.s":"Formulari d'encàrrecs, aviat","or.how":"Com funciona","or.lbl":"Encàrrecs de pastissos","or.lead":"Tria la base aquí sota, pas a pas, i explica'ns la resta. Et responem amb una proposta de forma, sabors i preu.",
     "nav.blog":"Blog","bl.h":"Quadern <em>de l'estudi.</em>","bl.p":"Receptes, imatges, pensaments i llibres. El que passa a l'obrador entre encàrrec i encàrrec.",
@@ -1144,6 +1177,9 @@ const I18N = {
     "bx.cut1":"Hemos quitado 1 cookie para que quepa en la caja de {s}.","bx.cutN":"Hemos quitado {n} cookies para que quepan en la caja de {s}.",
     "sh.kick":"Caja de {s}","sh.h":"Resumen de <em>tu caja</em>","sh.confirm":"Confirmar la caja","sh.back":"Modificar","sh.close":"Cerrar",
     "sh.fine":"Pago seguro con Stripe.",
+    "lg.avis":"Aviso legal","lg.privacitat":"Política de privacidad","lg.cookies":"Política de cookies","lg.condicions":"Condiciones de venta",
+    "lg.kick":"Información legal","lg.upd":"Última actualización: {d}","lg.accept":"Al pagar aceptas las {c}.","lg.cond":"condiciones de venta",
+    "lg.ckPriv":"Usamos estos datos solo para responder a tu encargo. {p}.",
     "sh.doneH":"Pedido <em>preparado.</em>","sh.doneP":"El pago en línea todavía no está activo, así que no se ha cobrado nada. Hemos guardado el pedido en este dispositivo. Si quieres, copia el resumen y envíanoslo.",
     "sh.next":"Continuar","sh.prev":"Atrás","sh.pay":"Pagar {t}","sh.wait":"Un momento…","sh.again":"Volver a la caja",
     "sh.st0":"Caja","sh.st1":"Entrega","sh.st2":"Día","sh.st3":"Datos","sh.st4":"Pago","sh.stepOf":"Paso {n} de 5",
@@ -1196,6 +1232,9 @@ const I18N = {
     "ck.shH":"Resumen de <em>tu encargo</em>","ck.save":"Preparar la solicitud","ck.copy":"Copiar el resumen","ck.back":"Modificar",
     "ck.doneH":"Solicitud <em>preparada.</em>","ck.doneP":"Todavía no recibimos encargos desde la web. La hemos guardado en este dispositivo. Si quieres, copia el resumen y envíanoslo.",
     "ck.sentH":"Solicitud <em>enviada.</em>","ck.sentP":"Te respondemos con una propuesta de forma, sabores y precio.",
+    "or.direct":"<b>¿Prefieres hablarlo directamente?</b> Escríbenos por WhatsApp o por correo y lo pensamos juntos.","or.waHello":"¡Hola! Quería encargar un pastel.",
+    "ck.wa":"Enviar por WhatsApp","ck.mail":"Enviar por correo","ck.mailSubj":"Encargo de pastel",
+    "ck.goneH":"Casi <em>hecho.</em>","ck.goneP":"Envía el mensaje que se ha abierto y te responderemos con una propuesta. Si no se ha abierto, copia el resumen y envíanoslo{c}.","ck.goneTo":" a {x}",
     "ck.copied":"Resumen copiado.","ck.copyFail":"No se ha podido copiar. Selecciona el texto del resumen.","ck.copyHead":"Encargo de pastel · La Bastarda Studio",
     "or.s":"Formulario de encargos, pronto","or.how":"Cómo funciona","or.lbl":"Encargos de pasteles","or.lead":"Elige la base aquí abajo, paso a paso, y cuéntanos el resto. Te respondemos con una propuesta de forma, sabores y precio.",
     "nav.blog":"Blog","bl.h":"Cuaderno <em>del estudio.</em>","bl.p":"Recetas, imágenes, pensamientos y libros. Lo que pasa en el obrador entre encargo y encargo.",
@@ -1220,6 +1259,8 @@ const I18N = {
   if (C.shipping && C.shipping.zones && C.shipping.zones.length) SHIPPING.zones = C.shipping.zones;
   if (C.shipping && C.shipping.cal) Object.assign(SHIPPING.cal, C.shipping.cal);
   if (C.text) Object.keys(C.text).forEach(l => I18N[l] && Object.assign(I18N[l], C.text[l]));
+  if (C.legal) LEGAL = C.legal;
+  if (C.contact) Object.assign(CONTACT, C.contact);
 })(window.LB_CONTENT);
 // an image is a file in img/, or a path the panel gives (img/uploads/...)
 const imgSrc = f => f.includes("/") ? f : "img/" + f;
@@ -1268,7 +1309,7 @@ function setLang(l) {
   buildFlavours(); renderBox();
   if (!sheet.hidden && !$("#shConfirm").hidden) shRender();
   if (typeof buildCake === "function") { ckRead(); buildCake(); }
-  buildBlog();
+  buildBlog(); buildLegal(); buildDirect();
   if (PW) fitPrints();
   turnBuilt = -1;
   render(true);
@@ -1961,7 +2002,9 @@ function shRender() {
     + rev("sh.r.addr", esc([o.shipping.street, `${o.shipping.cp} ${o.shipping.town}`, o.shipping.notes].filter(Boolean).join("\n")))
     + rev("sh.r.who", esc([o.customer.name, o.customer.email, o.customer.phone].join("\n")))
     + rev("sh.r.sub", eur(o.price), "sub") + rev("sh.r.shipC", eur(o.shipping.price), "sub") + rev("sh.r.total", eur(o.total), "total");
-  $("#shFine").innerHTML = st === 1 ? t("sh.fine1") : st === 2 ? t("sh.fineDay").replace("{h}", SHIPPING.cal.lead) : st === 3 ? t("sh.fine2") : st === 4 ? t("sh.fine") : "";
+  $("#shFine").innerHTML = st === 1 ? t("sh.fine1") : st === 2 ? t("sh.fineDay").replace("{h}", SHIPPING.cal.lead)
+    : st === 3 ? t("sh.fine2") + (legalOK() ? " " + lgLink("privacitat") + "." : "")
+    : st === 4 ? t("sh.fine") + (legalOK() ? " " + t("lg.accept").replace("{c}", lgLink("condicions", t("lg.cond"))) : "") : "";
   $("#shFine").hidden = st === 0;
   $("#shConfirm").hidden = false; $("#shConfirm").removeAttribute("aria-busy");
   $("#shConfirm").innerHTML = st === 4 ? t("sh.pay").replace("{t}", eur(o.total)) : t("sh.next");
@@ -2249,12 +2292,46 @@ function cakeOrder() {
 function ckText() {
   return [t("ck.copyHead"), ""].concat(ckRows(true).map(([k, v]) => `${k}: ${String(v).replace(/\n/g, ", ")}`)).join("\n");
 }
+// WhatsApp wants the number with the country code and no spaces; a 9-digit Spanish number gets 34 in front
+const waNum = () => { const d = String(CONTACT.whatsapp || "").replace(/\D/g, ""); return d.length === 9 ? "34" + d : d; };
+const waShow = () => { const d = String(CONTACT.whatsapp || "").replace(/\D/g, ""); return d.length === 9 ? d.replace(/(\d{3})(\d{3})(\d{3})/, "$1 $2 $3") : String(CONTACT.whatsapp || "").trim(); };
+const waHref = txt => "https://wa.me/" + waNum() + "?text=" + encodeURIComponent(txt);
+const mailHref = (subj, body) => "mailto:" + String(CONTACT.email || "").trim() + "?subject=" + encodeURIComponent(subj) + (body ? "&body=" + encodeURIComponent(body) : "");
+const WA_ICON = `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5a6.5 6.5 0 0 0-5.6 9.8L1.5 14.5l3.3-.9A6.5 6.5 0 1 0 8 1.5Z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>`;
+const MAIL_ICON = `<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="3.5" width="13" height="9" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="m2 4 6 5 6-5" fill="none" stroke="currentColor" stroke-width="1.1"/></svg>`;
+function buildDirect() {
+  const el = $("#orDirect"), wa = waNum().length >= 9, mail = /@/.test(CONTACT.email || "");
+  el.hidden = !wa && !mail;
+  el.innerHTML = el.hidden ? "" : `<p>${t("or.direct")}</p><div class="row">`
+    + (wa ? `<a class="btn" href="${waHref(t("or.waHello"))}" target="_blank" rel="noopener">${WA_ICON}<span>WhatsApp · ${esc(waShow())}</span></a>` : "")
+    + (mail ? `<a class="btn" href="${mailHref(t("ck.mailSubj"))}">${MAIL_ICON}<span>${esc(CONTACT.email.trim())}</span></a>` : "") + `</div>`;
+}
+// in the summary: send it ready-written by WhatsApp or e-mail, when there is a number or an address
+function ckSendLinks() {
+  const wa = waNum().length >= 9, mail = /@/.test(CONTACT.email || ""), txt = ckText();
+  const a = $("#ckWa"), m = $("#ckMail");
+  a.hidden = !wa; m.hidden = !mail;
+  if (wa) { a.href = waHref(txt); a.innerHTML = t("ck.wa"); }
+  if (mail) { m.href = mailHref(t("ck.mailSubj"), txt); m.innerHTML = t("ck.mail"); m.className = wa ? "link" : "btn-solid"; }
+  $("#ckSave").hidden = wa || mail;
+}
+function ckGone() {
+  try { localStorage.setItem("lb-cake-request", JSON.stringify(cakeOrder())); } catch (e) {}
+  const to = [waNum().length >= 9 ? "WhatsApp " + waShow() : "", /@/.test(CONTACT.email || "") ? CONTACT.email.trim() : ""].filter(Boolean).join(" · ");
+  $("#ckDone").querySelector("h3").innerHTML = t("ck.goneH");
+  $("#ckDone").querySelector("p").innerHTML = t("ck.goneP").replace("{c}", to ? t("ck.goneTo").replace("{x}", esc(to)) : "");
+  $("#ck-sh-h").hidden = true; $("#ckSum2").hidden = true; $("#ckDone").hidden = false;
+  $("#ckWa").hidden = $("#ckMail").hidden = true; $("#ckBack").innerHTML = t("close");
+}
+$("#ckWa").addEventListener("click", () => setTimeout(ckGone, 300));
+$("#ckMail").addEventListener("click", () => setTimeout(ckGone, 300));
 let ckLast = null;
 function openCk() {
   ckLast = document.activeElement;
   $("#ckSum2").innerHTML = ckRows(true).map(([k, v]) => `<li><span>${k}</span><span>${esc(v)}</span></li>`).join("");
   $("#ck-sh-h").hidden = false; $("#ckSum2").hidden = false; $("#ckDone").hidden = true;
   $("#ckSave").hidden = false; $("#ckBack").innerHTML = t("ck.back"); $("#ckCopied").textContent = "";
+  ckSendLinks();
   ckSheet.hidden = false; document.body.style.overflow = "hidden"; $("#ckSheetIn").focus();
 }
 function closeCk() { ckSheet.hidden = true; document.body.style.overflow = ""; ckLast && ckLast.focus(); }
@@ -2272,7 +2349,7 @@ ckSheet.addEventListener("click", e => { if (e.target === ckSheet) closeCk(); })
 ckSheet.addEventListener("keydown", e => {
   if (e.key === "Escape") { e.preventDefault(); closeCk(); }
   if (e.key === "Tab") {
-    const f = $$("button:not([hidden])", ckSheet).filter(b => b.offsetParent);
+    const f = $$("button:not([hidden]), a[href]:not([hidden])", ckSheet).filter(b => b.offsetParent);
     if (!f.length) return; const a = f[0], z = f[f.length - 1];
     if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
     else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
@@ -2396,6 +2473,7 @@ blogFilters.addEventListener("click", e => {
   blogKind = b.dataset.kind; filterBlog(true);
 });
 function renderPost() {
+  $("#pSheet .p-bar .caps").innerHTML = t("bl.bar");
   const p = BLOG[blogCur], i = blogCur, list = shown(), at = list.indexOf(i);
   const text = arr => `<div class="p-text">${(L(arr) || []).map(x => `<p>${x}</p>`).join("")}</div>`;
   let h = `<div class="kick caps"><span>${t("bl.no")} ${no(i)}</span><span>${t("bl.one." + p.kind)}</span></div>`
@@ -2423,17 +2501,19 @@ function renderPost() {
 }
 function openPost(i) {
   if (pSheet.hidden) blogLast = document.activeElement;
-  blogCur = i; renderPost();
+  legalCur = ""; blogCur = i; renderPost();
   pSheet.hidden = false; document.body.style.overflow = "hidden";
   pBody.scrollTop = 0; $("#pIn").focus();
   try { history.replaceState(null, "", "#blog/" + BLOG[i].id); } catch (e) {}
 }
 function closePost() {
-  pSheet.hidden = true; document.body.style.overflow = ""; blogCur = -1;
-  try { history.replaceState(null, "", "#blog"); } catch (e) {}
+  pSheet.hidden = true; document.body.style.overflow = "";
+  try { history.replaceState(null, "", legalCur ? location.pathname + location.search : "#blog"); } catch (e) {}
+  blogCur = -1; legalCur = "";
   blogLast && blogLast.focus && blogLast.focus({ preventScroll: true });
 }
 function stepPost(d) {
+  if (blogCur < 0) return;
   const list = shown(), n = list[list.indexOf(blogCur) + d];
   if (n == null) return;
   blogCur = n; renderPost(); pBody.scrollTop = 0; $("#pIn").focus();
@@ -2465,7 +2545,48 @@ pSheet.addEventListener("keydown", e => {
     else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
   }
 });
+/* ---------- legal pages, in the same reading sheet ---------- */
+let legalCur = "";
+const legalOK = () => !!(LEGAL && LEGAL.data && ["titular", "nif", "adreca", "email"].every(k => LEGAL.data[k]));
+// a link to a legal page; from inside another sheet it opens in a new tab, so the order in progress stays as it is
+const lgLink = (k, txt) => `<a class="lg" href="#legal/${k}" target="_blank" rel="noopener">${txt || t("lg." + k)}</a>`;
+// fill in the business details; a paragraph that needs a detail still empty is left out
+function lgFill(html) {
+  let gap = false;
+  const out = html.replace(/\{(\w+)\}/g, (m, k) => { const v = LEGAL.data[k]; if (!v) gap = true; return v || ""; });
+  return gap ? "" : out;
+}
+function renderLegal() {
+  const k = legalCur, page = (LEGAL.pages[k] || {})[lang] || (LEGAL.pages[k] || {}).ca || [];
+  const body = page.map(b => b.h ? `<h4>${b.h}</h4>` : (b = lgFill(b.p)) ? `<p>${b}</p>` : "").join("");
+  $("#pSheet .p-bar .caps").textContent = "La Bastarda Studio · " + t("lg.kick");
+  pBody.innerHTML = `<div class="kick caps"><span>${t("lg.kick")}</span></div><h3 id="p-h">${t("lg." + k)}</h3>`
+    + (LEGAL.date ? `<p class="lg-upd">${t("lg.upd").replace("{d}", esc(LEGAL.date))}</p>` : "")
+    + `<div class="p-text">${body}</div>`
+    + `<nav class="lg-more" aria-label="${t("lg.kick")}">${LEGAL_KEYS.filter(x => x !== k).map(x => `<a href="#legal/${x}">${t("lg." + x)}</a>`).join("")}</nav>`;
+}
+function openLegal(k) {
+  if (!legalOK() || !LEGAL_KEYS.includes(k)) return;
+  if (pSheet.hidden) blogLast = document.activeElement;
+  blogCur = -1; legalCur = k; renderLegal();
+  pSheet.hidden = false; document.body.style.overflow = "hidden";
+  pBody.scrollTop = 0; $("#pIn").focus();
+  try { history.replaceState(null, "", "#legal/" + k); } catch (e) {}
+}
+function buildLegal() {
+  const nav = $("#lgNav"); nav.hidden = !legalOK();
+  nav.setAttribute("aria-label", t("lg.kick"));
+  nav.innerHTML = legalOK() ? LEGAL_KEYS.map(k => `<a href="#legal/${k}">${t("lg." + k)}</a>`).join("") : "";
+  const ck = $("#ckPriv"); ck.hidden = !legalOK();
+  ck.innerHTML = legalOK() ? t("lg.ckPriv").replace("{p}", lgLink("privacitat")) : "";
+  if (legalCur && !pSheet.hidden) renderLegal();
+}
+document.addEventListener("click", e => {
+  const a = e.target.closest('a[href^="#legal/"]'); if (!a || a.target === "_blank") return;
+  e.preventDefault(); openLegal(a.getAttribute("href").slice(7));
+});
 function blogFromHash() {
+  if (location.hash.startsWith("#legal/")) { openLegal(location.hash.slice(7)); return; }
   const h = location.hash; if (!h.startsWith("#blog")) return;
   jumpTo("blog");
   const i = BLOG.findIndex(p => "#blog/" + p.id === h); if (i >= 0) openPost(i);

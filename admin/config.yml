@@ -234,3 +234,40 @@ collections:
           - { label: "Blog · Títol (castellà)", name: bl_h_es, widget: string }
           - { label: "Blog · Text (català)", name: bl_p_ca, widget: text }
           - { label: "Blog · Text (castellà)", name: bl_p_es, widget: text }
+
+  - name: contacte
+    label: Contacte
+    editor: { preview: false }
+    files:
+      - name: contacte
+        label: WhatsApp i correu per als encàrrecs
+        file: content/contacte.json
+        description: "Surten a Encàrrecs, a l'apartat de pastissos: un botó per escriure per WhatsApp i un altre per correu. En revisar l'encàrrec de pastís, el client el pot enviar per WhatsApp o per correu amb el resum ja escrit. Si deixes un camp buit, aquell botó no surt."
+        fields:
+          - { label: "Número de WhatsApp", name: whatsapp, widget: string, required: false, hint: "Per exemple: 618 036 362. Si no és un número espanyol, posa-hi el prefix del país." }
+          - { label: "Correu electrònic", name: email, widget: string, required: false }
+
+  - name: legal
+    label: Textos legals
+    editor: { preview: false }
+    files:
+      - name: legal
+        label: Avís legal, privacitat, cookies i condicions de venda
+        file: content/legal.json
+        description: "Les quatre pàgines legals, enllaçades al peu de la web. Només surten quan has omplert el titular, el NIF, l'adreça i el correu. Als textos, {titular}, {nif}, {adreca}, {email}, {telefon} i {registre} es canvien per les teves dades; si una dada és buida, el paràgraf que la fa servir no surt. Deixa una línia en blanc entre paràgrafs, i comença amb ## una línia per fer-ne un títol. Fes-ho revisar pel teu gestor abans de vendre."
+        fields:
+          - { label: "Titular (nom i cognoms, o nom de l'empresa)", name: titular, widget: string, required: false }
+          - { label: "NIF o CIF", name: nif, widget: string, required: false }
+          - { label: "Adreça fiscal", name: adreca, widget: string, required: false }
+          - { label: "Correu de contacte", name: email, widget: string, required: false }
+          - { label: "Telèfon de contacte", name: telefon, widget: string, required: false }
+          - { label: "Número de registre sanitari", name: registre, widget: string, required: false }
+          - { label: "Última actualització (data que surt a les pàgines)", name: actualitzat, widget: string, required: false, hint: "Per exemple: 28 d'octubre de 2026" }
+          - { label: "Avís legal (català)", name: avis_ca, widget: text }
+          - { label: "Avís legal (castellà)", name: avis_es, widget: text }
+          - { label: "Política de privacitat (català)", name: privacitat_ca, widget: text }
+          - { label: "Política de privacitat (castellà)", name: privacitat_es, widget: text }
+          - { label: "Política de cookies (català)", name: cookies_ca, widget: text }
+          - { label: "Política de cookies (castellà)", name: cookies_es, widget: text }
+          - { label: "Condicions de venda (català)", name: condicions_ca, widget: text }
+          - { label: "Condicions de venda (castellà)", name: condicions_es, widget: text }
